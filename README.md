@@ -8,19 +8,12 @@
 
 | مسیر | محتوا |
 |---|---|
-| `product-landing/` | صفحهٔ فروش و راهنمای آنلاین محصول (HTML، CSS، JavaScript و فایل رلهٔ گوگل) |
 | `docs/` | مستندات عمومی؛ شامل راهنمای کامل فارسی (PDF) |
-
-## صفحهٔ معرفی محصول
-
-فایل‌های `product-landing/` یک صفحهٔ ایستا هستند و نیازی به سرور پویا یا وابستگی ساخت ندارند.
-
-**استقرار:** محتوای پوشهٔ `product-landing/` را داخل مسیر `public_html/pasokhban/` هاست خود قرار دهید. پس از آن صفحهٔ اصلی از `index.html` و راهنمای کامل از `guide.html` در دسترس خواهد بود.
 
 ## راهنما
 
 - راهنمای کامل راه‌اندازی (PDF): [`docs/pasokhban-guide-fa.pdf`](docs/pasokhban-guide-fa.pdf)
-- راهنمای تعاملی آنلاین: `product-landing/guide.html`
+- راهنمای تعاملی آنلاین: `https://etehadwp.com/pasokhban/guide.html`
 
 ## قابلیت‌های اصلی
 
