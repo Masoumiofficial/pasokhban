@@ -4,7 +4,7 @@
  * Plugin URI:        https://etehadwp.com/pasokhban
  * Description:       سامانهٔ چت هوشمند و پشتیبانی آنلاین برای وردپرس. چت زندهٔ شیشه‌ای به سبک iOS با ورود اپراتور انسانی و اینباکس پیشخوان، دستیار هوش مصنوعی با جست‌وجوی معنایی برداری (RAG)، پشتیبانی از ChatGPT و Gemini و Claude، آگاهی از سفارش‌های ووکامرس، ارسال فایل و تصویر، کانال بله و پیامک و تلگرام، تقویم شمسی، تیم چند اپراتوره و ساعت کاری.
  * Version:           3.1.2
- * Author:            اتحاد وردپرس | سجاد معصومی
+ * Author:            اتحاد وردپرس
  * Author URI:        https://etehadwp.com
  * Text Domain:       pasokhban
  * Requires at least: 5.8
@@ -254,7 +254,7 @@ final class Pasokhban {
 			'brandUrl'     => 'https://etehadwp.com/pasokhban',
 			'brandBy'      => 'محصول اتحاد وردپرس',
 			'brandByUrl'   => 'https://etehadwp.com',
-			'credit'       => 'مدیر پروژه: سجاد معصومی',
+			'credit'       => 'اتحاد وردپرس',
 			'logoUrl'      => PASOKHBAN_URL . 'assets/img/etehad-logo.png',
 			'logoNeonUrl'  => PASOKHBAN_URL . 'assets/img/etehad-logo-neon.png',
 		);
