@@ -222,15 +222,6 @@ final class Pasokhban_Settings {
 			array( $this, 'render_page' )
 		);
 
-		add_submenu_page(
-			'pasokhban',
-			__( 'راهنمای سریع پاسخ‌بان', 'pasokhban' ),
-			__( 'راهنمای سریع', 'pasokhban' ),
-			'manage_options',
-			'pasokhban-guide',
-			array( $this, 'render_guide' )
-		);
-
 		self::$hooks['inbox'] = add_submenu_page(
 			'pasokhban',
 			__( 'گفتگوهای آنلاین', 'pasokhban' ),
@@ -256,6 +247,15 @@ final class Pasokhban_Settings {
 			'manage_options',
 			'pasokhban-analytics',
 			array( 'Pasokhban_Analytics', 'render' )
+		);
+
+		add_submenu_page(
+			'pasokhban',
+			__( 'راهنمای سریع پاسخ‌بان', 'pasokhban' ),
+			__( 'راهنمای سریع', 'pasokhban' ),
+			'manage_options',
+			'pasokhban-guide',
+			array( $this, 'render_guide' )
 		);
 	}
 

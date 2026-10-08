@@ -248,6 +248,15 @@ final class Pasokhban_Settings {
 			'pasokhban-analytics',
 			array( 'Pasokhban_Analytics', 'render' )
 		);
+
+		add_submenu_page(
+			'pasokhban',
+			__( 'راهنمای سریع پاسخ‌بان', 'pasokhban' ),
+			__( 'راهنمای سریع', 'pasokhban' ),
+			'manage_options',
+			'pasokhban-guide',
+			array( $this, 'render_guide' )
+		);
 	}
 
 	/**
@@ -502,6 +511,19 @@ final class Pasokhban_Settings {
 		}
 		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_script( 'wp-color-picker' );
+	}
+
+	public function render_guide() {
+		?>
+		<div class="wrap psb-admin psb-settings psb-guide-page">
+			<div class="psb-set-hero"><div class="psb-set-brand"><span class="psb-set-logo">📖</span><div><h1>راهنمای سریع پاسخ‌بان</h1><p>راهنمای مرحله‌به‌مرحلهٔ راه‌اندازی، تنظیم و عیب‌یابی</p></div></div></div>
+			<div class="psb-guide-grid">
+				<div class="psb-set-card"><h2>۱. شروع سریع</h2><ol><li>در «اتصال»، سرویس AI، کلید API و مدل را انتخاب کنید.</li><li>ذخیرهٔ تنظیمات را بزنید و سپس آزمایش اتصال را اجرا کنید.</li><li>در «دستیار و دانش» ایندکس محتوای سایت را بسازید.</li><li>در «چت آنلاین» پیام خوش‌آمد، عنوان و فرم پیش‌گفتگو را تنظیم کنید.</li><li>در «بررسی سلامت» همهٔ آزمون‌ها را اجرا کنید.</li></ol></div>
+				<div class="psb-set-card"><h2>۲. نکته‌های هر بخش</h2><p><b>عمومی:</b> زبان، تقویم، فعال‌سازی و پشتیبان‌گیری تنظیمات.</p><p><b>اتصال:</b> کلید API هرگز به مرورگر ارسال نمی‌شود؛ بعد از تغییر مدل دوباره تست کنید.</p><p><b>دانش:</b> RAG پاسخ‌ها را بر اساس محتوای سایت می‌کند؛ بعد از ویرایش‌های بزرگ ایندکس را به‌روزرسانی کنید.</p><p><b>گفتگوهای آنلاین:</b> مکالمات، اپراتورها، واگذاری و پاسخ دستی در این بخش مدیریت می‌شود.</p></div>
+				<div class="psb-set-card"><h2>۳. عیب‌یابی</h2><p>اگر تنظیمات ذخیره نشد، کش وردپرس/CDN را پاک کنید، با مدیرکل وارد شوید و فرم را دوباره ارسال کنید.</p><p>اگر تست AI خطا داد، سرویس، Base URL، مدل و اعتبار کلید را بررسی کنید.</p><p>غیرفعال‌سازی افزونه اطلاعات را حذف نمی‌کند؛ حذف کامل افزونه، پاک‌سازی داده‌ها را انجام می‌دهد.</p></div>
+			</div>
+		</div>
+		<?php
 	}
 
 	public function render_page() {

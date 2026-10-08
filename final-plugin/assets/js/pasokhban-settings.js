@@ -728,3 +728,11 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', addFieldHelp); else addFieldHelp();
 })();
+/* راهنمای تب‌ها و زیرگروه‌ها */
+(function(){
+  function tabHints(){
+    var hints={general:'زبان رابط، تقویم، پشتیبان‌گیری و تنظیمات پایه.',conn:'انتخاب سرویس، مدل و آزمایش اتصال هوش مصنوعی.',assistant:'دانش سایت، RAG و تنظیمات پاسخ‌گویی دستیار.',chat:'ظاهر، رفتار و فرم پیش از گفت‌وگوی آنلاین.',look:'رنگ، اندازه، جایگاه و حالت نمایش ویجت.',notify:'اعلان‌های ایمیل، تلگرام، بله و پیامک.',team:'اپراتورها، واگذاری و ساعت کاری.',sec:'امنیت، محدودیت درخواست و نگهداری داده.',health:'آزمون کامل مسیرهای افزونه و گزارش عیب‌یابی.'};
+    document.querySelectorAll('.psb-set-tab').forEach(function(el){var key=el.getAttribute('data-tab'); if(!hints[key])return; el.classList.add('psb-tab-help-ready'); var b=document.createElement('button');b.type='button';b.className='psb-tab-help';b.textContent='!';b.title=hints[key];b.setAttribute('aria-label',hints[key]);b.addEventListener('mousedown',function(e){e.preventDefault();e.stopImmediatePropagation()});b.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();var old=document.querySelector('.psb-tab-popover');if(old)old.remove();var p=document.createElement('span');p.className='psb-tab-popover';p.textContent=hints[key];document.body.appendChild(p);var rr=el.getBoundingClientRect();p.style.position='fixed';p.style.top=(rr.bottom+8)+'px';p.style.right=Math.max(12,window.innerWidth-rr.right)+'px';setTimeout(function(){document.addEventListener('click',function c(){p.remove();document.removeEventListener('click',c)},{once:true})},0)});el.appendChild(b);});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tabHints);else tabHints();
+})();
