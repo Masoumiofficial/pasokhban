@@ -441,7 +441,7 @@ final class Pasokhban_Bale {
 		}
 
 		set_transient( 'pasokhban_bale_notice', $res, 2 * MINUTE_IN_SECONDS );
-		wp_safe_redirect( admin_url( 'admin.php?page=pasokhban-settings#notify' ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=pasokhban#notify' ) );
 		exit;
 	}
 
@@ -475,7 +475,7 @@ final class Pasokhban_Bale {
 		}
 
 		set_transient( 'pasokhban_bale_notice', $res, 2 * MINUTE_IN_SECONDS );
-		wp_safe_redirect( admin_url( 'admin.php?page=pasokhban-settings#notify' ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=pasokhban#notify' ) );
 		exit;
 	}
 }

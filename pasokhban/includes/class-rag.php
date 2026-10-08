@@ -1288,9 +1288,9 @@ final class Pasokhban_RAG {
 	}
 
 	private function redirect_back() {
-		$url = wp_safe_redirect( admin_url( 'admin.php?page=pasokhban-settings#pasokhban-rag' ) );
+		$url = wp_safe_redirect( admin_url( 'admin.php?page=pasokhban#pasokhban-rag' ) );
 		if ( ! $url ) {
-			wp_safe_redirect( admin_url( 'admin.php?page=pasokhban-settings' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=pasokhban' ) );
 		}
 		exit;
 	}

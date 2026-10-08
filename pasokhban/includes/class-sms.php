@@ -391,7 +391,7 @@ final class Pasokhban_SMS {
 
 		set_transient( 'pasokhban_sms_test', $res, 2 * MINUTE_IN_SECONDS );
 
-		wp_safe_redirect( admin_url( 'admin.php?page=pasokhban-settings#notify' ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=pasokhban#notify' ) );
 		exit;
 	}
 }

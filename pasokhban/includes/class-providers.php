@@ -488,7 +488,7 @@ final class Pasokhban_Providers {
 		}
 
 		set_transient( 'pasokhban_provider_test', $notice, 2 * MINUTE_IN_SECONDS );
-		wp_safe_redirect( admin_url( 'admin.php?page=pasokhban-settings#conn' ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=pasokhban#conn' ) );
 		exit;
 	}
 
