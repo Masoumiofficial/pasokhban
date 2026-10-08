@@ -1,0 +1,411 @@
+/* =========================================================================
+   پاسخ‌بان — دستیار هوشمند مغزی
+   مغز کیهانی با لوگوی اتحاد وردپرس + حالت تاریک/روشن.
+   رنگ برند: سایان #20c2db ، سرمه‌ای #0f3350
+   ========================================================================= */
+
+#pasokhban-root {
+  --eh-accent: #20c2db;       /* سایان برند اتحاد */
+  --eh-accent-2: #4d8df7;
+  --eh-accent-3: #38bdf8;
+  --eh-bg: #070b14;
+  --eh-panel: rgba(11, 17, 31, 0.92);
+  --eh-panel-solid: #0b111f;
+  --eh-line: rgba(32, 194, 219, 0.20);
+  --eh-text: #eaf2ff;
+  --eh-muted: #8aa0bf;
+  --eh-user-text: #061018;
+  --eh-suggest-bg: rgba(32,194,219,0.09);
+  --eh-suggest-hover: rgba(32,194,219,0.20);
+  --eh-soft: rgba(220,240,255,0.5);
+  font-family: "Vazirmatn", system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+  direction: rtl;
+}
+
+/* ---------- حالت روشن ---------- */
+#pasokhban-root.eh-light {
+  --eh-accent: #0f9ec0;
+  --eh-accent-2: #4d8df7;
+  --eh-bg: #eef5fc;
+  --eh-panel: rgba(255,255,255,0.95);
+  --eh-panel-solid: #ffffff;
+  --eh-line: rgba(15,51,80,0.14);
+  --eh-text: #0f3350;
+  --eh-muted: #55789b;
+  --eh-user-text: #ffffff;
+  --eh-suggest-bg: rgba(32,194,219,0.10);
+  --eh-suggest-hover: rgba(32,194,219,0.22);
+  --eh-soft: rgba(15,51,80,0.35);
+}
+
+/* ---------- دکمه شناور ---------- */
+.pasokhban-launcher {
+  position: fixed;
+  bottom: 22px;
+  inset-inline-start: 22px;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 18px 11px 14px;
+  border: 1px solid var(--eh-line);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(32,194,219,.16), rgba(77,141,247,.18));
+  backdrop-filter: blur(12px);
+  color: var(--eh-text);
+  cursor: pointer;
+  box-shadow: 0 10px 34px rgba(0,0,0,.5), 0 0 0 1px rgba(32,194,219,.08);
+  transition: transform .2s ease, box-shadow .2s ease;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+}
+.pasokhban-launcher:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(0,0,0,.6); }
+.pasokhban-launcher .eh-logo {
+  width: 36px; height: 36px; flex: 0 0 auto;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(32,194,219,.55), rgba(77,141,247,.65) 70%, transparent);
+  display: grid; place-items: center;
+  animation: eh-breathe 3.5s ease-in-out infinite;
+}
+@keyframes eh-breathe {
+  0%,100% { box-shadow: 0 0 0 0 rgba(32,194,219,.35); }
+  50%     { box-shadow: 0 0 0 12px rgba(32,194,219,0); }
+}
+.pasokhban-launcher .eh-logo svg { width: 22px; height: 22px; }
+
+/* ---------- پنل چت ---------- */
+.pasokhban-panel {
+  position: fixed;
+  bottom: 86px;
+  inset-inline-start: 22px;
+  z-index: 999998;
+  width: min(420px, calc(100vw - 32px));
+  height: min(640px, calc(100vh - 130px));
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--eh-panel);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--eh-line);
+  box-shadow: 0 30px 80px rgba(0,0,0,.6);
+  opacity: 0;
+  transform: translateY(14px) scale(.98);
+  pointer-events: none;
+  transition: opacity .28s ease, transform .28s ease;
+}
+.pasokhban-panel.eh-open { opacity: 1; transform: none; pointer-events: auto; }
+.pasokhban-panel.eh-inline {
+  position: relative;
+  bottom: auto; inset-inline-start: auto;
+  width: 100%; height: 620px;
+  opacity: 1; transform: none; pointer-events: auto;
+  margin: 18px 0;
+}
+
+/* ---------- هدر ---------- */
+.pasokhban-head {
+  position: relative;
+  height: 230px;
+  border-bottom: 1px solid var(--eh-line);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(32,194,219,.20), transparent 45%),
+    radial-gradient(circle at 85% 82%, rgba(15,51,80,.30), transparent 45%),
+    var(--eh-bg);
+}
+#pasokhban-root.eh-light .pasokhban-head {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(32,194,219,.18), transparent 45%),
+    radial-gradient(circle at 85% 82%, rgba(77,141,247,.14), transparent 45%),
+    var(--eh-bg);
+}
+.pasokhban-canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  display: block;
+}
+.pasokhban-head-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  padding: 12px 16px;
+  background: linear-gradient(to top, var(--eh-bg) 0%, transparent 75%);
+}
+.pasokhban-brand {
+  display: flex; align-items: center; gap: 10px;
+}
+.pasokhban-brandmark {
+  width: 40px; height: 40px; flex: 0 0 auto;
+  border-radius: 12px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--eh-accent), var(--eh-accent-2));
+  color: var(--eh-user-text);
+  box-shadow: 0 6px 18px rgba(32,194,219,.35);
+}
+.pasokhban-brandmark svg { width: 24px; height: 24px; }
+.pasokhban-brand-name {
+  font-size: 16px; font-weight: 800; color: var(--eh-text); letter-spacing: .3px;
+}
+.pasokhban-brand-sub { font-size: 11px; color: var(--eh-muted); }
+.pasokhban-close {
+  width: 32px; height: 32px; border-radius: 10px;
+  border: 1px solid var(--eh-line);
+  background: rgba(255,255,255,.04);
+  color: var(--eh-text);
+  cursor: pointer; font-size: 16px; line-height: 1;
+  display: grid; place-items: center;
+  transition: background .2s;
+}
+.pasokhban-close:hover { background: rgba(255,255,255,.1); }
+
+.pasokhban-live-status {
+  position: absolute;
+  top: 12px; inset-inline-start: 16px;
+  display: flex; align-items: center; gap: 7px;
+  font-size: 11px; color: var(--eh-muted);
+}
+.pasokhban-live-status .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--eh-accent);
+  box-shadow: 0 0 10px var(--eh-accent);
+  animation: eh-blink 1.4s infinite;
+}
+@keyframes eh-blink { 0%,100%{opacity:.3} 50%{opacity:1} }
+.pasokhban-live-status.thinking .dot {
+  background: #fbbf24; /* کهربایی هنگام تفکر */
+  box-shadow: 0 0 14px #fbbf24;
+  animation: eh-blink .7s infinite;
+}
+.pasokhban-live-status .dot { transition: background .3s, box-shadow .3s; }
+#pasokhban-root.eh-a-listening .pasokhban-live-status .dot { background:#34d399; box-shadow:0 0 14px #34d399; }
+#pasokhban-root.eh-a-thinking .pasokhban-live-status .dot { background:#fbbf24; box-shadow:0 0 14px #fbbf24; animation: eh-blink .7s infinite; }
+#pasokhban-root.eh-a-speaking .pasokhban-live-status .dot { background:#a78bfa; box-shadow:0 0 14px #a78bfa; animation: eh-blink .55s infinite; }
+.eh-status-lbl { font-weight: 600; }
+.pasokhban-live-status.thinking .eh-status-lbl { color: var(--eh-accent); }
+
+/* دکمه‌های هدر (زبان + تم) */
+.pasokhban-headbtn {
+  position: absolute;
+  top: 10px;
+  z-index: 5;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 10px;
+  border: 1px solid var(--eh-line);
+  border-radius: 999px;
+  background: rgba(255,255,255,.05);
+  color: var(--eh-text);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  transition: background .2s, border-color .2s;
+}
+.pasokhban-headbtn:hover { background: rgba(255,255,255,.12); border-color: var(--eh-accent); }
+.pasokhban-headbtn svg { width: 14px; height: 14px; }
+.pasokhban-headbtn span { font-weight: 600; }
+.pasokhban-lang { inset-inline-end: 12px; }
+.pasokhban-theme { inset-inline-end: 66px; }
+.pasokhban-play { inset-inline-end: 120px; }
+.pasokhban-voicebtn { inset-inline-end: 174px; }
+
+/* ---------- پنل انتخاب گوینده ---------- */
+.pasokhban-voicepanel {
+  position: absolute;
+  top: 46px;
+  inset-inline-end: 12px;
+  z-index: 20;
+  width: 230px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--eh-line);
+  background: var(--eh-panel-solid);
+  box-shadow: 0 20px 50px rgba(0,0,0,.5);
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.pasokhban-voicepanel.open { display: flex; }
+.eh-vp-title { font-size: 13px; font-weight: 800; color: var(--eh-text); }
+.eh-vp-sub { font-size: 10.5px; color: var(--eh-muted); margin-bottom: 4px; }
+.eh-vp-note { font-size: 9.5px; color: var(--eh-muted); margin-top: 6px; }
+.eh-persona {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: rgba(255,255,255,.04);
+  color: var(--eh-text);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: start;
+  transition: background .18s, border-color .18s;
+}
+.eh-persona:hover { background: rgba(32,194,219,.12); }
+.eh-persona.selected { border-color: var(--eh-accent); background: rgba(32,194,219,.14); }
+.eh-p-ico { font-size: 20px; flex: 0 0 auto; }
+.eh-p-meta { flex: 1; display: flex; flex-direction: column; line-height: 1.3; }
+.eh-p-name { font-size: 13px; font-weight: 700; }
+.eh-p-desc { font-size: 10.5px; color: var(--eh-muted); }
+.eh-p-tone { font-size: 16px; }
+
+/* چیپ‌های نمونه‌سؤال پیشنهادی (گروه‌بندی‌شده) */
+.pasokhban-suggest {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 12px 2px;
+  max-height: 132px;
+  overflow-y: auto;
+}
+.pasokhban-suggest-group { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pasokhban-suggest-cat {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10.5px; font-weight: 700; color: var(--eh-accent);
+  margin-top: 2px;
+}
+.pasokhban-suggest-cat svg { width: 12px; height: 12px; }
+.pasokhban-chip {
+  font-family: inherit;
+  font-size: 11.5px;
+  color: var(--eh-text);
+  background: var(--eh-suggest-bg);
+  border: 1px solid var(--eh-line);
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: background .18s, transform .15s, border-color .18s;
+  text-align: start;
+}
+.pasokhban-chip:hover {
+  background: var(--eh-suggest-hover);
+  border-color: var(--eh-accent);
+  transform: translateY(-1px);
+}
+
+/* ---------- پیام‌ها ---------- */
+.pasokhban-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--eh-line) transparent;
+}
+.pasokhban-msg {
+  max-width: 84%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 13.5px;
+  line-height: 1.9;
+  white-space: pre-wrap;
+  word-break: break-word;
+  animation: eh-pop .25s ease;
+}
+@keyframes eh-pop { from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }
+.pasokhban-msg a { color: var(--eh-accent); }
+.pasokhban-msg.bot {
+  align-self: flex-start;
+  background: linear-gradient(135deg, rgba(32,194,219,.10), rgba(77,141,247,.12));
+  border: 1px solid var(--eh-line);
+  color: var(--eh-text);
+  border-start-start-radius: 6px;
+}
+.pasokhban-msg.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, var(--eh-accent), var(--eh-accent-2));
+  color: var(--eh-user-text);
+  border-end-end-radius: 6px;
+  font-weight: 500;
+}
+.pasokhban-msg.typing {
+  display: inline-flex; gap: 5px; align-items: center;
+  color: var(--eh-muted);
+}
+.pasokhban-typing-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--eh-muted); animation: eh-typing 1s infinite; }
+.pasokhban-typing-dot:nth-child(2){ animation-delay:.15s }
+.pasokhban-typing-dot:nth-child(3){ animation-delay:.3s }
+@keyframes eh-typing { 0%,100%{transform:translateY(0); opacity:.4} 50%{transform:translateY(-5px); opacity:1} }
+
+.pasokhban-sources { margin-top: 8px; font-size: 11px; color: var(--eh-muted); display: flex; flex-direction: column; gap: 3px; }
+.pasokhban-sources b { color: var(--eh-accent); }
+
+/* ---------- ورودی ---------- */
+.pasokhban-inputbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--eh-line);
+  background: var(--eh-panel);
+}
+.pasokhban-input {
+  flex: 1;
+  resize: none;
+  max-height: 120px;
+  padding: 11px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--eh-line);
+  background: rgba(255,255,255,.05);
+  color: var(--eh-text);
+  font-family: inherit;
+  font-size: 13.5px;
+  line-height: 1.6;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+#pasokhban-root.eh-light .pasokhban-input { background: rgba(15,51,80,.04); }
+.pasokhban-input:focus { border-color: var(--eh-accent); box-shadow: 0 0 0 3px rgba(32,194,219,.15); }
+.pasokhban-input::placeholder { color: var(--eh-muted); }
+
+.pasokhban-btn {
+  width: 44px; height: 44px; flex: 0 0 auto;
+  border-radius: 14px;
+  border: 1px solid var(--eh-line);
+  background: linear-gradient(135deg, var(--eh-accent), var(--eh-accent-2));
+  color: var(--eh-user-text);
+  cursor: pointer;
+  display: grid; place-items: center;
+  transition: transform .15s, filter .2s;
+}
+.pasokhban-btn:hover { filter: brightness(1.08); }
+.pasokhban-btn:active { transform: scale(.94); }
+.pasokhban-btn svg { width: 20px; height: 20px; }
+.pasokhban-btn.mic { background: rgba(255,255,255,.05); color: var(--eh-text); border-color: var(--eh-line); }
+.pasokhban-btn.mic.recording { background: #ef4444; color:#fff; animation: eh-pulse 1.2s infinite; }
+@keyframes eh-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.5)} 50%{box-shadow:0 0 0 12px rgba(239,68,68,0)} }
+
+.pasokhban-hint {
+  padding: 2px 12px 8px;
+  font-size: 10.5px;
+  color: var(--eh-muted);
+  text-align: center;
+}
+
+/* ---------- نوار انتساب برند ---------- */
+.pasokhban-credit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 7px 12px;
+  font-size: 10px;
+  color: var(--eh-muted);
+  border-top: 1px solid rgba(255,255,255,.04);
+  background: var(--eh-panel);
+}
+.pasokhban-credit a { color: var(--eh-accent); text-decoration: none; font-weight: 600; }
+.pasokhban-credit a:hover { text-decoration: underline; }
+.pasokhban-credit .sep { opacity: .4; }
+
+@media (max-width: 480px) {
+  .pasokhban-panel { inset-inline-start: 8px; width: calc(100vw - 16px); height: calc(100vh - 110px); }
+  .pasokhban-launcher { inset-inline-start: 12px; }
+}

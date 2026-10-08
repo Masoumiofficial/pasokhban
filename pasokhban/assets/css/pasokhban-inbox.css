@@ -1,0 +1,701 @@
+/* =========================================================================
+   پاسخ‌بان — اینباکس گفتگوهای آنلاین
+
+   طراحی: همان زبان شیشه‌ای سمت کاربر، ولی آرام‌تر و متراکم‌تر — چون اینجا
+   ابزار کار است نه ویترین. سه اصل:
+   ۱) سلسله‌مراتب با اندازه و وزن، نه با خط‌کشی.
+   ۲) رنگ فقط برای معنا (خوانده‌نشده، اپراتور، بسته) — نه تزئین.
+   ۳) همه‌چیز با فاصلهٔ ۴px می‌چرخد تا ریتم چشم به هم نریزد.
+   ========================================================================= */
+
+.pasokhban-inbox-wrap {
+	--ei-accent: #22d3ee;
+	--ei-accent-2: #6366f1;
+	--ei-ink: #0f172a;
+	--ei-muted: #64748b;
+	--ei-faint: #94a3b8;
+	--ei-line: #e6eaf0;
+	--ei-surface: #ffffff;
+	--ei-surface-2: #f7f9fc;
+	--ei-hot: #e11d48;
+	--ei-warn: #d97706;
+	--ei-ok: #059669;
+	--ei-r: 14px;
+	--ei-r-sm: 10px;
+	--ei-shadow: 0 1px 2px rgba(15,23,42,.04), 0 8px 24px -16px rgba(15,23,42,.18);
+	max-width: 1400px;
+}
+
+/* حالت تاریک پیشخوان وردپرس */
+@media (prefers-color-scheme: dark) {
+	.pasokhban-inbox-wrap.is-auto {
+		--ei-ink: #e2e8f0;
+		--ei-muted: #94a3b8;
+		--ei-faint: #64748b;
+		--ei-line: #273244;
+		--ei-surface: #161c26;
+		--ei-surface-2: #1b222e;
+	}
+}
+body.color-picker-active .pasokhban-inbox-wrap,
+.pasokhban-inbox-wrap.is-dark {
+	--ei-ink: #e2e8f0;
+	--ei-muted: #94a3b8;
+	--ei-faint: #64748b;
+	--ei-line: #273244;
+	--ei-surface: #161c26;
+	--ei-surface-2: #1b222e;
+}
+
+/* =========================================================================
+   ۱) هدر
+   ========================================================================= */
+.ei-hero {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 18px 20px;
+	margin: 8px 0 14px;
+	border: 1px solid var(--ei-line);
+	border-radius: 18px;
+	background:
+		radial-gradient(120% 140% at 100% 0%, rgba(34,211,238,.10), transparent 60%),
+		radial-gradient(100% 120% at 0% 100%, rgba(99,102,241,.08), transparent 55%),
+		var(--ei-surface);
+	box-shadow: var(--ei-shadow);
+}
+.ei-hero-main { display: flex; align-items: flex-start; gap: 14px; min-width: 0; }
+.ei-hero-ico {
+	flex: none;
+	width: 42px; height: 42px;
+	display: grid; place-items: center;
+	border-radius: 13px;
+	background: linear-gradient(135deg, var(--ei-accent), var(--ei-accent-2));
+	color: #fff;
+	box-shadow: 0 6px 18px -8px rgba(34,211,238,.8);
+}
+.ei-hero-ico .dashicons { font-size: 22px; width: 22px; height: 22px; }
+.ei-hero-txt { min-width: 0; }
+.ei-h1 {
+	margin: 0;
+	padding: 0;
+	font-size: 19px;
+	font-weight: 700;
+	line-height: 1.4;
+	color: var(--ei-ink);
+	display: block;
+}
+.ei-sub {
+	max-width: 640px;
+	margin: 4px 0 0;
+	color: var(--ei-muted);
+	font-size: 12.5px;
+	line-height: 1.8;
+}
+
+.ei-live {
+	flex: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	padding: 5px 12px 5px 10px;
+	border: 1px solid rgba(5,150,105,.28);
+	border-radius: 999px;
+	background: rgba(5,150,105,.09);
+	color: var(--ei-ok);
+	font-size: 11.5px;
+	font-weight: 600;
+	white-space: nowrap;
+}
+.ei-live i {
+	width: 7px; height: 7px;
+	border-radius: 50%;
+	background: var(--ei-ok);
+	animation: ei-pulse 1.9s ease-in-out infinite;
+}
+@keyframes ei-pulse {
+	0%, 100% { opacity: 1; transform: scale(1); }
+	50% { opacity: .35; transform: scale(.78); }
+}
+
+/* =========================================================================
+   ۲) نوار آمار
+   ========================================================================= */
+.ei-stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(116px, 1fr));
+	gap: 10px;
+	margin-bottom: 14px;
+}
+.ei-stat {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 12px 14px;
+	border: 1px solid var(--ei-line);
+	border-radius: var(--ei-r);
+	background: var(--ei-surface);
+	transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.ei-stat:hover { transform: translateY(-1px); box-shadow: var(--ei-shadow); }
+.ei-stat b {
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: var(--ei-ink);
+	font-variant-numeric: tabular-nums;
+}
+.ei-stat span { font-size: 11.5px; color: var(--ei-faint); }
+.ei-stat.is-hot { border-color: rgba(225,29,72,.32); background: rgba(225,29,72,.05); }
+.ei-stat.is-hot b { color: var(--ei-hot); }
+.ei-stat.is-agent { border-color: rgba(99,102,241,.28); }
+.ei-stat.is-agent b { color: var(--ei-accent-2); }
+.ei-stat.is-dim b { color: var(--ei-muted); }
+
+/* =========================================================================
+   ۳) چیدمان دو ستونی
+   ========================================================================= */
+.ei-app {
+	display: grid;
+	grid-template-columns: minmax(268px, 336px) minmax(0, 1fr);
+	gap: 14px;
+	align-items: stretch;
+	height: calc(100vh - 268px);
+	min-height: 460px;
+	max-height: 900px;
+}
+
+/* ---- ستون لیست ---- */
+.ei-list {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	border: 1px solid var(--ei-line);
+	border-radius: 16px;
+	background: var(--ei-surface);
+	overflow: hidden;
+	box-shadow: var(--ei-shadow);
+}
+
+.ei-list-tools {
+	flex: none;
+	display: grid;
+	grid-template-columns: 1fr auto auto;
+	gap: 6px;
+	padding: 10px;
+	border-bottom: 1px solid var(--ei-line);
+	background: var(--ei-surface-2);
+}
+.ei-list-tools input[type=search] {
+	grid-column: 1 / -1;
+	margin: 0;
+	min-width: 0;
+	padding: 7px 11px;
+	border: 1px solid var(--ei-line);
+	border-radius: var(--ei-r-sm);
+	background: var(--ei-surface);
+	font-size: 12.5px;
+	transition: border-color .15s ease, box-shadow .15s ease;
+}
+.ei-list-tools input[type=search]:focus {
+	border-color: var(--ei-accent);
+	box-shadow: 0 0 0 3px rgba(34,211,238,.16);
+	outline: none;
+}
+.ei-list-tools select {
+	margin: 0;
+	padding: 5px 8px;
+	border: 1px solid var(--ei-line);
+	border-radius: var(--ei-r-sm);
+	background: var(--ei-surface);
+	font-size: 11.5px;
+	min-width: 0;
+}
+.ei-list-tools .button { padding: 3px 10px; font-size: 12px; }
+
+.ei-online {
+	flex: none;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 7px 12px;
+	border-bottom: 1px solid var(--ei-line);
+	background: rgba(5,150,105,.07);
+	color: var(--ei-ok);
+	font-size: 11.5px;
+	font-weight: 600;
+}
+
+.ei-items { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+
+/* ---- آیتم مکالمه ---- */
+.ei-item {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	width: 100%;
+	padding: 11px 12px;
+	border: 0;
+	border-bottom: 1px solid var(--ei-line);
+	background: transparent;
+	text-align: start;
+	cursor: pointer;
+	transition: background .14s ease;
+	position: relative;
+}
+.ei-item:hover { background: var(--ei-surface-2); }
+.ei-item.active { background: rgba(34,211,238,.09); }
+.ei-item.active::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0; top: 0; bottom: 0;
+	width: 3px;
+	background: linear-gradient(180deg, var(--ei-accent), var(--ei-accent-2));
+}
+.ei-item:focus-visible { outline: 2px solid var(--ei-accent); outline-offset: -2px; }
+
+.ei-ava {
+	flex: none;
+	width: 36px; height: 36px;
+	display: grid; place-items: center;
+	border-radius: 12px;
+	background: var(--ei-ava, var(--ei-accent));
+	color: #fff;
+	font-size: 12.5px;
+	font-weight: 700;
+	letter-spacing: .02em;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.28);
+}
+
+.ei-item-body { min-width: 0; flex: 1 1 auto; }
+.ei-item-top { display: flex; align-items: baseline; gap: 8px; }
+.ei-item-name {
+	flex: 1;
+	min-width: 0;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--ei-ink);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.ei-item.is-unread .ei-item-name { font-weight: 700; }
+.ei-item-time {
+	flex: none;
+	font-size: 10.5px;
+	color: var(--ei-faint);
+	font-variant-numeric: tabular-nums;
+}
+.ei-item-msg {
+	display: block;
+	margin-top: 2px;
+	font-size: 12px;
+	line-height: 1.6;
+	color: var(--ei-muted);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.ei-item.is-unread .ei-item-msg { color: var(--ei-ink); }
+.ei-item-meta { display: flex; align-items: center; gap: 5px; margin-top: 6px; flex-wrap: wrap; }
+
+/* ---- برچسب‌ها ---- */
+.ei-tag {
+	font-size: 10px;
+	font-weight: 600;
+	padding: 1px 7px;
+	border-radius: 999px;
+	border: 1px solid;
+	white-space: nowrap;
+	line-height: 1.7;
+}
+.ei-tag.ai     { color: #1d4ed8; background: #eff6ff; border-color: #bfdbfe; }
+.ei-tag.agent  { color: #6d28d9; background: #f5f3ff; border-color: #ddd6fe; }
+.ei-tag.closed { color: #57606a; background: #f6f8fa; border-color: #d0d7de; }
+.ei-tag.mine   { color: #0e7490; background: rgba(34,211,238,.10); border-color: rgba(34,211,238,.35); }
+
+.ei-ico { font-size: 11px; opacity: .7; }
+
+.ei-badge {
+	min-width: 17px;
+	height: 17px;
+	padding: 0 5px;
+	margin-inline-start: auto;
+	display: inline-grid;
+	place-items: center;
+	border-radius: 999px;
+	background: var(--ei-hot);
+	color: #fff;
+	font-size: 10px;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+}
+/* سازگاری با مارکاپ قدیمی (نقطهٔ قرمز ساده) */
+.ei-dot {
+	width: 8px; height: 8px;
+	border-radius: 50%;
+	background: var(--ei-hot);
+	margin-inline-start: auto;
+	flex: none;
+}
+
+.ei-empty-list { padding: 44px 18px; text-align: center; color: var(--ei-faint); font-size: 12.5px; line-height: 1.9; }
+
+.ei-list-foot {
+	flex: none;
+	padding: 8px 12px;
+	border-top: 1px solid var(--ei-line);
+	background: var(--ei-surface-2);
+	color: var(--ei-faint);
+	font-size: 11px;
+	text-align: center;
+	font-variant-numeric: tabular-nums;
+}
+
+/* =========================================================================
+   ۴) ستون مکالمه
+   ========================================================================= */
+.ei-thread {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	border: 1px solid var(--ei-line);
+	border-radius: 16px;
+	background: var(--ei-surface);
+	overflow: hidden;
+	box-shadow: var(--ei-shadow);
+}
+
+.ei-empty {
+	flex: 1 1 auto;
+	display: grid;
+	place-content: center;
+	justify-items: center;
+	gap: 10px;
+	text-align: center;
+	color: var(--ei-faint);
+	padding: 32px;
+}
+.ei-empty .dashicons { font-size: 44px; width: 44px; height: 44px; opacity: .35; }
+.ei-empty p { margin: 0; font-size: 13px; line-height: 1.9; max-width: 320px; }
+
+/* ---- هدر مکالمه ---- */
+.ei-thead {
+	flex: none;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	flex-wrap: wrap;
+	padding: 12px 16px;
+	border-bottom: 1px solid var(--ei-line);
+	background: var(--ei-surface-2);
+}
+.ei-tmeta { min-width: 0; flex: 1 1 auto; }
+.ei-tmeta strong { display: block; font-size: 14px; font-weight: 700; color: var(--ei-ink); }
+.ei-tmeta span { font-size: 11.5px; color: var(--ei-faint); }
+.ei-tcontact { display: block; margin-top: 3px; font-size: 11.5px; color: var(--ei-muted); }
+.ei-tactions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex: none; }
+.ei-toggle { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; cursor: pointer; color: var(--ei-muted); }
+.ei-assign { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--ei-faint); }
+.ei-assign select { max-width: 150px; padding: 2px 6px; font-size: 11.5px; }
+
+/* ---- بدنهٔ پیام‌ها ---- */
+.ei-msgs {
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	background:
+		radial-gradient(80% 60% at 50% 0%, rgba(34,211,238,.045), transparent 70%),
+		var(--ei-surface-2);
+}
+
+.ei-m {
+	max-width: min(74%, 560px);
+	padding: 9px 13px;
+	font-size: 13px;
+	line-height: 1.85;
+	white-space: pre-wrap;
+	word-break: break-word;
+	box-shadow: 0 1px 2px rgba(15,23,42,.05);
+}
+.ei-m.visitor {
+	align-self: flex-start;
+	background: var(--ei-surface);
+	border: 1px solid var(--ei-line);
+	border-radius: 14px 14px 14px 5px;
+	color: var(--ei-ink);
+}
+.ei-m.agent {
+	align-self: flex-end;
+	background: linear-gradient(135deg, rgba(34,211,238,.16), rgba(99,102,241,.14));
+	border: 1px solid rgba(34,211,238,.30);
+	border-radius: 14px 14px 5px 14px;
+	color: var(--ei-ink);
+}
+.ei-m.system {
+	align-self: center;
+	max-width: 88%;
+	padding: 5px 12px;
+	border: 1px dashed var(--ei-line);
+	border-radius: 999px;
+	background: transparent;
+	box-shadow: none;
+	color: var(--ei-faint);
+	font-size: 11.5px;
+	text-align: center;
+}
+.ei-m .who {
+	display: block;
+	margin-bottom: 3px;
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: .03em;
+	color: var(--ei-faint);
+	text-transform: uppercase;
+}
+.ei-m .ago {
+	display: block;
+	margin-top: 4px;
+	font-size: 10px;
+	color: var(--ei-faint);
+	text-align: end;
+	font-variant-numeric: tabular-nums;
+}
+.ei-m .srcs { display: block; margin-top: 7px; font-size: 11px; }
+.ei-m .srcs a { color: var(--ei-accent-2); text-decoration: none; }
+.ei-m .srcs a:hover { text-decoration: underline; }
+
+/* جداکنندهٔ روز */
+.ei-daysep {
+	align-self: center;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	color: var(--ei-faint);
+	font-size: 10.5px;
+	font-weight: 600;
+}
+.ei-daysep::before,
+.ei-daysep::after {
+	content: "";
+	flex: 1;
+	height: 1px;
+	background: var(--ei-line);
+}
+
+/* ضمیمه‌ها */
+.ei-atts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+.ei-att {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 6px 10px;
+	border: 1px solid var(--ei-line);
+	border-radius: var(--ei-r-sm);
+	background: var(--ei-surface);
+	text-decoration: none;
+	color: var(--ei-ink);
+	transition: border-color .16s ease, transform .16s ease;
+}
+.ei-att:hover { border-color: var(--ei-accent); transform: translateY(-1px); }
+.ei-att b { font-size: 11.5px; font-weight: 600; }
+.ei-att small { font-size: 10px; color: var(--ei-faint); }
+.ei-att.is-img { padding: 3px; }
+.ei-att.is-img img {
+	display: block;
+	max-width: 200px;
+	max-height: 150px;
+	border-radius: 8px;
+	object-fit: cover;
+}
+
+/* =========================================================================
+   ۵) دستیار اپراتور و کادر ورودی
+   ========================================================================= */
+.ei-copilot {
+	flex: none;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+	padding: 8px 12px;
+	border-top: 1px solid var(--ei-line);
+	background: linear-gradient(180deg, rgba(34,211,238,.05), rgba(99,102,241,.03));
+}
+.ei-copilot .button { font-size: 11.5px; padding: 3px 10px; }
+.ei-copilot .button:disabled { opacity: .55; cursor: progress; }
+.ei-tone { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--ei-faint); }
+.ei-tone select { font-size: 11px; padding: 2px 6px; }
+.ei-order { display: inline-flex; align-items: center; gap: 5px; }
+.ei-order input {
+	width: 108px;
+	padding: 3px 8px;
+	font-size: 11px;
+	border: 1px solid var(--ei-line);
+	border-radius: 8px;
+}
+.ei-order .button { font-size: 11px; padding: 3px 9px; }
+.ei-copilot-note { font-size: 10.5px; color: var(--ei-faint); }
+.ei-copilot-out {
+	flex-basis: 100%;
+	padding: 8px 10px;
+	border-radius: 9px;
+	border: 1px solid;
+	font-size: 11.5px;
+	line-height: 1.85;
+	white-space: pre-wrap;
+}
+.ei-copilot-out.is-ok  { color: #166534; background: #f0fdf4; border-color: #bbf7d0; }
+.ei-copilot-out.is-err { color: #9f1239; background: #fff1f2; border-color: #fecdd3; }
+.ei-copilot-out.is-sum { color: #1e293b; background: #f8fafc; border-color: #e2e8f0; }
+.ei-copilot-out pre { margin: 0; font-family: inherit; white-space: pre-wrap; }
+
+.ei-canned {
+	flex: none;
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+	padding: 8px 12px;
+	border-top: 1px solid var(--ei-line);
+	background: var(--ei-surface-2);
+}
+.ei-canned button {
+	padding: 4px 12px;
+	border: 1px solid rgba(34,211,238,.40);
+	border-radius: 999px;
+	background: rgba(34,211,238,.10);
+	color: #0e7490;
+	font-size: 11.5px;
+	cursor: pointer;
+	transition: background .16s ease, transform .16s ease;
+}
+.ei-canned button:hover { background: rgba(34,211,238,.22); transform: translateY(-1px); }
+
+.ei-composer {
+	flex: none;
+	display: flex;
+	align-items: flex-end;
+	gap: 8px;
+	padding: 10px 12px;
+	border-top: 1px solid var(--ei-line);
+	background: var(--ei-surface);
+}
+.ei-composer textarea {
+	flex: 1 1 auto;
+	min-width: 0;
+	margin: 0;
+	padding: 9px 13px;
+	border: 1px solid var(--ei-line);
+	border-radius: 12px;
+	background: var(--ei-surface-2);
+	font-size: 13px;
+	line-height: 1.7;
+	resize: vertical;
+	transition: border-color .15s ease, box-shadow .15s ease;
+}
+.ei-composer textarea:focus {
+	border-color: var(--ei-accent);
+	box-shadow: 0 0 0 3px rgba(34,211,238,.16);
+	outline: none;
+	background: var(--ei-surface);
+}
+.ei-composer .button { flex: none; }
+
+/* =========================================================================
+   ۶) پیام‌های سیستمی و واکنش‌گرایی
+   ========================================================================= */
+.ei-diag {
+	margin: 0 0 14px;
+	padding: 10px 14px;
+	border: 1px solid;
+	border-radius: var(--ei-r);
+	font-size: 12.5px;
+	line-height: 1.85;
+}
+.ei-diag.ok  { color: #166534; background: #f0fdf4; border-color: #bbf7d0; }
+.ei-diag.bad { color: #9f1239; background: #fff1f2; border-color: #fecdd3; }
+
+@media (max-width: 1100px) {
+	.ei-app { grid-template-columns: minmax(240px, 300px) minmax(0, 1fr); }
+}
+
+@media (max-width: 860px) {
+	.ei-app {
+		grid-template-columns: 1fr;
+		height: auto;
+		max-height: none;
+	}
+	/* در موبایل فقط یکی از دو ستون دیده می‌شود */
+	.ei-app.is-thread-open .ei-list { display: none; }
+	.ei-app:not(.is-thread-open) .ei-thread { display: none; }
+	.ei-app:not(.is-thread-open) .ei-list { height: 62vh; }
+	.ei-app.is-thread-open .ei-thread { height: 70vh; }
+	.ei-hero { flex-direction: column; }
+	.ei-m { max-width: 88%; }
+}
+
+/* دکمهٔ بازگشت به لیست (فقط موبایل) */
+.ei-back {
+	flex: none;
+	font-size: 11.5px;
+	padding: 3px 10px;
+	border-radius: 999px;
+}
+@media (min-width: 861px) {
+	.ei-back { display: none !important; }
+}
+
+/* =========================================================================
+   ۲.۸.۰ — رزولوشن‌های میانی (تبلت)
+   ========================================================================= */
+
+/* ۸۶۱ تا ۱۱۰۰: دو ستون، ولی لیست باریک‌تر و متن‌ها کوتاه‌تر */
+@media (min-width: 861px) and (max-width: 1100px) {
+	.ei-app {
+		grid-template-columns: minmax(210px, 260px) minmax(0, 1fr);
+		height: calc(100vh - 300px);
+		min-height: 420px;
+	}
+	.ei-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+	.ei-stat { padding: 10px 11px; }
+	.ei-stat b { font-size: 17px; }
+	.ei-stat span { font-size: 10.5px; }
+	.ei-hero { padding: 14px 16px; }
+	.ei-h1 { font-size: 17px; }
+	.ei-sub { font-size: 11.5px; max-width: 420px; }
+	.ei-ava { width: 32px; height: 32px; font-size: 11.5px; border-radius: 10px; }
+	.ei-item { padding: 9px 10px; gap: 8px; }
+	.ei-item-name { font-size: 12.5px; }
+	.ei-item-msg { font-size: 11.5px; }
+	.ei-tactions { gap: 7px; }
+	.ei-m { max-width: 84%; }
+}
+
+/* ۱۱۰۱ تا ۱۲۸۰: کمی جمع‌وجورتر از دسکتاپ */
+@media (min-width: 1101px) and (max-width: 1280px) {
+	.ei-app { grid-template-columns: minmax(250px, 300px) minmax(0, 1fr); }
+	.ei-stats { gap: 9px; }
+}
+
+/* تبلت عمودی: نوار آمار دو ستونی تا له نشود */
+@media (min-width: 601px) and (max-width: 860px) {
+	.ei-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.ei-hero { padding: 14px 16px; }
+	.ei-sub { max-width: none; }
+}
+
+/* متن مخلوط در اینباکس هم plaintext */
+.ei-m,
+.ei-composer textarea,
+.ei-order input {
+	unicode-bidi: plaintext;
+	text-align: start;
+}
+.ei-m .ago { unicode-bidi: isolate; font-variant-numeric: tabular-nums; }
