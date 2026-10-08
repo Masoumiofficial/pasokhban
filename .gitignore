@@ -1,5 +1,0 @@
-# Private release artifacts — never publish installers in this repository
-*.zip
-*.tar.gz
-release/
-dist/
