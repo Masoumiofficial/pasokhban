@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🎟️ تیکت پشتیبانی (مشکلات سایت مشتری)
+    url: https://etehadwp.com/support
+    about: اگر افزونه روی سایت شما خطا دارد، از تیکت استفاده کنید — اینجا فقط گزارش‌های عمومی و بدون اطلاعات حساس.
+  - name: 🔐 گزارش آسیب‌پذیری امنیتی
+    url: https://github.com/etehadwp/pasokhban/blob/main/SECURITY.md
+    about: مشکل امنیتی را هرگز در ایشوی عمومی نگویید؛ از مسیر SECURITY.md استفاده کنید.
+  - name: 📖 راهنمای کامل
+    url: https://etehadwp.com/pasokhban/guide.html
+    about: نصب، راه‌اندازی هشت‌مرحله‌ای و عیب‌یابی. اول این را بخوانید؛ خیلی از موارد اینجا تکراری می‌شوند.

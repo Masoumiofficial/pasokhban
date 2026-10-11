@@ -1,0 +1,50 @@
+name: 💡 پیشنهاد ویژگی
+description: چیزی که دوست دارید پاسخ‌بان انجام دهد
+title: "[ویژگی] "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        پیشنهادها بر پایهٔ تعداد درخواست‌ها و جا بودن در برنامهٔ نسخه برنامه‌ریزی می‌شوند.
+        برای دیدن وضعیت فعلی: [گزارش تغییرات](https://github.com/etehadwp/pasokhban/blob/main/CHANGELOG.md)
+  - type: textarea
+    id: problem
+    attributes:
+      label: چه کاری نمی‌توانید بکنید؟
+      description: مشکل را با یک مثال واقعی تعریف کنید، نه راه‌حل را.
+      placeholder: "می‌خواهم مشتری در چت بتواند فاکتور را هم ببیند، ولی الان فقط وضعیت سفارش را می‌گیرد."
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: چه رفتاری مدنظرتان است؟
+      description: در حد دو سه خط؛ جای دقیق در تنظیمات را هم اگر می‌دانید بنویسید.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: چارهٔ فعلی‌تان چیست؟
+      description: الان با چه تنظیمی یا افزونهٔ دیگری این کار را انجام می‌دهید؟
+  - type: dropdown
+    id: who
+    attributes:
+      label: به چه کسانی مربوط است؟
+      multiple: true
+      options:
+        - سایت فروشگاهی (ووکامرس)
+        - شرکت‌های خدماتی و پشتیبانی
+        - آژانس‌هایی که برای مشتری نصب می‌کنند
+        - سایت‌های چندزبانه
+        - محیط‌های با محدودیت شبکه
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: تأییدیه‌ها
+      options:
+        - label: جست‌وجو کردم و ایشوی تکراری نبود.
+          required: true
+        - label: این یک نیاز امنیتی نیست (آن از راه SECURITY.md گزارش می‌شود).
+          required: true

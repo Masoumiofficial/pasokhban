@@ -1,0 +1,94 @@
+name: 🐞 گزارش باگ
+description: یک مشکل قابل بازتولید در پاسخ‌بان گزارش کنید
+title: "[باگ] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ممنون که وقت می‌گذارید. اگر مشکل فقط روی **سایت مشتری** است و ممکن است اطلاعات حساس داشته باشد،
+        لطفاً از [تیکت پشتیبانی](https://etehadwp.com/support) استفاده کنید، نه اینجا.
+
+        پیش از ثبت: تب «بررسی سلامت» را اجرا کنید؛ خیلی از موارد همان‌جا دلیلشان نوشته شده است.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: چه شد؟
+      description: دقیقاً بنویسید چه کردید، چه دیدید و چه انتظاری داشتید.
+      placeholder: |
+        ۱) به تنظیمات ← اتصال رفتم
+        ۲) «آزمایش اتصال» را زدم
+        ۳) پیام «...» نشان داد
+        انتظار: پاسخ «اتصال برقرار است»
+    validations:
+      required: true
+  - type: textarea
+    id: health-report
+    attributes:
+      label: گزارش «بررسی سلامت»
+      description: تنظیمات ← تب «بررسی سلامت» ← اجرای همهٔ بررسی‌ها ← «کپی گزارش». کلیدهای API در این گزارش پوشانده می‌شوند.
+      render: text
+      placeholder: |
+        گزارش متنی را همین‌جا پیست کنید.
+        اگر در آن شمارهٔ سفارش، نام مشتری یا دامنهٔ واقعی هست، پاکش کنید.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: کدام بخش؟
+      multiple: true
+      options:
+        - اتصال به هوش مصنوعی
+        - دستیار و دانش (RAG)
+        - چت آنلاین / اینباکس
+        - ظاهر و برندسازی
+        - اعلان‌ها (ایمیل، تلگرام، بله، پیامک)
+        - تیم و ساعت کاری
+        - ووکامرس
+        - بررسی سلامت
+        - نصب / به‌روزرسانی
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: نسخهٔ افزونه
+      description: پیشخوان ← افزونه‌ها ← ردیف «پاسخ‌بان»
+      placeholder: "3.2.5"
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: نسخهٔ وردپرس، PHP و وب‌سرور
+      placeholder: "WP 6.6، PHP 8.2، nginx / Apache"
+    validations:
+      required: true
+  - type: dropdown
+    id: repro
+    attributes:
+      label: روی چه محیطی تکرار می‌شود؟
+      options:
+        - فقط سایت من
+        - روی نصب تازهٔ تستی هم تکرار شد
+        - بعد از به‌روزرسانی به نسخهٔ جدید
+        - فقط در یک مرورگر/دستگاه
+    validations:
+      required: true
+  - type: textarea
+    id: expected-workaround
+    attributes:
+      label: موقتاً چه کاری جواب داد؟
+      description: اگر کاری باعث رفع موقت مشکل شد بنویسید؛ کمک بزرگی به تشخیص است.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: تأییدیه‌ها
+      options:
+        - label: در گزارش «بررسی سلامت» و متن ایشو، هیچ کلید API، توکن ربات یا رمز درگاه پیامک نذاشتم.
+          required: true
+        - label: با آخرین نسخهٔ افزونه تست کردم (یا شمارهٔ نسخهٔ خودم را نوشتم).
+          required: true
+        - label: اگر تصویر پیوست می‌کنم، نام دامنهٔ مشتری و شمارهٔ تماس‌ها را پوشانده‌ام.
+          required: true

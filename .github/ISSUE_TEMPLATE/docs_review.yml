@@ -1,0 +1,37 @@
+name: 📝 بازبینی مستندات
+description: غلط املایی، بند نامفهوم یا دستوری که دقیقاً اجرا شد و نتیجه نداد
+title: "[مستندات] "
+labels: [docs]
+body:
+  - type: input
+    id: doc
+    attributes:
+      label: کدام سند و کدام بند؟
+      description: نام فایل و عنوان بخش
+      placeholder: "docs/guide-fa.md — بخش «عیب‌یابی رایج»"
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: چه چیزی درست نیست؟
+      description: متن فعلی، چیزی که انتظار می‌رفت، و چیزی که در پیشخوان واقعاً دیده می‌شود
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: نوع مشکل
+      options:
+        - غلط املایی یا نگارشی
+        - جملهٔ نامفهوم
+        - دستور کار نمی‌کند
+        - با نسخهٔ فعلی هم‌خوان نیست
+        - جای عکس یا لینک خالی است
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: متن پیشنهادی شما
+      description: اگر تصحیح آماده دارید همین‌جا بنویسید؛ عیناً در راهنما می‌گذاریم

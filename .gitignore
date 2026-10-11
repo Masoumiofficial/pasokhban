@@ -1,0 +1,17 @@
+# این مخزن عمومی است: هیچ سورس یا بستهٔ نصبی اینجا جای ندارد
+*.zip
+*.tar.gz
+pasokhban/
+*.php
+*.js.map
+node_modules/
+vendor/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+.env
+*_local*
+_site/
+.jekyll-cache/

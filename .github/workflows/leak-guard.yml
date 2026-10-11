@@ -1,0 +1,54 @@
+name: Leak guard
+
+# نگهبان این مخزن: اینجا فقط متن و تصویر معرفی اجازهٔ انتشار دارد.
+# اگر فایل سورس، بستهٔ نصب، یا یک کلید/توکن تصادفی commit شود، CI قرمز می‌شود.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    name: بررسی فایل‌های رد‌شده
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: فایل‌های ممنوع
+        run: |
+          set -euo pipefail
+          bad=$(git ls-files | grep -Ei '\.(zip|tar|gz|rar|7z|php|phar|sql|log|env|pem|key)$|^pasokhban/|^includes/|^assets/|uninstall' || true)
+          if [ -n "$bad" ]; then
+            echo "❌ این فایل‌ها نباید در مخزن عمومی باشند:"
+            echo "$bad"
+            exit 1
+          fi
+          echo "✅ هیچ فایل سورس یا بستهٔ نصبی رد نشده است."
+
+      - name: کلید و توکن
+        run: |
+          set -euo pipefail
+          hits=$(grep -REnI --exclude-dir=.git \
+            '(sk-[A-Za-z0-9]{16,}|[0-9]{8,10}:AA[A-Za-z0-9_-]{25,}|xox[baprs]-|ghp_[A-Za-z0-9]{30,}|gho_[A-Za-z0-9]{30,}|AIza[0-9A-Za-z_-]{30,}|-----BEGIN [A-Z ]*PRIVATE KEY)' . || true)
+          if [ -n "$hits" ]; then
+            echo "❌ چیزی شبیه کلید یا توکن در فایل‌ها پیدا شد:"
+            echo "$hits"
+            exit 1
+          fi
+          echo "✅ کلید یا توکنی پیدا نشد."
+
+      - name: تکه‌کد افزونه
+        run: |
+          set -euo pipefail
+          src=$(grep -REnI --exclude-dir=.git --include='*.md' \
+            '(<\?php|add_action\(|add_filter\(|pasokhban_options\[|wp_enqueue_script\(|class Pasokhban)' . || true)
+          if [ -n "$src" ]; then
+            echo "❌ در مستندات عمومی تکه‌کد افزونه دیده می‌شود؛ این بخش را به زبان کاربر بازنویسی کنید:"
+            echo "$src"
+            exit 1
+          fi
+          echo "✅ مستندات بدون کد است."
