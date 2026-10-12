@@ -32,6 +32,7 @@
 - ۳.۲.۰ — ۳.۲.۲: رفع باگ‌های تنظیمات، نوار چسبان ذخیره، یکسان‌سازی نسخه‌ها.
 - ۳.۲.۳ — ۳.۲.۴: بهبود تب‌ها؛ تلاش برای کارت «بازگردانی پیش‌فرض» (عمودی، بعد افقی).
 - ۳.۲.۵: نوار افقی بازگردانی زیر منوی تنظیمات + بازچینش HTML.
+- ۳.۲.۷: ترمیم دکمه‌های ابزار صفحهٔ تنظیمات (webhook بله، آزمایش‌ها، ایندکس، صادرات) + مسیر بازگشت درست + نمایش نتیجهٔ import.
 - **۳.۲.۶ (نسخهٔ فعلی):** کاربر کل قابلیت «بازگردانی پیش‌فرض» را رد کرد → **حذف کامل** (UI، CSS، JS، فرم مخفی، هوک `admin_post_pasokhban_reset_settings`، مسیر REST `pasokhban/v1/admin/reset-section`). هم‌زمان کارت‌های جاافتاده به تب درست منتقل شدند و غلط املایی «پابرج/پabarگ» → «پابرگ» اصلاح شد.
   > نکتهٔ مهم: این سومین تلاش برای همان قابلیت بود. دیگر آن را «بهبود» نکن؛ حذف شده است.
 
@@ -65,9 +66,16 @@
 - **هرگز منتشر نکن:** `pasokhban.php`، `includes/`، `assets/js|css`، `google-relay.gs`، `uninstall.php`، `readme.txt` وردپرسی، هر `*.zip`، لاگ/`wp-config` واقعی، پوشهٔ `NOTES/`.
 - **مجاز برای مخزن عمومی (۲۱ فایل):** `README.md`, `CHANGELOG.md`, `LICENSE.md`, `SECURITY.md`, `SUPPORT.md`, `CONTRIBUTING.md`, `.gitignore`, `.github/workflows/leak-guard.yml`, `.github/PULL_REQUEST_TEMPLATE.md`, `.github/ISSUE_TEMPLATE/{config,bug_report,feature_request,docs_review}.yml`, `docs/{guide-fa.md,faq-fa.md,pasokhban-guide-fa.pdf}`, `docs/img/{brand-mark.svg,hero.png,etehad-logo.png,social-preview.png,screenshots/README.md}`.
 
+### ۳.۲.۷ (نسخهٔ فعلی) — کلاس باگ «دکمهٔ ابزار»
+- **قانون طلایی:** هیچ `<button>` با ویژگی `form="..."` نباید داخل `<form id="psb-set-form">` باشد؛ HTML فرم تودرتو را قبول نمی‌کند، پس `form=` نادیده گرفته می‌شود و کلیک، فرم تنظیمات را submit می‌کند. الگوی صحیح: `type="button" data-psb-form="psb-…-form"` (+ `data-psb-confirm` برای تایید) و هندلر عمومی بخش «۶.۱» در `assets/js/pasokhban-settings.js`.
+- **قانون دوم:** اسلاگ واقعی صفحهٔ تنظیمات `pasokhban` است (`add_menu_page` + submenu با همان اسلاگ). هر redirect به `page=pasokhban-settings` پیام «دسترسی ندارید» می‌دهد. تب‌ها با هَش باز می‌شوند: general/conn/assistant/chat/look/notify/team/sec/brain/health.
+- ابزارها گزینه‌های **ذخیره‌شده** را می‌خوانند؛ اگر `dirty` باشد JS اجرا نمی‌کند و `.psb-set-savebar.is-hint` هشدار می‌دهد.
+- نتیجهٔ کارهای admin-post با transient رد و بدل می‌شود و باید همان‌جا خوانده شود (`pasokhban_bale_notice`، `pasokhban_notify_test`، `pasokhban_sms_test`، `pasokhban_provider_test`، `pasokhban_rag_notice`، `pasokhban_tools_notice`). هیچ transient ست‌شده‌ای نباید بی‌خواننده بماند.
+
 ## ۶) دستاوردهای موجود روی دیسک
 
-- بستهٔ نصب افزونه (نسخهٔ ۳.۲.۶): `pasokhban.3.2.6.zip` — ۴۸ فایل، ریشهٔ داخل zip `pasokhban/`.
+- بستهٔ نصب افزونه (نسخهٔ ۳.۲.۷): `pasokhban.3.2.7.zip` — ۴۸ فایل، ریشهٔ داخل zip `pasokhban/` (۵۶۶٬۷۲۲ بایت).
+- ریلیز گیت‌هاب: `v3.2.7` (asset آپلود نمی‌شود چون `uploads.github.com` در سندباکس بسته است؛ لینک raw کار می‌کند).
 - بستهٔ ویترین عمومی (۲۱ فایل + PDF): `pasokhban-github-repo.zip` — فایل‌ها در **ریشهٔ آرشیو**.
 
 ## ۷) دستور build افزونه (دقیقاً همین)
