@@ -9,7 +9,7 @@
 یک باکس گفت‌وگو در همهٔ صفحات سایت که اول خودش از روی محتوای واقعی سایت جواب می‌دهد،
 هرجا نتوانست اپراتور انسانی را وارد می‌کند، و مکالمه را در اینباکس پیشخوان نگه می‌دارد.
 
-[![نسخه](https://img.shields.io/badge/version-3.2.5-087f96?style=flat-square)](CHANGELOG.md)
+[![نسخه](https://img.shields.io/badge/version-3.2.6-087f96?style=flat-square)](CHANGELOG.md)
 [![وردپرس](https://img.shields.io/badge/WordPress-5.8%2B-2271b1?style=flat-square)](docs/guide-fa.md)
 [![پی‌اچ‌پی](https://img.shields.io/badge/PHP-7.4%2B-777bb3?style=flat-square)](docs/guide-fa.md)
 [![ووکامرس](https://img.shields.io/badge/WooCommerce-compatible-a143f5?style=flat-square)](docs/faq-fa.md)
