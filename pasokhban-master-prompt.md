@@ -32,13 +32,14 @@
 - ۳.۲.۰ — ۳.۲.۲: رفع باگ‌های تنظیمات، نوار چسبان ذخیره، یکسان‌سازی نسخه‌ها.
 - ۳.۲.۳ — ۳.۲.۴: بهبود تب‌ها؛ تلاش برای کارت «بازگردانی پیش‌فرض» (عمودی، بعد افقی).
 - ۳.۲.۵: نوار افقی بازگردانی زیر منوی تنظیمات + بازچینش HTML.
+- **۳.۲.۸ (نسخهٔ فعلی):** «گفتگوهای اخیر» سمت بازدیدکننده (فهرست + تاریخچهٔ فقط‌خواندنی)، بستن گفتگو و «گفتگوی تازه»، نوار حالت با «بازگشت به دستیار هوشمند»، و بیرون‌کشیدن توضیح ریز «حذف داده» از برچسب سوئیچ.
 - ۳.۲.۷: ترمیم دکمه‌های ابزار صفحهٔ تنظیمات (webhook بله، آزمایش‌ها، ایندکس، صادرات) + مسیر بازگشت درست + نمایش نتیجهٔ import.
-- **۳.۲.۶ (نسخهٔ فعلی):** کاربر کل قابلیت «بازگردانی پیش‌فرض» را رد کرد → **حذف کامل** (UI، CSS، JS، فرم مخفی، هوک `admin_post_pasokhban_reset_settings`، مسیر REST `pasokhban/v1/admin/reset-section`). هم‌زمان کارت‌های جاافتاده به تب درست منتقل شدند و غلط املایی «پابرج/پabarگ» → «پابرگ» اصلاح شد.
+- **۳.۲.۶:** کاربر کل قابلیت «بازگردانی پیش‌فرض» را رد کرد → **حذف کامل** (UI، CSS، JS، فرم مخفی، هوک `admin_post_pasokhban_reset_settings`، مسیر REST `pasokhban/v1/admin/reset-section`). هم‌زمان کارت‌های جاافتاده به تب درست منتقل شدند و غلط املایی «پابرج/پabarگ» → «پابرگ» اصلاح شد.
   > نکتهٔ مهم: این سومین تلاش برای همان قابلیت بود. دیگر آن را «بهبود» نکن؛ حذف شده است.
 
 ## ۴) کارهای باز (به ترتیب اولویت)
 
-1. **امنیت سورس:** مخزن `Masoumiofficial/pasokhban` در حال حاضر **Public** است و `pasokhban.3.2.3/3.2.4/3.2.5.zip` روی `main` قابل دانلودند.
+1. **امنیت سورس:** مخزن `Masoumiofficial/pasokhban` هنوز **Public** است؛ ZIPهای ۳.۲.۳ تا ۳.۲.۵ بیرون رفته‌اند و فقط `pasokhban.3.2.7.zip` و `pasokhban.3.2.8.zip` روی `main`‌اند (بدون سورس باز؛ قابل نصب ولی نه خواندنی).
    - ابتدا مخزن را **Private** کن (Settings → General → Danger Zone).
    - سپس تاریخچه را پاک‌سازی کن تا ZIPها از کلون هم بروند:
      ```bash
@@ -66,7 +67,17 @@
 - **هرگز منتشر نکن:** `pasokhban.php`، `includes/`، `assets/js|css`، `google-relay.gs`، `uninstall.php`، `readme.txt` وردپرسی، هر `*.zip`، لاگ/`wp-config` واقعی، پوشهٔ `NOTES/`.
 - **مجاز برای مخزن عمومی (۲۱ فایل):** `README.md`, `CHANGELOG.md`, `LICENSE.md`, `SECURITY.md`, `SUPPORT.md`, `CONTRIBUTING.md`, `.gitignore`, `.github/workflows/leak-guard.yml`, `.github/PULL_REQUEST_TEMPLATE.md`, `.github/ISSUE_TEMPLATE/{config,bug_report,feature_request,docs_review}.yml`, `docs/{guide-fa.md,faq-fa.md,pasokhban-guide-fa.pdf}`, `docs/img/{brand-mark.svg,hero.png,etehad-logo.png,social-preview.png,screenshots/README.md}`.
 
-### ۳.۲.۷ (نسخهٔ فعلی) — کلاس باگ «دکمهٔ ابزار»
+### ۳.۲.۸ (نسخهٔ فعلی) — گفتگوهای اخیر بازدیدکننده
+- **هیچ مهاجرت دیتابیسی ندارد.** فهرست کلیدهای کهنه در `localStorage` کلید `pasokhban_live_threads` (حداکثر ۱۰) می‌ماند؛ کلید نشست خودش مدرک مالکیت است و در هیچ جای دیگری فهرست نمی‌شود.
+- endpoint واحد: `POST pasokhban/v1/live/threads` با `action ∈ {list, read, new, close, ai}`. بدنه JSON است → در PHP `get_json_params()` و بعد `get_params()`.
+- `list` و `read` عمداً **بدون rate-limit**‌اند (کاربر نباید از تاریخچهٔ خودش بیرون بماند)؛ فقط `new/close/ai` پشت `is_rate_limited('live')`.
+- `threadKeys()` کلید جاری را فیلتر می‌کند، اما `rememberThread()` **نباید** فیلتر کند — باگ همین دو خط باعث شد تاریخچه هیچ‌وقت رشد نکند.
+- نمای تاریخچه باید `S.seenIds` و `S.lastId` را دست نزند (پیوست poll زنده خراب می‌شود) و هر پیامی که سرور در همان پاسخ فرستاد با `markSeen(d.message.id)` علامت بخورد.
+- `close` → `startPoll(false)` (متوقف نکن؛ اگر اپراتور باز کرد، زود دِریافت شود). `new` → سرور نشست قبلی را می‌بندد، پس کلاینت دوباره `close` نزند.
+- `updateModeBar()` تنها نقطهٔ به‌روزرسانی نوار حالت **و قفل/بازکردن `#psb-input`** است؛ `#psb-human` تنها وقتی رندر می‌شود که `humanHandoff` روشن باشد.
+- تست رفتاری: `node /home/user/work/test-threads-jsdom.js` (۵۳ assertion، jsdom در `/tmp/jsdomtest`).
+
+### ۳.۲.۷ — کلاس باگ «دکمهٔ ابزار»
 - **قانون طلایی:** هیچ `<button>` با ویژگی `form="..."` نباید داخل `<form id="psb-set-form">` باشد؛ HTML فرم تودرتو را قبول نمی‌کند، پس `form=` نادیده گرفته می‌شود و کلیک، فرم تنظیمات را submit می‌کند. الگوی صحیح: `type="button" data-psb-form="psb-…-form"` (+ `data-psb-confirm` برای تایید) و هندلر عمومی بخش «۶.۱» در `assets/js/pasokhban-settings.js`.
 - **قانون دوم:** اسلاگ واقعی صفحهٔ تنظیمات `pasokhban` است (`add_menu_page` + submenu با همان اسلاگ). هر redirect به `page=pasokhban-settings` پیام «دسترسی ندارید» می‌دهد. تب‌ها با هَش باز می‌شوند: general/conn/assistant/chat/look/notify/team/sec/brain/health.
 - ابزارها گزینه‌های **ذخیره‌شده** را می‌خوانند؛ اگر `dirty` باشد JS اجرا نمی‌کند و `.psb-set-savebar.is-hint` هشدار می‌دهد.
@@ -74,8 +85,10 @@
 
 ## ۶) دستاوردهای موجود روی دیسک
 
-- بستهٔ نصب افزونه (نسخهٔ ۳.۲.۷): `pasokhban.3.2.7.zip` — ۴۸ فایل، ریشهٔ داخل zip `pasokhban/` (۵۶۶٬۷۲۲ بایت).
-- ریلیز گیت‌هاب: `v3.2.7` (asset آپلود نمی‌شود چون `uploads.github.com` در سندباکس بسته است؛ لینک raw کار می‌کند).
+- بستهٔ نصب افزونه (نسخهٔ ۳.۲.۸): `pasokhban.3.2.8.zip` — ۴۸ فایل، ریشهٔ داخل zip `pasokhban/` (۵۷۴٬۴۶۴ بایت)، sha256 `b8b0cc3f55952839d637590fd7af9dc0d961d0efbdbeb498fd0a7adbdaa968ad`.
+- بستهٔ ۳.۲.۷: `pasokhban.3.2.7.zip` — ۵۶۷٬۰۲۰ بایت، sha256 `e9b96013ba8951f7319d092dc63b027793acc4a8454fd75cad8af49b5f7bdff3` (هنوز روی `main` برای کسانی که آپدیت نکرده‌اند).
+- ریلیز گیت‌هاب: `v3.2.8` (asset آپلود نمی‌شود چون `uploads.github.com` در سندباکس بسته است؛ لینک `raw/main/<file>.zip` کار می‌کند).
+- ZIPهای ۳.۲.۳ تا ۳.۲.۵ از مخزن بیرون رفته‌اند: `/home/user/work/legacy-zips/`.
 - بستهٔ ویترین عمومی (۲۱ فایل + PDF): `pasokhban-github-repo.zip` — فایل‌ها در **ریشهٔ آرشیو**.
 
 ## ۷) دستور build افزونه (دقیقاً همین)
