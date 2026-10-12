@@ -32,7 +32,8 @@
 - ۳.۲.۰ — ۳.۲.۲: رفع باگ‌های تنظیمات، نوار چسبان ذخیره، یکسان‌سازی نسخه‌ها.
 - ۳.۲.۳ — ۳.۲.۴: بهبود تب‌ها؛ تلاش برای کارت «بازگردانی پیش‌فرض» (عمودی، بعد افقی).
 - ۳.۲.۵: نوار افقی بازگردانی زیر منوی تنظیمات + بازچینش HTML.
-- **۳.۲.۸ (نسخهٔ فعلی):** «گفتگوهای اخیر» سمت بازدیدکننده (فهرست + تاریخچهٔ فقط‌خواندنی)، بستن گفتگو و «گفتگوی تازه»، نوار حالت با «بازگشت به دستیار هوشمند»، و بیرون‌کشیدن توضیح ریز «حذف داده» از برچسب سوئیچ.
+- **۳.۲.۹ (نسخهٔ فعلی):** رفع قاتل فعال‌سازی در نصب تازه (`Pasokhban_Settings::defaults()` استاتیک صدا زده می‌شد) + هارنس اجرای افزونه با PHP-WASM.
+- **۳.۲.۸:** «گفتگوهای اخیر» سمت بازدیدکننده (فهرست + تاریخچهٔ فقط‌خواندنی)، بستن گفتگو و «گفتگوی تازه»، نوار حالت با «بازگشت به دستیار هوشمند»، و بیرون‌کشیدن توضیح ریز «حذف داده» از برچسب سوئیچ.
 - ۳.۲.۷: ترمیم دکمه‌های ابزار صفحهٔ تنظیمات (webhook بله، آزمایش‌ها، ایندکس، صادرات) + مسیر بازگشت درست + نمایش نتیجهٔ import.
 - **۳.۲.۶:** کاربر کل قابلیت «بازگردانی پیش‌فرض» را رد کرد → **حذف کامل** (UI، CSS، JS، فرم مخفی، هوک `admin_post_pasokhban_reset_settings`، مسیر REST `pasokhban/v1/admin/reset-section`). هم‌زمان کارت‌های جاافتاده به تب درست منتقل شدند و غلط املایی «پابرج/پabarگ» → «پابرگ» اصلاح شد.
   > نکتهٔ مهم: این سومین تلاش برای همان قابلیت بود. دیگر آن را «بهبود» نکن؛ حذف شده است.
@@ -67,7 +68,14 @@
 - **هرگز منتشر نکن:** `pasokhban.php`، `includes/`، `assets/js|css`، `google-relay.gs`، `uninstall.php`، `readme.txt` وردپرسی، هر `*.zip`، لاگ/`wp-config` واقعی، پوشهٔ `NOTES/`.
 - **مجاز برای مخزن عمومی (۲۱ فایل):** `README.md`, `CHANGELOG.md`, `LICENSE.md`, `SECURITY.md`, `SUPPORT.md`, `CONTRIBUTING.md`, `.gitignore`, `.github/workflows/leak-guard.yml`, `.github/PULL_REQUEST_TEMPLATE.md`, `.github/ISSUE_TEMPLATE/{config,bug_report,feature_request,docs_review}.yml`, `docs/{guide-fa.md,faq-fa.md,pasokhban-guide-fa.pdf}`, `docs/img/{brand-mark.svg,hero.png,etehad-logo.png,social-preview.png,screenshots/README.md}`.
 
-### ۳.۲.۸ (نسخهٔ فعلی) — گفتگوهای اخیر بازدیدکننده
+### ۳.۲.۹ (نسخهٔ فعلی) — قاتل فعال‌سازی و هارنس PHP
+- **باگ:** در `Pasokhban::activate()` این خط، متد **نمونه** را استاتیک صدا می‌زد: `update_option( 'pasokhban_options', array( 'widget_style' => 'chat' ) + Pasokhban_Settings::defaults() )` → `Error: Non-static method … cannot be called statically` → پیشخوان: «به دلیل داشتن مشکلی جدی، افزونه فعال نشد». فقط در **نصب تازه** (ردیف `pasokhban_options` نیست) رخ می‌دهد؛ پس در آپدیت‌های قبلی دیده نشد. از ۳.۲.۷ وجود داشته.
+- **قانون:** هیچ متد غیراستاتیکی را با `Class::method()` صدا نزن. پیش از ریلیز ممیزی `audit.php` را اجرا کن؛ `[الف] … خطای قطعی: 0` الزامی است.
+- **هارنس:** `/home/user/work/php-harness` (PHP-WASM، پی‌اچ‌پی ۷٫۰ تا ۸٫۳). اجرا: `PHPWASM_NM=/tmp/phpw1/node_modules node /home/user/work/php-harness/run2.js <پوشه> <php-ver>`. باید `[5] هوک فعال‌سازی اجرا شد` بدون THROW چاپ شود. راه‌اندازی یک‌باره در README همان پوشه (`npm i @php-wasm/node@1.0.9` + لینک نمادین `nodeasyncify`).
+- **نکتهٔ هارنس:** دو `php.run()` پشت سر هم در ۱.۰.۹ crash می‌کند → همه‌چیز را در یک run با base64-injection اجرا کن؛ `dbDelta`/`upgrade.php` را خودت بساز (وگرنه `Cannot redeclare`). تست رفتاری JS: `node /home/user/work/test-threads-jsdom.js`.
+- اگر کاربر «فعال نشد» گزارش داد: اول هارنس را روی همان بسته اجرا کن، بعد نسخهٔ PHP و خط اول `debug.log` را بگیر.
+
+### ۳.۲.۸ — گفتگوهای اخیر بازدیدکننده
 - **هیچ مهاجرت دیتابیسی ندارد.** فهرست کلیدهای کهنه در `localStorage` کلید `pasokhban_live_threads` (حداکثر ۱۰) می‌ماند؛ کلید نشست خودش مدرک مالکیت است و در هیچ جای دیگری فهرست نمی‌شود.
 - endpoint واحد: `POST pasokhban/v1/live/threads` با `action ∈ {list, read, new, close, ai}`. بدنه JSON است → در PHP `get_json_params()` و بعد `get_params()`.
 - `list` و `read` عمداً **بدون rate-limit**‌اند (کاربر نباید از تاریخچهٔ خودش بیرون بماند)؛ فقط `new/close/ai` پشت `is_rate_limited('live')`.
@@ -85,9 +93,11 @@
 
 ## ۶) دستاوردهای موجود روی دیسک
 
-- بستهٔ نصب افزونه (نسخهٔ ۳.۲.۸): `pasokhban.3.2.8.zip` — ۴۸ فایل، ریشهٔ داخل zip `pasokhban/` (۵۷۴٬۵۱۳ بایت)، sha256 `7c381b455a190e51194048e1cb6acd2a895de6e9faed6112a124e566e7d610f6`.
+- **بستهٔ نصب افزونه (نسخهٔ ۳.۲.۹):** `pasokhban.3.2.9.zip` — ۴۸ فایل، ریشهٔ داخل zip `pasokhban/` (۵۷۵٬۰۷۵ بایت)، sha256 `72e8fda32010d0ba86b7b2901d0dd774d74bfffcc150fa4eaf0d0dea81242a08`.
+- بستهٔ ۳.۲.۸: `pasokhban.3.2.8.zip` (۵۷۴٬۵۱۳ بایت، sha256 `7c381b455a…`) — روی سایتِ تازه **فعال نمی‌شود**؛ فقط برای سایت‌هایی که از قبل `pasokhban_options` دارند بی‌خطر است.
+- بستهٔ ۳.۲.۷: `pasokhban.3.2.7.zip` (۵۶۷٬۰۲۰ بایت، sha256 `e9b96013ba…`) — همان قاتل فعال‌سازی را دارد.
 - بستهٔ ۳.۲.۷: `pasokhban.3.2.7.zip` — ۵۶۷٬۰۲۰ بایت، sha256 `e9b96013ba8951f7319d092dc63b027793acc4a8454fd75cad8af49b5f7bdff3` (هنوز روی `main` برای کسانی که آپدیت نکرده‌اند).
-- ریلیز گیت‌هاب: `v3.2.8` (asset آپلود نمی‌شود چون `uploads.github.com` در سندباکس بسته است؛ لینک `raw/main/<file>.zip` کار می‌کند).
+- ریلیز گیت‌هاب: `v3.2.9` (asset آپلود نمی‌شود چون `uploads.github.com` در سندباکس بسته است؛ لینک `raw/main/<file>.zip` کار می‌کند).
 - ZIPهای ۳.۲.۳ تا ۳.۲.۵ از مخزن بیرون رفته‌اند: `/home/user/work/legacy-zips/`.
 - بستهٔ ویترین عمومی (۲۱ فایل + PDF): `pasokhban-github-repo.zip` — فایل‌ها در **ریشهٔ آرشیو**.
 
