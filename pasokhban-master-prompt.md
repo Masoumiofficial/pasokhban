@@ -24,7 +24,7 @@
   - `uninstall.php` — حذف داده فقط اگر `uninstall_delete_data` روشن باشد
   - `google-relay.gs` — رلهٔ Apps Script برای Gemini
   - `GUIDE-fa.md` / `readme.txt` — راهنما و چنجلاگ
-- چیدمان صفحهٔ تنظیمات: تب‌ها `data-panel="general|conn|assistant|chat|look|notify|team|sec|brain|health"`؛ هر تب چند `<div class="psb-set-card">`.
+- چیدمان صفحهٔ تنظیمات: تب‌ها `data-panel="general|conn|assistant|chat|look|notify|team|sec|health"` (ده تا بود؛ از ۳.۳.۰ **نه** تب)؛ هر تب چند `<div class="psb-set-card">`.
 - **قانون چیدمان:** هر کارت فقط در تب موضوع خودش باشد (برندسازی ← تب ظاهر؛ صادر/وارد ← تب امنیت و داده؛ حذف داده‌ها ← کارت امنیت و کارایی).
 
 ## ۳) تاریخچهٔ نزدیک
@@ -32,7 +32,8 @@
 - ۳.۲.۰ — ۳.۲.۲: رفع باگ‌های تنظیمات، نوار چسبان ذخیره، یکسان‌سازی نسخه‌ها.
 - ۳.۲.۳ — ۳.۲.۴: بهبود تب‌ها؛ تلاش برای کارت «بازگردانی پیش‌فرض» (عمودی، بعد افقی).
 - ۳.۲.۵: نوار افقی بازگردانی زیر منوی تنظیمات + بازچینش HTML.
-- **۳.۲.۹ (نسخهٔ فعلی):** رفع قاتل فعال‌سازی در نصب تازه (`Pasokhban_Settings::defaults()` استاتیک صدا زده می‌شد) + هارنس اجرای افزونه با PHP-WASM.
+- **۳.۳.۰ (نسخهٔ فعلی):** حذف کامل سبک «مغز کیهانی» و ورودی/خروجی صوتی — کاربر «کلاً حذف» گفت، پس هیچ کلید میانی برای برگرداندنش نگذاشته‌ایم.
+- ۳.۲.۹: رفع قاتل فعال‌سازی در نصب تازه (`Pasokhban_Settings::defaults()` استاتیک صدا زده می‌شد) + هارنس اجرای افزونه با PHP-WASM.
 - **۳.۲.۸:** «گفتگوهای اخیر» سمت بازدیدکننده (فهرست + تاریخچهٔ فقط‌خواندنی)، بستن گفتگو و «گفتگوی تازه»، نوار حالت با «بازگشت به دستیار هوشمند»، و بیرون‌کشیدن توضیح ریز «حذف داده» از برچسب سوئیچ.
 - ۳.۲.۷: ترمیم دکمه‌های ابزار صفحهٔ تنظیمات (webhook بله، آزمایش‌ها، ایندکس، صادرات) + مسیر بازگشت درست + نمایش نتیجهٔ import.
 - **۳.۲.۶:** کاربر کل قابلیت «بازگردانی پیش‌فرض» را رد کرد → **حذف کامل** (UI، CSS، JS، فرم مخفی، هوک `admin_post_pasokhban_reset_settings`، مسیر REST `pasokhban/v1/admin/reset-section`). هم‌زمان کارت‌های جاافتاده به تب درست منتقل شدند و غلط املایی «پابرج/پabarگ» → «پابرگ» اصلاح شد.
@@ -68,7 +69,15 @@
 - **هرگز منتشر نکن:** `pasokhban.php`، `includes/`، `assets/js|css`، `google-relay.gs`، `uninstall.php`، `readme.txt` وردپرسی، هر `*.zip`، لاگ/`wp-config` واقعی، پوشهٔ `NOTES/`.
 - **مجاز برای مخزن عمومی (۲۱ فایل):** `README.md`, `CHANGELOG.md`, `LICENSE.md`, `SECURITY.md`, `SUPPORT.md`, `CONTRIBUTING.md`, `.gitignore`, `.github/workflows/leak-guard.yml`, `.github/PULL_REQUEST_TEMPLATE.md`, `.github/ISSUE_TEMPLATE/{config,bug_report,feature_request,docs_review}.yml`, `docs/{guide-fa.md,faq-fa.md,pasokhban-guide-fa.pdf}`, `docs/img/{brand-mark.svg,hero.png,etehad-logo.png,social-preview.png,screenshots/README.md}`.
 
-### ۳.۲.۹ (نسخهٔ فعلی) — قاتل فعال‌سازی و هارنس PHP
+### ۳.۳.۰ — حذف سبک «مغز کیهانی» و صوت
+- **خواستهٔ کاربر:** «بخش دستیار و دانش سایت، اون مغز کیهانی — شبکهٔ عصبی متحرک + ورودی و خروجی صوتی رو کلاً حذف کن.»
+- **چی رفت:** کارت انتخاب «حالت نمایش» در تب `assistant`؛ تب `brain` («ویجت مغز») با فیلدهای `greeting`/`placeholder`/`launcher_text` و سوئیچ‌های `stt`/`tts`؛ کلیدهای `widget_style` + پنج کلید صوتی/متنی از `defaults()` و `sanitize()`؛ `Pasokhban::current_style()` و شاخه‌های `if ( 'chat' === … )` در enqueue/render/shortcode؛ رندر `#pasokhban-root` (فقط `#pasokhban-live` می‌ماند)؛ endpoint `pasokhban/v1/config` + `handle_config()` + `suggested_questions()`؛ دو فایل `assets/js/pasokhban.js` و `assets/css/pasokhban.css`؛ برچسب «سبک: مغز کیهانی» و مسیر `/config` از `class-health.php`.
+- **قانون:** این موارد را برنگردان، «بهبود» نده و جایگزین «حالت دوم» نساز. `window.PASOKHBAN`/`ETEHADYAR` دیگر تزریق نمی‌شوند — هر کد جدید باید از `PASOKHBAN_CHAT` / `PASOKHBAN_CHAT_SETTINGS` بخواند (برندمارک چت به همین جابرجا شد).
+- **عمداً ماند:** آیکون/آواتار `brainSvg()` و کلاس‌های `.psb-brain` در `pasokhban-chat.css` — این فقط آیکون برندِ چت شیشه‌ای است، نه آن سبک. `pasokhban/v1/chat` هم برای یکپارچه‌سازی بیرونی باز است.
+- **سازگاری:** ردیف `pasokhban_options` قدیمی که `widget_style => 'brain'` دارد بی‌اثر است؛ `get_options()` کلیدهای ناشناخته را نگه می‌دارد و `sanitize()` در نخستین ذخیره حذفشان می‌کند (بدون مهاجرت، بدون ریسک).
+- **هارنس:** `routes: 29` (یک مسیر کمتر)، `[الف] خطای قطعی: ۰`، HTML تنظیمات با `html.parser` بدون خطا، `node --check` روی سه JS، تست jsdom ۵۳/۵۳.
+
+### ۳.۲.۹ — قاتل فعال‌سازی و هارنس PHP
 - **باگ:** در `Pasokhban::activate()` این خط، متد **نمونه** را استاتیک صدا می‌زد: `update_option( 'pasokhban_options', array( 'widget_style' => 'chat' ) + Pasokhban_Settings::defaults() )` → `Error: Non-static method … cannot be called statically` → پیشخوان: «به دلیل داشتن مشکلی جدی، افزونه فعال نشد». فقط در **نصب تازه** (ردیف `pasokhban_options` نیست) رخ می‌دهد؛ پس در آپدیت‌های قبلی دیده نشد. از ۳.۲.۷ وجود داشته.
 - **قانون:** هیچ متد غیراستاتیکی را با `Class::method()` صدا نزن. پیش از ریلیز ممیزی `audit.php` را اجرا کن؛ `[الف] … خطای قطعی: 0` الزامی است.
 - **هارنس:** `/home/user/work/php-harness` (PHP-WASM، پی‌اچ‌پی ۷٫۰ تا ۸٫۳). اجرا: `PHPWASM_NM=/tmp/phpw1/node_modules node /home/user/work/php-harness/run2.js <پوشه> <php-ver>`. باید `[5] هوک فعال‌سازی اجرا شد` بدون THROW چاپ شود. راه‌اندازی یک‌باره در README همان پوشه (`npm i @php-wasm/node@1.0.9` + لینک نمادین `nodeasyncify`).
@@ -93,11 +102,12 @@
 
 ## ۶) دستاوردهای موجود روی دیسک
 
-- **بستهٔ نصب افزونه (نسخهٔ ۳.۲.۹):** `pasokhban.3.2.9.zip` — ۴۸ فایل، ریشهٔ داخل zip `pasokhban/` (۵۷۵٬۰۷۵ بایت)، sha256 `72e8fda32010d0ba86b7b2901d0dd774d74bfffcc150fa4eaf0d0dea81242a08`.
+- **بستهٔ نصب افزونه (نسخهٔ ۳.۳.۰):** `pasokhban.3.3.0.zip` — ۳۹ فایل (۴۶ ورودی با پوشه‌ها)، ۵۵۶٬۸۹۴ بایت، sha256 `b469b2151b62b56f1e40ec47184a18c79dd328d7c9ab13eececf11d284bbb2f6`؛ روی نصب تازه در PHP ۷.۴ و ۸.۳ با هارنس تأیید شد.
+- بستهٔ ۳.۲.۹: `pasokhban.3.2.9.zip` — ۴۸ فایل، ریشهٔ داخل zip `pasokhban/` (۵۷۵٬۰۷۵ بایت)، sha256 `72e8fda32010d0ba86b7b2901d0dd774d74bfffcc150fa4eaf0d0dea81242a08`.
 - بستهٔ ۳.۲.۸: `pasokhban.3.2.8.zip` (۵۷۴٬۵۱۳ بایت، sha256 `7c381b455a…`) — روی سایتِ تازه **فعال نمی‌شود**؛ فقط برای سایت‌هایی که از قبل `pasokhban_options` دارند بی‌خطر است.
 - بستهٔ ۳.۲.۷: `pasokhban.3.2.7.zip` (۵۶۷٬۰۲۰ بایت، sha256 `e9b96013ba…`) — همان قاتل فعال‌سازی را دارد.
 - بستهٔ ۳.۲.۷: `pasokhban.3.2.7.zip` — ۵۶۷٬۰۲۰ بایت، sha256 `e9b96013ba8951f7319d092dc63b027793acc4a8454fd75cad8af49b5f7bdff3` (هنوز روی `main` برای کسانی که آپدیت نکرده‌اند).
-- ریلیز گیت‌هاب: `v3.2.9` (asset آپلود نمی‌شود چون `uploads.github.com` در سندباکس بسته است؛ لینک `raw/main/<file>.zip` کار می‌کند).
+- ریلیز گیت‌هاب (فعلی): `v3.3.0`؛ `v3.2.9` و `v3.2.8` هم منتشرند (۳.۲.۸ با یادداشت «نصب نکنید») (asset آپلود نمی‌شود چون `uploads.github.com` در سندباکس بسته است؛ لینک `raw/main/<file>.zip` کار می‌کند).
 - ZIPهای ۳.۲.۳ تا ۳.۲.۵ از مخزن بیرون رفته‌اند: `/home/user/work/legacy-zips/`.
 - بستهٔ ویترین عمومی (۲۱ فایل + PDF): `pasokhban-github-repo.zip` — فایل‌ها در **ریشهٔ آرشیو**.
 
