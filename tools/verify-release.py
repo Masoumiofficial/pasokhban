@@ -1,0 +1,346 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+نگارۀ انتشار — بررسی‌های خودکار پیش از بیرون‌دادن نسخۀ پاسخ‌بان.
+
+    python3 tools/verify-release.py <ریشۀ افزونه> [ریشۀ مخزن عمومی] [--zip فایل.zip]
+
+سه دروازۀ امنیتی (نشتی)، سازگاری نسخۀ ۱.۰.۰، ساختار uninstall.php، فایل‌های یتیم،
+ و .minها. اگر مخزن عمومی داده شد، دروازۀ نشتی روی آن هم اجرا می‌شود.
+خروجی: ۰ = سبز، ۱ = قرمز.
+"""
+import io
+import json
+import os
+import re
+import subprocess
+import sys
+
+ROOT = None
+FAIL = []
+WARN = []
+
+
+def ok(msg):
+    print('  ✅ ' + msg)
+
+
+def fail(msg):
+    FAIL.append(msg)
+    print('  ❌ ' + msg)
+
+
+def warn(msg):
+    WARN.append(msg)
+    print('  ⚠️  ' + msg)
+
+
+def read(p):
+    return io.open(p, encoding='utf-8', errors='replace').read()
+
+
+def find(root, exts):
+    out = []
+    for dirpath, dirs, files in os.walk(root):
+        dirs[:] = [d for d in dirs if d not in ('.git', 'node_modules', 'vendor')]
+        for f in files:
+            if f.endswith(exts):
+                out.append(os.path.join(dirpath, f))
+    return sorted(out)
+
+
+def strip_comments(code):
+    """حذف کامنت‌های /* */ و // تا بازخوانی‌ها با توضیح‌ها قاطی نشوند."""
+    code = re.sub(r'/\*.*?\*/', '', code, flags=re.S)
+    code = re.sub(r'(?m)^\s*//.*$', '', code)
+    return code
+
+
+def block_of(src, brace_pos):
+    """اینکس خطِ بسته‌شدنِ {ای را که در brace_pos باز شده برمی‌گرداند."""
+    depth = 0
+    i = brace_pos
+    n = len(src)
+    while i < n:
+        c = src[i]
+        if c == '{':
+            depth += 1
+        elif c == '}':
+            depth -= 1
+            if depth == 0:
+                return i
+        elif c in "'\"":
+            q = c
+            i += 1
+            while i < n and src[i] != q:
+                i += 2 if src[i] == '\\' else 1
+        elif src.startswith('//', i):
+            i = src.find('\n', i)
+            if i < 0:
+                return n
+        elif src.startswith('/*', i):
+            i = src.find('*/', i) + 2
+        i += 1
+    return n
+
+
+def check_plugin(root):
+    print('\n── ۱) دروازۀ نشتی و یکپارچگی فایل‌ها')
+    php = find(root, ('.php',))
+    if not php:
+        fail('هیچ فایل PHP پیدا نشد — مسیر درست است؟')
+        return
+    ok('%d فایل PHP' % len(php))
+    for junk in ('.git', '.DS_Store', 'Thumbs.db', 'wp-cli.local.yml', '.env'):
+        hits = [p for p in find(root, ('',)) if os.path.basename(p) == junk]
+        if hits:
+            fail('فایل/پوشۀ نامربوط: %s' % ', '.join(hits))
+    leftovers = [p for p in find(root, ('.log', '.sql', '.bak', '.orig', '.rej', '~', '.zip'))]
+    if leftovers:
+        fail('فایل اضافه در بستۀ افزونه: %s' % ', '.join(leftovers))
+    else:
+        ok('بدون فایل اضافه (log/sql/bak/zip)')
+    dbg = []
+    for p in php:
+        for m in re.finditer(r'\b(var_dump|print_r|phpinfo|error_log)\s*\(', read(p)):
+            dbg.append('%s: %s' % (os.path.relpath(p, root), m.group(1)))
+    allowed = {'pasokhban.php': 1}  # یک error_log عمدی برای ثبت خطای فعال‌سازی
+    counts = {}
+    for d in dbg:
+        counts[d.split(':')[0]] = counts.get(d.split(':')[0], 0) + 1
+    for f, c in counts.items():
+        if c > allowed.get(f, 0):
+            fail('debug باقی‌مانده در %s (%d بار)' % (f, c))
+    if not FAIL:
+        ok('دیباگ/لاگ اضافی: صفر')
+
+    print('\n── ۲) سازگاری شمارهٔ نسخه')
+    head = read(os.path.join(root, 'pasokhban.php'))
+    m1 = re.search(r'^ \* Version:\s+(\S+)', head, re.M)
+    m2 = re.search(r"PASOKHBAN_VERSION',\s*'([^']+)'", head)
+    rdme = read(os.path.join(root, 'readme.txt'))
+    m3 = re.search(r'^Stable tag:\s*(\S+)', rdme, re.M)
+    vers = [m1 and m1.group(1), m2 and m2.group(1), m3 and m3.group(1)]
+    m4 = re.search(r'^= (\d[^ ]*) =', rdme, re.M)
+    vers.append(m4 and m4.group(1))
+    if len(set(v for v in vers if v)) == 1 and all(vers):
+        ok('همهجا یکسان: ' + ' = '.join(['هدر', vers[0], 'ثابت', vers[1], 'Stable tag', vers[2], 'بند اول changelog', vers[3]]))
+    else:
+        fail('نابرابری نسخه: %s' % vers)
+    if re.search(r'^(= \d+\.\d+ =)$(?:.*\n)*?\1', rdme, re.M):
+        fail('بند تکراری در changelog')
+    return vers[0] if vers[0] else None
+
+
+def check_launch_defaults(root):
+    print('\n── ۳) پیش‌فرض‌های محافظه‌کارانۀ لانچ')
+    st = read(os.path.join(root, 'includes', 'class-settings.php'))
+    want = {'uninstall_delete_data': 0, 'cdn_font': 0, 'live_sound': 0, 'retention_days': 365}
+    for key, val in want.items():
+        m = re.search(r"'" + key + r"'\s*=>\s*(\d+)", st)
+        if not m:
+            fail('%s در defaults پیدا نشد' % key)
+        elif int(m.group(1)) != val:
+            fail('%s = %s (باید %d باشد)' % (key, m.group(1), val))
+        else:
+            ok('%s → %d' % (key, val))
+    for other in ('knowledge', 'widget_enabled', 'rate_limit'):
+        m = re.search(r"'" + other + r"'\s*=>\s*(\d+)", st)
+        if m and int(m.group(1)) == 0:
+            fail('پیش‌فرض %s صفر شده — باید روشن/فعال بماند' % other)
+
+    print('\n── ۴) ساختار uninstall.php (داده فقط با رضایت پاک شود)')
+    un = read(os.path.join(root, 'uninstall.php'))
+    if 'WP_UNINSTALL_PLUGIN' not in un:
+        fail('نگهبان WP_UNINSTALL_PLUGIN نیست')
+    cond = re.search(r'if\s*\(\s*\$delete_data\s*\)\s*\{', un)
+    if not cond:
+        fail('شرط $delete_data پیدا نشد')
+    else:
+        end = block_of(un, cond.end() - 1)
+        inside = un[cond.end():end]
+        bad_outside = []
+        for pat, label in ((r'DROP TABLE', 'DROP TABLE'), (r'delete_option\(\s*[\'"]pasokhban_options', 'delete_option(pasokhban_options)'), (r'remove_role', 'remove_role')):
+            for m in re.finditer(pat, un):
+                if not (cond.end() <= m.start() <= end):
+                    bad_outside.append(label)
+        if bad_outside:
+            fail('این عملیات خارج از شاخۀ $delete_data است: %s' % ', '.join(sorted(set(bad_outside))))
+        else:
+            ok('همهٔ DROP/delete_option/remove_role داخل شاخۀ $delete_data (%d کاراکتر)' % len(inside))
+        for need in ('pasokhban_messages', 'pasokhban_sessions', 'pasokhban_feedback', 'pasokhban_chunks', 'pasokhban_bale_links'):
+            if need not in inside:
+                fail('جدول %s در شاخۀ حذف نیست (باقی‌ماندۀ نسخههای قبل)' % need)
+        if 'uninstall_delete_data' not in un:
+            fail('uninstall.php تنظیم uninstall_delete_data را نمی‌خواند')
+        else:
+            ok('منبع تصمیم، گزینهٔ uninstall_delete_data است')
+
+
+def check_assets(root, ver):
+    print('\n── ۵) استاتیک: فایل یتیم، .min، defer')
+    src_all = ''.join(read(p) for p in find(root, ('.php', '.js', '.css', '.txt')))
+    orphans = []
+    for p in find(root, ('.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg')):
+        base = os.path.basename(p)
+        if base not in src_all:
+            orphans.append(base)
+    if orphans:
+        fail('استاتیک بدون ارجاع (یتیم): %s' % ', '.join(orphans))
+    else:
+        ok('هیچ تصویر یتیومی در بستۀ افزونه نیست')
+
+    js = [p for p in find(root, ('.js',)) if not p.endswith('.min.js')]
+    css = [p for p in find(root, ('.css',)) if not p.endswith('.min.css')]
+    missing = []
+    for p in js + css:
+        mn = re.sub(r'\.(js|css)$', r'.min.\1', p)
+        if not os.path.exists(mn):
+            missing.append(os.path.relpath(mn, root))
+    if missing:
+        fail('فایل فشردهٔ ساخته‌نشده: %s (bash tools/build-assets.sh اجرا شود)' % ', '.join(missing))
+    else:
+        ok('%d فایل JS + %d فایل CSS → همه .min دارند' % (len(js), len(css)))
+    for p in js + css:
+        mn = re.sub(r'\.(js|css)$', r'.min.\1', p)
+        if os.path.getsize(mn) >= os.path.getsize(p):
+            warn('%s کوچکتر از منبع نیست' % os.path.basename(mn))
+    for p in find(root, ('.min.js',)):
+        r = subprocess.run(['node', '--check', p], capture_output=True, text=True)
+        if r.returncode:
+            fail('نارسایی سینتکس در %s: %s' % (os.path.basename(p), r.stderr.strip().split('\n')[0][:120]))
+    pp = read(os.path.join(root, 'pasokhban.php'))
+    if "strategy' => 'defer'" not in pp:
+        fail('استراتژی defer روی اسکریپت فرانت‌اند نیست')
+    else:
+        ok('اسکریپت فرانت‌اند با defer')
+    if 'function asset_url' not in pp:
+        fail('متد asset_url وجود ندارد')
+    else:
+        n = len(re.findall(r'asset_url\(', pp)) + sum(
+            len(re.findall(r'Pasokhban::asset_url\(', read(p)))
+            for p in find(root, ('.php',))
+        )
+        hard = sum(
+            len(re.findall(r"PASOKHBAN_URL \. 'assets/(?:css|js)/[^']*\.(?:js|css)'", read(p)))
+            for p in find(root, ('.php',))
+        )
+        if hard:
+            fail('%d enqueue هنوز از PASOKHBAN_URL مستقیم استفاده می‌کند (نسخۀ فشرده بارگذاری نمی‌شود)' % hard)
+        else:
+            ok('همۀ enqueueها از asset_url می‌روند (%d فراخوانی)' % (n - 1))
+
+    print('\n── ۶) بازگشت فراخوانی استاتیک (crash هنگام فعال‌سازی)')
+    decl = {}   # (class, method) -> True/False  آیا static است
+    for p in find(root, ('.php',)):
+        code = strip_comments(read(p))
+        for m in re.finditer(r'(?:final\s+)?(?:abstract\s+)?(public|private|protected)?\s*(static\s+)?function\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', code):
+            if m.group(2):
+                decl[m.group(3)] = True
+            elif m.group(3) not in decl:
+                decl[m.group(3)] = False
+    for p in find(root, ('.php',)):
+        code = strip_comments(read(p))
+        for m in re.finditer(r'\b(?:Pasokhban|[A-Z][A-Za-z]*_(?:Settings|DB|API|Inbox|Livechat|Team|Health|Contacts|Rag| woo|Woo))::([a-z_][a-z0-9_]*)\s*\(', code):
+            meth = m.group(1)
+            if meth in ('__construct', 'instance'):
+                continue
+            if decl.get(meth) is False:
+                fail('فراخوانی استاتیک ::%s() در %s — این متد static تعریف نشده' % (meth, os.path.relpath(p, root)))
+    ok('بررسی static-call انجام شد (کامنت‌ها حذف، %d تعریف متد دیده شد)' % len(decl))
+
+    print('\n── ۷) برچسب‌های فارسی‌سازی و text-domain')
+    dom = 0
+    miss = 0
+    for p in find(root, ('.php',)):
+        code = read(p)
+        for m in re.finditer(r"__\(|\_e\(|\_x\(", code):
+            seg = code[m.start():m.start() + 400]
+            dom += 1
+            if "'pasokhban'" not in seg and '"pasokhban"' not in seg:
+                miss += 1
+    if miss:
+        warn('%d فراخوانی i18n بدون text-domain «pasokhban» در خط اول (بسیاری چندخطی‌اند)' % miss)
+    else:
+        ok('%d رشتهٔ ترجمه‌پذیر، همه با دامنه' % dom)
+
+
+def check_public(root, ver):
+    print('\n── ۸) مخزن عمومی: دروازۀ نشتی')
+    php = find(root, ('.php', '.inc'))
+    if php:
+        fail('فایل PHP در مخزن عمومی وجود دارد: %s' % ', '.join(os.path.relpath(p, root) for p in php[:5]))
+    else:
+        ok('صفر فایل PHP')
+    code = find(root, ('.js', '.css', '.pot', '.po', '.mo'))
+    if code:
+        fail('کد/زبان افزونه در مخزن عمومی: %s' % ', '.join(os.path.basename(p) for p in code[:5]))
+    else:
+        ok('بدون JS/CSS/زبان')
+    zips = find(root, ('.zip', '.tar.gz'))
+    if zips:
+        fail('بستۀ نصب داخل مخزن عمومی: %s' % ', '.join(os.path.basename(p) for p in zips))
+    else:
+        ok('بدون فایل ZIP')
+    allsrc = ''.join(read(p) for p in find(root, ('.md', '.txt')))
+    secrets = re.findall(r'(sk-[A-Za-z0-9]{12,}|ghp_[A-Za-z0-9]{20,}|xox[bap]-[A-Za-z0-9-]{10,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----)', allsrc)
+    if secrets:
+        fail('کلید/توکن مشکوک در متون عمومی: %d مورد' % len(secrets))
+    else:
+        ok('بدون کلید و توکن')
+    for pat, label in (
+        (r'wp_pasokhban_\w+', 'نام جدول'),
+        (r'Pasokhban_\w+::', 'نام کلاس/متد'),
+        (r'pasokhban/v1/[a-z-]+', 'نشانی endpoint'),
+    ):
+        hits = set(re.findall(pat, allsrc))
+        if hits:
+            fail('%s در مستندات عمومی لو رفته: %s' % (label, ', '.join(sorted(hits))[:220]))
+        else:
+            ok('بدون «%s»' % label)
+    rd = read(os.path.join(root, 'README.md'))
+    if 'guide.html' in rd:
+        fail('پیوند شکستۀ guide.html هنوز در README عمومی است')
+    for badge in re.findall(r'!?\[[^\]]*\]\(https://img\.shields\.io/badge/([^)/?]+)', rd):
+        if 'version' in badge and ver and ver not in badge:
+            warn('بج نسخۀ عمومی (%s) با %s هم‌خوان نیست' % (badge, ver))
+    ch = read(os.path.join(root, 'CHANGELOG.md'))
+    m = re.search(r'^#+\s*([0-9۰-۹.]+)', ch, re.M)
+    if m:
+        top = m.group(1).translate(str.maketrans('۰۱۲۳۴۵۶۷۸۹', '0123456789'))
+        if ver and top != ver:
+            fail('بند اول CHANGELOG عمومی %s است، نه %s' % (top, ver))
+        else:
+            ok('CHANGELOG عمومی از %s شروع می‌شود' % top)
+    vers_in_docs = set(re.findall(r'3\.(?:[23])\.\d+|۳\.[۲۳]\.[۰-۹]', allsrc))
+    if vers_in_docs:
+        warn('ارجاع به شمارۀ نسخۀ داخلی در متون عمومی: %s' % ', '.join(sorted(vers_in_docs))[:200])
+    else:
+        ok('بدون ارجاع به شمارۀ نسخۀ داخلی')
+
+
+def main():
+    if len(sys.argv) < 2:
+        sys.exit(__doc__)
+    global ROOT
+    root = sys.argv[1]
+    pub = sys.argv[2] if len(sys.argv) > 2 and not sys.argv[2].startswith('--') else None
+    print('🔎 نگارۀ انتشار — ' + os.path.abspath(root))
+    ROOT = root
+    ver = check_plugin(root)
+    check_launch_defaults(root)
+    check_assets(root, ver)
+    if pub:
+        check_public(os.path.abspath(pub), ver)
+    print('\n' + '─' * 54)
+    if FAIL:
+        print('❌ %d ایراد — انتشار ممنوع' % len(FAIL))
+        return 1
+    if WARN:
+        print('🟡 سبز با %d هشدار' % len(WARN))
+        return 0
+    print('🟢 همه دروازه‌ها سبز')
+    return 0
+
+
+sys.exit(main())
