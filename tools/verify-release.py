@@ -67,6 +67,28 @@ def main_php(root):
     return None, None
 
 
+def check_legacy_brand(root):
+    """هیچ اثری از برند پیشین نماند، جز نگاشت مهاجرت داده در class-db.php."""
+    print('\n── ۰) بهداشت برند')
+    bad = []
+    allowed = 0
+    exts = ('.php', '.js', '.css', '.txt', '.md', '.pot', '.po', '.gs', '.json', '.html')
+    for p in find(root, exts):
+        for ln, line in enumerate(read(p).split('\n'), 1):
+            low = line.lower()
+            if 'pasokhban' not in low and '\u067e\u0627\u0633\u062e\u200c\u0628\u0627\u0646' not in line:
+                continue
+            # خطوط نگاشت مهاجرت: کلیدهای قدیمی که باید خوانده شوند
+            if 'pasokhban_' in low:
+                allowed += 1
+                continue
+            bad.append('%s:%d' % (os.path.relpath(p, root), ln))
+    if bad:
+        fail('اثر برند پیشین: %s' % ', '.join(bad[:6]))
+    else:
+        ok('بدون اثر برند پیشین (فقط %d خط نگاشت مهاجرت)' % allowed)
+
+
 def block_of(src, brace_pos):
     """اینکس خطِ بسته‌شدنِ {ای را که در brace_pos باز شده برمی‌گرداند."""
     depth = 0
@@ -96,6 +118,7 @@ def block_of(src, brace_pos):
 
 
 def check_plugin(root):
+    check_legacy_brand(root)
     print('\n── ۱) دروازۀ نشتی و یکپارچگی فایل‌ها')
     php = find(root, ('.php',))
     if not php:

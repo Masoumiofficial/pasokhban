@@ -23,7 +23,7 @@ import sys
 
 TEXT_EXT = {
     '.php', '.js', '.css', '.txt', '.md', '.json', '.pot', '.po', '.xml',
-    '.yml', '.yaml', '.sh', '.html', '.csv', '.py',
+    '.yml', '.yaml', '.sh', '.html', '.csv', '.py', '.gs',
 }
 SKIP_DIRS = {'.git', 'node_modules', '__pycache__', '.idea', '.vscode'}
 SKIP_EXT = {'.mo', '.zip', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico',
