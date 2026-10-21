@@ -56,6 +56,17 @@ def strip_comments(code):
     return code
 
 
+def main_php(root):
+    """فایل اصلی افزونه را از روی سرصفحهٔ «Plugin Name» پیدا می‌کند."""
+    for f in sorted(os.listdir(root)):
+        if not f.endswith('.php'):
+            continue
+        head = read(os.path.join(root, f))[:4000]
+        if re.search(r'^\s*\*?\s*Plugin Name:', head, re.M):
+            return f, f[:-4]
+    return None, None
+
+
 def block_of(src, brace_pos):
     """اینکس خطِ بسته‌شدنِ {ای را که در brace_pos باز شده برمی‌گرداند."""
     depth = 0
@@ -104,7 +115,8 @@ def check_plugin(root):
     for p in php:
         for m in re.finditer(r'\b(var_dump|print_r|phpinfo|error_log)\s*\(', read(p)):
             dbg.append('%s: %s' % (os.path.relpath(p, root), m.group(1)))
-    allowed = {'pasokhban.php': 1}  # یک error_log عمدی برای ثبت خطای فعال‌سازی
+    _mf, _slug = main_php(root)
+    allowed = {_mf: 1}  # یک error_log عمدی برای ثبت خطای فعال‌سازی
     counts = {}
     for d in dbg:
         counts[d.split(':')[0]] = counts.get(d.split(':')[0], 0) + 1
@@ -115,9 +127,10 @@ def check_plugin(root):
         ok('دیباگ/لاگ اضافی: صفر')
 
     print('\n── ۲) سازگاری شمارهٔ نسخه')
-    head = read(os.path.join(root, 'pasokhban.php'))
+    _mf, _slug = main_php(root)
+    head = read(os.path.join(root, _mf))
     m1 = re.search(r'^ \* Version:\s+(\S+)', head, re.M)
-    m2 = re.search(r"PASOKHBAN_VERSION',\s*'([^']+)'", head)
+    m2 = re.search(_slug.upper() + r"_VERSION',\s*'([^']+)'", head)
     rdme = read(os.path.join(root, 'readme.txt'))
     m3 = re.search(r'^Stable tag:\s*(\S+)', rdme, re.M)
     vers = [m1 and m1.group(1), m2 and m2.group(1), m3 and m3.group(1)]
@@ -159,8 +172,9 @@ def check_launch_defaults(root):
     else:
         end = block_of(un, cond.end() - 1)
         inside = un[cond.end():end]
+        _mf, _slug = main_php(root)
         bad_outside = []
-        for pat, label in ((r'DROP TABLE', 'DROP TABLE'), (r'delete_option\(\s*[\'"]pasokhban_options', 'delete_option(pasokhban_options)'), (r'remove_role', 'remove_role')):
+        for pat, label in ((r'DROP TABLE', 'DROP TABLE'), (r'delete_option\(\s*[\'\"]' + _slug + r'_options', 'delete_option(' + _slug + '_options)'), (r'remove_role', 'remove_role')):
             for m in re.finditer(pat, un):
                 if not (cond.end() <= m.start() <= end):
                     bad_outside.append(label)
@@ -168,7 +182,7 @@ def check_launch_defaults(root):
             fail('این عملیات خارج از شاخۀ $delete_data است: %s' % ', '.join(sorted(set(bad_outside))))
         else:
             ok('همهٔ DROP/delete_option/remove_role داخل شاخۀ $delete_data (%d کاراکتر)' % len(inside))
-        for need in ('pasokhban_messages', 'pasokhban_sessions', 'pasokhban_feedback', 'pasokhban_chunks', 'pasokhban_bale_links'):
+        for need in tuple(_slug + '_' + t for t in ('messages', 'sessions', 'feedback', 'chunks', 'bale_links')):
             if need not in inside:
                 fail('جدول %s در شاخۀ حذف نیست (باقی‌ماندۀ نسخههای قبل)' % need)
         if 'uninstall_delete_data' not in un:
@@ -209,7 +223,8 @@ def check_assets(root, ver):
         r = subprocess.run(['node', '--check', p], capture_output=True, text=True)
         if r.returncode:
             fail('نارسایی سینتکس در %s: %s' % (os.path.basename(p), r.stderr.strip().split('\n')[0][:120]))
-    pp = read(os.path.join(root, 'pasokhban.php'))
+    _mf, _slug = main_php(root)
+    pp = read(os.path.join(root, _mf))
     if "strategy' => 'defer'" not in pp:
         fail('استراتژی defer روی اسکریپت فرانت‌اند نیست')
     else:
@@ -257,15 +272,15 @@ def check_assets(root, ver):
         for m in re.finditer(r"__\(|\_e\(|\_x\(", code):
             seg = code[m.start():m.start() + 400]
             dom += 1
-            if "'pasokhban'" not in seg and '"pasokhban"' not in seg:
+            if ("'" + _slug + "'") not in seg and ('"' + _slug + '"') not in seg:
                 miss += 1
     if miss:
-        warn('%d فراخوانی i18n بدون text-domain «pasokhban» در خط اول (بسیاری چندخطی‌اند)' % miss)
+        warn('%d فراخوانی i18n بدون text-domain «%s» در خط اول (بسیاری چندخطی‌اند)' % (miss, _slug))
     else:
         ok('%d رشتهٔ ترجمه‌پذیر، همه با دامنه' % dom)
 
 
-def check_public(root, ver):
+def check_public(root, ver, slug):
     print('\n── ۸) مخزن عمومی: دروازۀ نشتی')
     php = find(root, ('.php', '.inc'))
     if php:
@@ -282,16 +297,22 @@ def check_public(root, ver):
         fail('بستۀ نصب داخل مخزن عمومی: %s' % ', '.join(os.path.basename(p) for p in zips))
     else:
         ok('بدون فایل ZIP')
+    _slug = slug
     allsrc = ''.join(read(p) for p in find(root, ('.md', '.txt')))
     secrets = re.findall(r'(sk-[A-Za-z0-9]{12,}|ghp_[A-Za-z0-9]{20,}|xox[bap]-[A-Za-z0-9-]{10,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----)', allsrc)
     if secrets:
         fail('کلید/توکن مشکوک در متون عمومی: %d مورد' % len(secrets))
     else:
         ok('بدون کلید و توکن')
+    legacy = set(re.findall(r'(?i)pasokhban', allsrc)) | set(re.findall('پاسخ‌بان|پاسخبان', allsrc))
+    if legacy:
+        fail('نام برند قبلی در مستندات عمومی مانده: %d مورد' % len(legacy))
+    else:
+        ok('بدون نام برند قبلی')
     for pat, label in (
-        (r'wp_pasokhban_\w+', 'نام جدول'),
-        (r'Pasokhban_\w+::', 'نام کلاس/متد'),
-        (r'pasokhban/v1/[a-z-]+', 'نشانی endpoint'),
+        (r'wp_' + _slug + r'_\w+', 'نام جدول'),
+        (r'' + _slug.capitalize() + r'_\w+::', 'نام کلاس/متد'),
+        (r'' + _slug + r'/v1/[a-z-]+', 'نشانی endpoint'),
     ):
         hits = set(re.findall(pat, allsrc))
         if hits:
@@ -331,7 +352,8 @@ def main():
     check_launch_defaults(root)
     check_assets(root, ver)
     if pub:
-        check_public(os.path.abspath(pub), ver)
+        _pm, _pslug = main_php(os.path.abspath(root))
+        check_public(os.path.abspath(pub), ver, _pslug)
     print('\n' + '─' * 54)
     if FAIL:
         print('❌ %d ایراد — انتشار ممنوع' % len(FAIL))

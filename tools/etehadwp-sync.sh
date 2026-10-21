@@ -1,24 +1,24 @@
 #!/usr/bin/env bash
 # =============================================================================
-# هم‌سازی مخزن عمومیِ مستندات (etehadwp/pasokhban) با بستۀ این نسخّه.
+# هم‌سازی مخزن عمومیِ مستندات (etehadwp/gapineh) با بستۀ این نسخّه.
 #
 # توکن sandbox روی آن مخزن فقط pull دارد، پس این اسکریپت را روی رایانۀ خودت
-# (جایی که به مخزن etehadwp/pasokhban نوشت داری) اجرا کن:
+# (جایی که به مخزن etehadwp/gapineh نوشت داری) اجرا کن:
 #
 #     bash tools/etehadwp-sync.sh              # پیش‌فرض: branch = main
 #     BRANCH=docs-1.0.0 bash tools/etehadwp-sync.sh   # برای PR دادن
 #
 # کاری که می‌کند: مخزن عمومی را clone می‌کند، کل محتوای داخل
-# pasokhban-github-repo.zip را جایگزین working tree می‌کند (بدون دست‌زدن به .git)،
+# gapineh-github-repo.zip را جایگزین working tree می‌کند (بدون دست‌زدن به .git)،
 # commit می‌زند و push می‌کند. اگر فقط بخواهی ببینی چه چیزی عوض می‌شود،
 # DRY=1 بگذار.
 # =============================================================================
 set -euo pipefail
 
-REPO="${REPO:-git@github.com:etehadwp/pasokhban.git}"
+REPO="${REPO:-git@github.com:etehadwp/gapineh.git}"
 BRANCH="${BRANCH:-main}"
 DRY="${DRY:-0}"
-PKG="${PKG:-pasokhban-github-repo.zip}"
+PKG="${PKG:-gapineh-github-repo.zip}"
 
 [ -f "$PKG" ] || { echo "❌ $PKG را در ریشۀ مخزن خصوصی پیدا نکردم." >&2; exit 1; }
 

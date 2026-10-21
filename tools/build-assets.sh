@@ -3,15 +3,15 @@
 # ساخت نسخۀ فشردهٔ فایل‌های CSS/JS افزونه (پیش از بستن ZIP)
 #
 #  روش:  bash tools/build-assets.sh [مسیر ریشۀ افزونه]
-#   مثال:  bash tools/build-assets.sh /tmp/build/pasokhban
+#   مثال:  bash tools/build-assets.sh /tmp/build/gapineh
 #
 # ابزار لازم (یک‌بار):  npm i terser csso-cli
-# فایل‌های .min کنار فایل اصلی ساخته می‌شوند و Pasokhban::asset_url() در حالت
+# فایل‌های .min کنار فایل اصلی ساخته می‌شوند و Gapineh::asset_url() در حالت
 # عادی همان‌ها را بارگذاری می‌کند؛ با SCRIPT_DEBUG=true نسخهٔ خوانا استفاده می‌شود.
 # =============================================================================
 set -euo pipefail
 
-ROOT="${1:-pasokhban}"
+ROOT="${1:-gapineh}"
 command -v terser >/dev/null 2>&1 || { echo "❌ terser نصب نیست:  npm i terser csso-cli" >&2; exit 1; }
 command -v csso   >/dev/null 2>&1 || { echo "❌ csso نصب نیست:   npm i terser csso-cli" >&2; exit 1; }
 [ -d "$ROOT/assets" ] || { echo "❌ $ROOT/assets پیدا نشد" >&2; exit 1; }

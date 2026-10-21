@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-ساخت PDF راهنمای فارسی پاسخ‌بان از فایل مارک‌داون — راست‌به‌چپ، با خط‌شکنی دستی.
+ساخت PDF راهنمای فارسی گپینه از فایل مارک‌داون — راست‌به‌چپ، با خط‌شکنی دستی.
 
     python3 tools/build-guide-pdf.py <guide.md> <out.pdf> [--version 1.0.0] [--font-dir DIR]
 
@@ -38,14 +38,14 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table,
                                 TableStyle)
 
-BRAND = 'پاسخ\u200cبان'
+BRAND = 'گپینه'
 ACCENT = colors.HexColor('#0d9488')
 INK = colors.HexColor('#12242b')
 MUTED = colors.HexColor('#5b6b73')
 LINE = colors.HexColor('#d7e3e6')
 SOFT = colors.HexColor('#f2f8f8')
 FONT_DIR_CAND = [
-    os.environ.get('PASOKHBAN_FONT_DIR', ''),
+    os.environ.get('GAPINEH_FONT_DIR', ''),
     '/home/user/work/vazirmatn-33.003/fonts/ttf',
     '/usr/share/fonts/truetype/vazirmatn',
     os.path.expanduser('~/.fonts'),
@@ -303,7 +303,7 @@ def build(md_path, out_path, version, date_str, font_dir):
         PageBreak(),
     ]
     doc = PsbDoc(out_path, pagesize=A4, leftMargin=LM, rightMargin=RM, topMargin=TM,
-                 bottomMargin=BM, title='راهنمای پاسخ‌بان ' + version, author='اتحاد وردپرس')
+                 bottomMargin=BM, title='راهنمای گپینه ' + version, author='اتحاد وردپرس')
     doc.version = version
     doc.build(cover + story)
     if MISSING:
