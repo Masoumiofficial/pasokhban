@@ -45,3 +45,4 @@
 | `tools/lint-php.js <ریشۀ افزونه>` | پارس همه فایل‌های PHP با گرامر ۷.۴ و ۸.۳ (php-parser) |
 | `tools/verify-release.py <افزونه> [مخزن عمومی]` | دروازۀ نشتی، سازگاری نسخه، ساختار uninstall، استاتیک یتیم، `.min`، static-call |
 | `tools/build-guide-pdf.py` | ساخت PDF راهنما از `docs/guide-fa.md` |
+| `tools/rename-brand.py <درخت> --slug --label --camel [--apply]` | تغییرنام کامل برند (کلاس‌ها، جداول، گزینه، REST، فایل‌ها، متن فارسی) — گزارش `docs/NAMING-2026-10-fa.md` |
