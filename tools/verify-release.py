@@ -11,6 +11,7 @@
 """
 import io
 import glob
+import base64
 import hashlib
 import json
 import os
@@ -305,6 +306,48 @@ def check_assets(root, ver):
         ok('%d رشتهٔ ترجمه‌پذیر، همه با دامنه' % dom)
 
 
+def check_brand(root):
+    """نشان برند: SVG مستقل، درست در منو و هدر تنظیمات."""
+    print('\n── ۱۱) نشان برند')
+    mark = os.path.join(root, 'assets', 'img', 'brand-mark.svg')
+    if not os.path.exists(mark):
+        fail('assets/img/brand-mark.svg نیست')
+        return
+    src = read(mark)
+    size = os.path.getsize(mark)
+    if not src.lstrip().startswith('<svg'):
+        fail('brand-mark.svg با <svg شروع نمی‌شود')
+    elif '#22d3ee' not in src or '#6366f1' not in src:
+        fail('گرادیان برند در brand-mark.svg نیست')
+    elif size > 8192:
+        fail('brand-mark.svg زیادی سنگین است: %d بایت' % size)
+    else:
+        ok('نشان برند سالم است (%d بایت، گرادیان ✓)' % size)
+
+    st = read(os.path.join(root, 'includes', 'class-settings.php'))
+    m = re.search(r"const MENU_ICON = 'data:image/svg\+xml;base64,([A-Za-z0-9+/=]+)';", st)
+    if not m:
+        fail('MENU_ICON به‌صورت data URI تعریف نشده')
+    else:
+        try:
+            icon = base64.b64decode(m.group(1)).decode('utf-8')
+        except Exception:
+            icon = ''
+        if '<svg' not in icon:
+            fail('آیکن منو SVG معتبر نیست')
+        elif 'width="20"' not in icon or 'height="20"' not in icon:
+            fail('آیکن منو ابعاد ۲۰ پیکسل ندارد (وردپرس آن را بزرگ نشان می‌دهد)')
+        elif '#22d3ee' not in icon:
+            fail('آیکن منو از نشان برند نیست')
+        else:
+            ok('آیکن منو = نشان برند (۲۰×۲۰، درون‌خطی)')
+
+    if 'brand-mark.svg' not in st:
+        warn('هدر تنظیمات از فایل نشان برند استفاده نمی‌کند')
+    else:
+        ok('هدر تنظیمات/پیش‌نمایش برند از نشان برند استفاده می‌کند')
+
+
 def check_license(root):
     """یکپارچگی لایسنس راست‌چین: قطعه‌کد، کتابخانهٔ ionCube و نگهبان Loader."""
     print('\n── ۱۰) لایسنس راست‌چین')
@@ -333,6 +376,13 @@ def check_license(root):
 
     src = read(check)
     encoded = 'Start RTL License' not in src
+
+    # ۰) اگر فایل لایسنس همان کتابخانهٔ ionCube باشد، زنجیرهٔ لایسنس هیچ‌وقت
+    #    GAPINEH_PRO را تعریف نمی‌کند و بخش‌های گیت‌شده هرگز باز نمی‌شوند.
+    if os.path.exists(lib):
+        if hashlib.sha1(open(check, 'rb').read()).hexdigest() == \
+           hashlib.sha1(open(lib, 'rb').read()).hexdigest():
+            fail('gapineh-license.php با کتابخانهٔ ionCube یکی است — نسخهٔ رمزنگاری‌شدهٔ خودش را بگذار')
 
     # ۲) نگهبان ionCube باید قبل از include باشد
     guarded = re.search(r"extension_loaded\(\s*'ionCube Loader'\s*\)|function_exists\(\s*'ioncube_loader_version'", src)
@@ -505,6 +555,7 @@ def main():
     check_launch_defaults(root)
     check_assets(root, ver)
     check_license(root)
+    check_brand(root)
     if pub:
         _pm, _pslug = main_php(os.path.abspath(root))
         check_public(os.path.abspath(pub), ver, _pslug)

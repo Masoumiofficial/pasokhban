@@ -33,6 +33,8 @@ done
 [ -d "$TREE" ] || { echo "درخت افزونه نیست: $TREE" >&2; exit 1; }
 [ -f "$TREE/gapineh.php" ] || { echo "gapineh.php در ریشهٔ درخت نیست" >&2; exit 1; }
 OUT="${OUT:-$(pwd)/gapineh.${VER}.zip}"
+# مسیر نسبی را پیش از cd به مطلق تبدیل می‌کنیم تا بسته داخل پوشهٔ موقت گم نشود.
+case "$OUT" in /*) ;; *) OUT="$(pwd)/$OUT" ;; esac
 
 STAGE="$(mktemp -d)"
 trap 'rm -rf "$STAGE"' EXIT
@@ -44,6 +46,11 @@ if [ -n "$ENCODED" ]; then
   head -c 5 "$ENCODED" | grep -q '<?php' || { echo "خروجی رمزنگار با <?php شروع نمی‌شود" >&2; exit 1; }
   if cmp -s "$ENCODED" "$STAGE/gapineh/gapineh-license.php"; then
     echo "!! فایل رمزنگاری‌شده با نسخهٔ خوانا یکسان است — احتمالاً رمزنگاری انجام نشده" >&2
+  fi
+  LIB_GUESS="${LIB:-$(cd "$(dirname "$0")/.." && pwd)/RTL_License_b0e384722fc261db.php}"
+  if [ -f "$LIB_GUESS" ] && [ "$(sha1sum "$ENCODED" | cut -d' ' -f1)" = "$(sha1sum "$LIB_GUESS" | cut -d' ' -f1)" ]; then
+    echo "!! فایل رمزنگاری‌شده همان کتابخانهٔ ionCube است، نه لایسنس رمزنگاری‌شده — بسته متوقف شد" >&2
+    exit 1
   fi
   cp -f "$ENCODED" "$STAGE/gapineh/gapineh-license.php"
   echo "◈ فایل لایسنس با نسخهٔ رمزنگاری‌شده جایگزین شد: $(wc -c < "$ENCODED") بایت"
