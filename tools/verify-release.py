@@ -388,40 +388,33 @@ def check_license(root):
     else:
         ok('بارگذاری لایسنس در فایل اصلی، با نگهبان ionCube')
 
-    # ۵) دروازهٔ قفل: بدون لایسنس هیچ‌چیز بارگذاری نشود
-    lock = os.path.join(root, 'includes', 'class-license-lock.php')
-    if not os.path.exists(lock):
-        fail('includes/class-license-lock.php نیست (حالت قفل)')
-    else:
-        lk = read(lock)
-        if 'gapineh_locked_activate' in lk and 'deactivate_plugins' in lk:
-            ok('فعال‌سازی در حالت قفل مسدود می‌شود')
-        else:
-            fail('مسدودکردن فعال‌سازی در class-license-lock.php نیست')
-        if 'راست‌چین' in lk and 'دامنه' in lk:
-            ok('پیام قفل شامل راهنمای دامنهٔ راست‌چین است')
-        else:
-            fail('پیام راهنمای دامنه در حالت قفل نیست')
+    # ۵) بخش‌هایی که تا فعال‌شدن لایسنس نباید دیده شوند (دستور راست‌چین)
+    if os.path.exists(os.path.join(root, 'includes', 'class-license-lock.php')):
+        warn('فایل قفل خودساخته هنوز هست (نباید باشد؛ فقط قطعه‌کد راست‌چین)')
 
     _mf2, _slug2 = main_php(root)
-    m2 = strip_comments(read(os.path.join(root, _mf2)))
-    gate = re.search(r"if\s*\([^)]*Gapineh_License::is_pro\(\)[^)]*\)\s*\{", m2)
-    if not gate:
-        fail('دروازهٔ is_pro در فایل اصلی نیست')
-    else:
-        body = m2[gate.start():]
-        ret = body.find('\treturn;')
-        first_inc = body.find('class-settings.php')
-        if ret < 0:
-            fail('دروازه return ندارد؛ بدون لایسنس کد ادامه پیدا می‌کند')
-        elif 0 < first_inc < ret:
-            fail('includeهای افزونه قبل از دروازهٔ قفل هستند')
+    main2 = read(os.path.join(root, _mf2))
+    if 'gapineh_is_pro()' in main2 and "add_shortcode( 'gapineh'" in main2:
+        body = main2[main2.index('gapineh_is_pro()'):]
+        if body.index('add_shortcode') > body.index('gapineh_is_pro()'):
+            ok('ویجت و شورت‌کد فقط در حالت لایسنس فعال ثبت می‌شوند')
         else:
-            ok('دروازهٔ قفل پیش از هر include افزونه اجرا می‌شود و با return می‌ایستد')
-    if 'GAPINEH_DEV' in m2:
-        ok('راه فرار توسعه (GAPINEH_DEV) مستند/موجود است')
+            fail('شورت‌کد پیش از بررسی لایسنس ثبت می‌شود')
     else:
-        warn('راه فرار توسعه GAPINEH_DEV در فایل اصلی نیست')
+        warn('گیت ویجت/شورت‌کد در فایل اصلی دیده نشد')
+
+    st = os.path.join(root, 'includes', 'class-settings.php')
+    if os.path.exists(st):
+        stc = read(st)
+        m = re.search(r"function add_menu\(\)\s*\{[^}]{0,400}?gapineh_is_pro", stc, re.S)
+        if m:
+            ok('منوی پیشخوان فقط در حالت لایسنس فعال ساخته می‌شود')
+        else:
+            fail('گیت لایسنس در add_menu() نیست')
+        if 'بخش‌های دامنه خود را در سایت راست‌چین فعال نمایید' in read(os.path.join(root, 'includes', 'class-license-status.php')):
+            ok('پیام راهنما عیناً مطابق متن راست‌چین')
+        else:
+            fail('پیام «بخش‌های دامنه خود را در سایت راست‌چین فعال نمایید» نیست')
 
     # ۶) لایهٔ خوانای وضعیت
     api = os.path.join(root, 'includes', 'class-license-status.php')
