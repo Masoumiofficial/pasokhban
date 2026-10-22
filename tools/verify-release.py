@@ -388,7 +388,42 @@ def check_license(root):
     else:
         ok('بارگذاری لایسنس در فایل اصلی، با نگهبان ionCube')
 
-    # ۵) لایهٔ خوانای وضعیت
+    # ۵) دروازهٔ قفل: بدون لایسنس هیچ‌چیز بارگذاری نشود
+    lock = os.path.join(root, 'includes', 'class-license-lock.php')
+    if not os.path.exists(lock):
+        fail('includes/class-license-lock.php نیست (حالت قفل)')
+    else:
+        lk = read(lock)
+        if 'gapineh_locked_activate' in lk and 'deactivate_plugins' in lk:
+            ok('فعال‌سازی در حالت قفل مسدود می‌شود')
+        else:
+            fail('مسدودکردن فعال‌سازی در class-license-lock.php نیست')
+        if 'راست‌چین' in lk and 'دامنه' in lk:
+            ok('پیام قفل شامل راهنمای دامنهٔ راست‌چین است')
+        else:
+            fail('پیام راهنمای دامنه در حالت قفل نیست')
+
+    _mf2, _slug2 = main_php(root)
+    m2 = strip_comments(read(os.path.join(root, _mf2)))
+    gate = re.search(r"if\s*\([^)]*Gapineh_License::is_pro\(\)[^)]*\)\s*\{", m2)
+    if not gate:
+        fail('دروازهٔ is_pro در فایل اصلی نیست')
+    else:
+        body = m2[gate.start():]
+        ret = body.find('\treturn;')
+        first_inc = body.find('class-settings.php')
+        if ret < 0:
+            fail('دروازه return ندارد؛ بدون لایسنس کد ادامه پیدا می‌کند')
+        elif 0 < first_inc < ret:
+            fail('includeهای افزونه قبل از دروازهٔ قفل هستند')
+        else:
+            ok('دروازهٔ قفل پیش از هر include افزونه اجرا می‌شود و با return می‌ایستد')
+    if 'GAPINEH_DEV' in m2:
+        ok('راه فرار توسعه (GAPINEH_DEV) مستند/موجود است')
+    else:
+        warn('راه فرار توسعه GAPINEH_DEV در فایل اصلی نیست')
+
+    # ۶) لایهٔ خوانای وضعیت
     api = os.path.join(root, 'includes', 'class-license-status.php')
     if not os.path.exists(api):
         fail('includes/class-license-status.php نیست')
