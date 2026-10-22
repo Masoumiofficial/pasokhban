@@ -306,6 +306,38 @@ def check_assets(root, ver):
         ok('%d رشتهٔ ترجمه‌پذیر، همه با دامنه' % dom)
 
 
+def check_methods(root):
+    """هر Gapineh_*::method() باید واقعاً تعریف شده باشد.
+
+    نسخهٔ اول ۱.۰.۰ به Gapineh_License::is_pro() اشاره می‌کرد که وجود نداشت و
+    افزونه هنگام بارگذاری خطای مرگ‌بار می‌داد.
+    """
+    print('\n── ۱۲) فراخوانی متدهای ناموجود')
+    script = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'check-methods.js')
+    if not os.path.exists(script):
+        warn('tools/check-methods.js نیست')
+        return
+    try:
+        res = subprocess.run(['node', script, root], capture_output=True, text=True,
+                             env=dict(os.environ), timeout=180)
+    except FileNotFoundError:
+        warn('node در دسترس نیست؛ بررسی متدهای ناموجود انجام نشد')
+        return
+    except subprocess.TimeoutExpired:
+        warn('بررسی متدها بیش از حد طول کشید')
+        return
+    lines = (res.stdout or '').strip().splitlines()
+    if res.returncode == 0:
+        ok(lines[-1].replace('✅', '').strip() if lines else 'بدون متد ناموجود')
+        return
+    if res.returncode == 2:
+        warn('بررسی متدها اجرا نشد: ' + ((res.stderr or '').strip() or 'php-parser؟'))
+        return
+    for line in lines:
+        if '❌' in line:
+            fail('متد ناموجود: ' + line.split('❌', 1)[1].strip())
+
+
 def check_brand(root):
     """نشان برند: SVG مستقل، درست در منو و هدر تنظیمات."""
     print('\n── ۱۱) نشان برند')
@@ -556,6 +588,7 @@ def main():
     check_assets(root, ver)
     check_license(root)
     check_brand(root)
+    check_methods(root)
     if pub:
         _pm, _pslug = main_php(os.path.abspath(root))
         check_public(os.path.abspath(pub), ver, _pslug)

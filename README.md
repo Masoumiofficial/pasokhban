@@ -54,5 +54,8 @@
 | `tools/build-assets.sh <ریشۀ افزونه>` | ساخت `*.min.js` / `*.min.css` با terser + csso |
 | `tools/lint-php.js <ریشۀ افزونه>` | پارس همه فایل‌های PHP با گرامر ۷.۴ و ۸.۳ (php-parser) |
 | `tools/verify-release.py <افزونه> [مخزن عمومی]` | دروازۀ نشتی، سازگاری نسخه، ساختار uninstall، استاتیک یتیم، `.min`، static-call |
+| `tools/check-methods.js <ریشۀ افزونه>` | هر `Gapineh_*::method()` را با متدهای تعریف‌شده می‌سنجد (دروازهٔ ۱۲) |
+| `tools/smoke-php.mjs <ریشۀ افزونه>` | دودآزمای واقعی با PHP در WebAssembly: بارگذاری، قلاب‌ها، رندر صفحه‌ها |
+| `tools/build-logo.py` | بازتولید نشان برند و لوک‌آپ‌ها (وزیرمتن + HarfBuzz) |
 | `tools/build-guide-pdf.py` | ساخت PDF راهنما از `docs/guide-fa.md` |
 | `tools/rename-brand.py <درخت> --slug --label --camel [--apply]` | تغییرنام کامل برند (کلاس‌ها، جداول، گزینه، REST، فایل‌ها، متن فارسی) — گزارش `docs/NAMING-2026-10-fa.md` |
