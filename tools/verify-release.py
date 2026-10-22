@@ -407,7 +407,11 @@ def check_license(root):
         ok('بدون فایل لایسنس اضافی')
 
     src = read(check)
-    encoded = 'Start RTL License' not in src
+    demo = 'GAPINEH_DEMO_LICENSE' in src
+    encoded = ( not demo ) and 'Start RTL License' not in src
+
+    if demo:
+        warn('بستهٔ نمایشی است (GAPINEH_DEMO_LICENSE): همهٔ بخش‌ها بدون فعال‌سازی دامنه باز است — برای فروش منتشر نشود')
 
     # ۰) اگر فایل لایسنس همان کتابخانهٔ ionCube باشد، زنجیرهٔ لایسنس هیچ‌وقت
     #    GAPINEH_PRO را تعریف نمی‌کند و بخش‌های گیت‌شده هرگز باز نمی‌شوند.
@@ -416,11 +420,14 @@ def check_license(root):
            hashlib.sha1(open(lib, 'rb').read()).hexdigest():
             fail('gapineh-license.php با کتابخانهٔ ionCube یکی است — نسخهٔ رمزنگاری‌شدهٔ خودش را بگذار')
 
-    # ۲) نگهبان ionCube باید قبل از include باشد
+    # ۲) نگهبان ionCube باید قبل از include باشد (در بستهٔ نمایشی فایلی برای
+    #    رمزگشایی نیست، پس این نگهبان لازم نمی‌شود)
     guarded = re.search(r"extension_loaded\(\s*'ionCube Loader'\s*\)|function_exists\(\s*'ioncube_loader_version'", src)
-    if not guarded:
+    if not guarded and demo:
+        pass
+    elif not guarded:
         fail('نگهبان ionCube Loader در gapineh-license.php نیست (بدون Loader کل سایت می‌میرد)')
-    else:
+    elif guarded:
         inc = src.find('require_once $rtlLicenseFilePath')
         if inc > 0 and guarded.start() < inc:
             ok('نگهبان ionCube Loader پیش از include کتابخانه')
@@ -429,7 +436,9 @@ def check_license(root):
         else:
             ok('نگهبان ionCube Loader هست')
 
-    if encoded:
+    if demo:
+        ok('فایل لایسنس نمایشی: قطعه‌کد راست‌چین لازم نیست')
+    elif encoded:
         warn('gapineh-license.php رمزنگاری‌شده است؛ بررسی متنی قطعه‌کد انجام نشد')
         if not src.lstrip().startswith('<?php'):
             fail('gapineh-license.php با <?php شروع نمی‌شود')

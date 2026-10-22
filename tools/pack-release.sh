@@ -20,11 +20,12 @@ if [ $# -lt 2 ]; then
 fi
 
 TREE="$1"; VER="$2"; shift 2
-ENCODED=""; OUT=""; LIB=""
+ENCODED=""; OUT=""; LIB=""; DEMO=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --encoded-license) ENCODED="$2"; shift 2 ;;
     --license-lib)     LIB="$2"; shift 2 ;;
+    --demo-license)    DEMO=1; shift ;;
     --out)             OUT="$2"; shift 2 ;;
     *) echo "گزینهٔ ناشناخته: $1" >&2; exit 1 ;;
   esac
@@ -41,7 +42,12 @@ trap 'rm -rf "$STAGE"' EXIT
 cp -a "$TREE" "$STAGE/gapineh"
 rm -rf "$STAGE/gapineh/.git" "$STAGE/gapineh/node_modules"
 
-if [ -n "$ENCODED" ]; then
+if [ -n "$DEMO" ]; then
+  # بستهٔ نمایشی/آزمایشی: همان افزونه با فایل لایسنسِ نمایشی که GAPINEH_PRO را
+  # همیشه روشن می‌کند تا همهٔ بخش‌ها بدون فعال‌سازی دامنه دیده شوند.
+  cp -f "$(dirname "$0")/license-demo.php" "$STAGE/gapineh/gapineh-license.php"
+  echo "◈ بستهٔ نمایشی با لایسنس: GAPINEH_PRO همیشه روشن — برای فروش منتشر نشود"
+elif [ -n "$ENCODED" ]; then
   [ -f "$ENCODED" ] || { echo "فایل رمزنگاری‌شده پیدا نشد: $ENCODED" >&2; exit 1; }
   head -c 5 "$ENCODED" | grep -q '<?php' || { echo "خروجی رمزنگار با <?php شروع نمی‌شود" >&2; exit 1; }
   if cmp -s "$ENCODED" "$STAGE/gapineh/gapineh-license.php"; then

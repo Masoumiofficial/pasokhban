@@ -181,8 +181,8 @@ function check_ajax_referer( ...$a ) { return true; }
 function wp_safe_redirect( $u, $s = 302 ) { return true; }
 function wp_redirect( $u, $s = 302 ) { return true; }
 function wp_die( $m = '', $t = '', $a = array() ) { throw new RuntimeException( 'wp_die: ' . ( is_string( $m ) ? $m : 'obj' ) ); }
-function add_menu_page( ...$a ) { return 'toplevel_page_gapineh-inbox'; }
-function add_submenu_page( ...$a ) { return 'gapineh_page_x'; }
+function add_menu_page( ...$a ) { $GLOBALS['__menus'] = ( $GLOBALS['__menus'] ?? 0 ) + 1; return 'toplevel_page_gapineh-inbox'; }
+function add_submenu_page( ...$a ) { $GLOBALS['__menus_sub'] = ( $GLOBALS['__menus_sub'] ?? 0 ) + 1; return 'gapineh_page_x'; }
 function remove_menu_page( $s ) { return true; }
 function register_setting( ...$a ) { return true; }
 function add_settings_error( ...$a ) { return true; }
@@ -420,6 +420,8 @@ if ( gapineh_is_pro() ) {
 		}
 	}
 }
+
+echo 'منوهای ثبت‌شده: ' . (int) ( $GLOBALS['__menus'] ?? 0 ) . ' | زیرمنو: ' . (int) ( $GLOBALS['__menus_sub'] ?? 0 ) . "\n";
 
 echo "\n── warning/notice ها (" . count( $GLOBALS['__errs'] ) . ") ──\n";
 foreach ( array_slice( $GLOBALS['__errs'], 0, 40 ) as $e ) { echo $e . "\n"; }
