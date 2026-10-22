@@ -11,6 +11,7 @@
 """
 import io
 import glob
+import hashlib
 import json
 import os
 import re
@@ -305,76 +306,103 @@ def check_assets(root, ver):
 
 
 def check_license(root):
-    """یکپارچگی قطعه‌کد لایسنس راست‌چین و نبودِ فایل لایسنس خریدار در بسته."""
+    """یکپارچگی لایسنس راست‌چین: قطعه‌کد، کتابخانهٔ ionCube و نگهبان Loader."""
     print('\n── ۱۰) لایسنس راست‌چین')
     check = os.path.join(root, 'gapineh-license.php')
     if not os.path.exists(check):
         fail('gapineh-license.php در ریشه نیست')
         return
+
+    # ۱) کتابخانهٔ ionCube راست‌چین، با هش دقیق
+    lib = os.path.join(root, 'RTL_License_b0e384722fc261db.php')
+    if not os.path.exists(lib):
+        fail('کتابخانهٔ لایسنس RTL_License_b0e384722fc261db.php در ریشه نیست')
+    else:
+        h = hashlib.sha1(open(lib, 'rb').read()).hexdigest()
+        if h != '5210705eb2491e92815cd01b5877475e4a69fcba':
+            fail('sha1 کتابخانهٔ لایسنس نمی‌خواند: %s' % h)
+        else:
+            ok('کتابخانهٔ ionCube راست‌چین سالم است (sha1 ✓، %d بایت)' % os.path.getsize(lib))
+
+    extra = [os.path.basename(p) for p in sorted(glob.glob(os.path.join(root, 'RTL_License_*.php')))
+             if os.path.basename(p) != 'RTL_License_b0e384722fc261db.php']
+    if extra:
+        fail('فایل لایسنس اضافی در بسته: %s' % ', '.join(extra))
+    else:
+        ok('بدون فایل لایسنس اضافی')
+
     src = read(check)
-    if 'Start RTL License' not in src:
-        # فایل با رمزنگار راست‌چین جایگزین شده است؛ محتوا قابل بازخوانی نیست.
+    encoded = 'Start RTL License' not in src
+
+    # ۲) نگهبان ionCube باید قبل از include باشد
+    guarded = re.search(r"extension_loaded\(\s*'ionCube Loader'\s*\)|function_exists\(\s*'ioncube_loader_version'", src)
+    if not guarded:
+        fail('نگهبان ionCube Loader در gapineh-license.php نیست (بدون Loader کل سایت می‌میرد)')
+    else:
+        inc = src.find('require_once $rtlLicenseFilePath')
+        if inc > 0 and guarded.start() < inc:
+            ok('نگهبان ionCube Loader پیش از include کتابخانه')
+        elif inc > 0:
+            fail('include کتابخانه قبل از نگهبان Loader است')
+        else:
+            ok('نگهبان ionCube Loader هست')
+
+    if encoded:
         warn('gapineh-license.php رمزنگاری‌شده است؛ بررسی متنی قطعه‌کد انجام نشد')
         if not src.lstrip().startswith('<?php'):
             fail('gapineh-license.php با <?php شروع نمی‌شود')
-        _mf0, _slug0 = main_php(root)
-        if 'gapineh-license.php' not in read(os.path.join(root, _mf0)):
-            fail('فایل اصلی لایسنس را بارگذاری نمی‌کند')
-        buyer = sorted(glob.glob(os.path.join(root, 'RTL_License_*.php')))
-        if buyer:
-            fail('فایل لایسنس خریدار داخل بسته است: %s' % ', '.join(os.path.basename(p) for p in buyer))
-        else:
-            ok('بدون فایل لایسنس خریدار در بسته')
-        return
-    must = [
-        ("'RTL_License_b0e384722fc261db'", 'نام کلاس لایسنس'),
-        ("'5210705eb2491e92815cd01b5877475e4a69fcba'", 'هش فایل لایسنس'),
-        ('isActive', 'فراخوانی isActive'),
-        ('__DIR__', 'مسیر نسبی __DIR__'),
-        ('file_exists', 'نگهبان وجود فایل'),
-        ("define( 'GAPINEH_PRO', true )", 'تعریف ثابت GAPINEH_PRO'),
-    ]
-    missing = [label for pat, label in must if pat not in src]
-    if missing:
-        fail('قطعه‌کد لایسنس ناقص است: %s' % ', '.join(missing))
     else:
-        ok('قطعه‌کد لایسنس کامل (کلاس، هش، isActive، GAPINEH_PRO)')
+        must = [
+            ("'RTL_License_b0e384722fc261db'", 'نام کلاس لایسنس'),
+            ("'5210705eb2491e92815cd01b5877475e4a69fcba'", 'هش فایل لایسنس'),
+            ('isActive', 'فراخوانی isActive'),
+            ('__DIR__', 'مسیر نسبی __DIR__'),
+            ('file_exists', 'نگهبان وجود فایل'),
+            ("define( 'GAPINEH_PRO', true )", 'تعریف ثابت GAPINEH_PRO'),
+        ]
+        missing = [label for pat, label in must if pat not in src]
+        if missing:
+            fail('قطعه‌کد لایسنس ناقص است: %s' % ', '.join(missing))
+        else:
+            ok('قطعه‌کد لایسنس کامل (کلاس، هش، isActive، GAPINEH_PRO)')
 
-    # GAPINEH_PRO فقط در همین فایل تعریف شود
+    # ۳) GAPINEH_PRO فقط در همین فایل تعریف شود
     stray = []
     for p in find(root, ('.php',)):
-        if os.path.abspath(p) == os.path.abspath(check):
+        if os.path.abspath(p) in (os.path.abspath(check), os.path.abspath(lib)):
             continue
         if re.search(r"define\(\s*'GAPINEH_PRO'", strip_comments(read(p))):
             stray.append(os.path.relpath(p, root))
     if stray:
-        fail('GAPINEH_PRO بیرون از فایل لایسنس دست‌کاری شده: %s' % ', '.join(stray[:4]))
+        fail('GAPINEH_PRO بیرون از فایل لایسنس تعریف شده: %s' % ', '.join(stray[:4]))
     else:
         ok('GAPINEH_PRO فقط در فایل لایسنس تعریف می‌شود')
 
+    # ۴) بارگذاری با نگهبان در فایل اصلی
     _mf, _slug = main_php(root)
     main = strip_comments(read(os.path.join(root, _mf)))
-    m = re.search(r"if\s*\(\s*file_exists\([^)]*gapineh-license\.php[^)]*\)\s*\)\s*\{", main)
-    if not m:
-        fail('فایل اصلی، لایسنس را داخل نگهبان file_exists بارگذاری نمی‌کند')
+    if 'gapineh-license.php' not in main:
+        fail('فایل اصلی لایسنس را بارگذاری نمی‌کند')
+    elif not re.search(r"extension_loaded\(\s*'ionCube Loader'\s*\)", main):
+        fail('فایل اصلی نگهبان ionCube ندارد؛ با فایل لایسنس رمزنگاری‌شده، سایت روی هاست بدون Loader می‌میرد')
     else:
-        ok('بارگذاری لایسنس با نگهبان file_exists در فایل اصلی')
+        ok('بارگذاری لایسنس در فایل اصلی، با نگهبان ionCube')
 
+    # ۵) لایهٔ خوانای وضعیت
     api = os.path.join(root, 'includes', 'class-license-status.php')
     if not os.path.exists(api):
         fail('includes/class-license-status.php نیست')
+        return
+    a = read(api)
+    if 'function gapineh_is_pro' in a and 'apply_filters' in a:
+        ok('دروازهٔ gapineh_is_pro با فیلتر')
     else:
-        a = read(api)
-        if 'function gapineh_is_pro' in a and 'apply_filters' in a:
-            ok('دروازهٔ gapineh_is_pro با فیلتر')
-        else:
-            fail('gapineh_is_pro در کلاس وضعیت لایسنس نیست')
-
-    buyer = sorted(glob.glob(os.path.join(root, 'RTL_License_*.php')))
-    if buyer:
-        fail('فایل لایسنس خریدار داخل بسته است: %s' % ', '.join(os.path.basename(p) for p in buyer))
-    else:
-        ok('بدون فایل لایسنس خریدار در بسته')
+        fail('gapineh_is_pro در کلاس وضعیت لایسنس نیست')
+    for st in ('no_loader', 'hash_mismatch', 'lib_missing'):
+        if st not in a:
+            fail('وضعیت %s در class-license-status.php نیست' % st)
+    if all(st in a for st in ('no_loader', 'hash_mismatch', 'lib_missing')):
+        ok('چهار وضعیت لایسنس تعریف شده (فعال/غیرفعال/نامعتبر/بدون Loader)')
 
 
 def check_public(root, ver, slug):
