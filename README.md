@@ -18,6 +18,7 @@
 
 - راهنمای کامل راه‌اندازی (PDF): [`docs/gapineh-guide-fa.pdf`](docs/gapineh-guide-fa.pdf)
 - نسخۀ متنی همان راهنما (برای خواندن در گیت‌هاب): [`etehadwp.com/gapineh → docs/guide-fa.md`](https://etehadwp.com/gapineh)
+- لایسنس راست‌چین: [`docs/license-rtl-setup-fa.md`](docs/license-rtl-setup-fa.md) · ابزار بسته‌بندی: `tools/pack-release.sh`
 - متن آمادۀ صفحۀ محصول (راست‌چین): [`docs/marketing/rtl-theme-fa.md`](docs/marketing/rtl-theme-fa.md)
 - پرسش‌های متداول: `docs/faq-fa.md` در بستۀ مستندات (`gapineh-github-repo.zip`)
 
