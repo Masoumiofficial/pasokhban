@@ -4,7 +4,6 @@
  *
  *   npm i php-wasm
  *   NODE_PATH=./node_modules node tools/smoke-php.mjs <درخت افزونه>
- *   SIM_PRO=1 NODE_PATH=./node_modules node tools/smoke-php.mjs <درخت افزونه>
  *
  * خروجی: گزارش بارگذاری، اجرای قلاب‌ها، رندر صفحه‌ها و هر warning/notice.
  * کد خروج ۱ اگر FATAL دیده شود.
@@ -65,7 +64,6 @@ await php.run(`<?php file_put_contents('/run.php', base64_decode('${fs.readFileS
 await php.run('<?php ');
 php.exec = php.exec.bind(php);
 const code = `<?php require '/run.php';`;
-if (process.env.SIM_PRO) { await php.run(`<?php file_put_contents('/sim-pro','1');`); }
 try { await php.run(code); } catch (e) { console.error('خطای اجرا: ' + e.message); process.exit(2); }
 process.stdout.write(out);
 

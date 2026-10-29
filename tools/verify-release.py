@@ -349,12 +349,12 @@ def check_brand(root):
     size = os.path.getsize(mark)
     if not src.lstrip().startswith('<svg'):
         fail('brand-mark.svg با <svg شروع نمی‌شود')
-    elif '#22d3ee' not in src or '#6366f1' not in src:
-        fail('گرادیان برند در brand-mark.svg نیست')
+    elif '#285d50' not in src:
+        fail('رنگ نشان برند در brand-mark.svg نیست')
     elif size > 8192:
         fail('brand-mark.svg زیادی سنگین است: %d بایت' % size)
     else:
-        ok('نشان برند سالم است (%d بایت، گرادیان ✓)' % size)
+        ok('نشان برند سالم است (%d بایت، رنگ ✓)' % size)
 
     st = read(os.path.join(root, 'includes', 'class-settings.php'))
     m = re.search(r"const MENU_ICON = 'data:image/svg\+xml;base64,([A-Za-z0-9+/=]+)';", st)
@@ -369,8 +369,8 @@ def check_brand(root):
             fail('آیکن منو SVG معتبر نیست')
         elif 'width="20"' not in icon or 'height="20"' not in icon:
             fail('آیکن منو ابعاد ۲۰ پیکسل ندارد (وردپرس آن را بزرگ نشان می‌دهد)')
-        elif '#22d3ee' not in icon:
-            fail('آیکن منو از نشان برند نیست')
+        elif icon != src.replace('width="64" height="64"', 'width="20" height="20"'):
+            fail('آیکن منو با نشان برند یکسان نیست')
         else:
             ok('آیکن منو = نشان برند (۲۰×۲۰، درون‌خطی)')
 
@@ -380,148 +380,30 @@ def check_brand(root):
         ok('هدر تنظیمات/پیش‌نمایش برند از نشان برند استفاده می‌کند')
 
 
-def check_license(root):
-    """یکپارچگی لایسنس راست‌چین: قطعه‌کد، کتابخانهٔ ionCube و نگهبان Loader."""
-    print('\n── ۱۰) لایسنس راست‌چین')
-    check = os.path.join(root, 'gapineh-license.php')
-    if not os.path.exists(check):
-        fail('gapineh-license.php در ریشه نیست')
-        return
-
-    # ۱) کتابخانهٔ ionCube راست‌چین، با هش دقیق
-    lib = os.path.join(root, 'RTL_License_b0e384722fc261db.php')
-    if not os.path.exists(lib):
-        fail('کتابخانهٔ لایسنس RTL_License_b0e384722fc261db.php در ریشه نیست')
+def check_no_marketplace_license(root):
+    """The independent package must not contain the former marketplace integration."""
+    print('\n── ۱۰) نبود اتصال و لایسنس قبلی')
+    patterns = (b'rtl-theme.com', b'rtl_license_', b'ioncube',
+                b'gapineh-license.php', b'class-license-status.php',
+                b'gapineh_is_pro', b'gapineh_pro_active',
+                'پنل راست‌چین'.encode('utf-8'),
+                'لایسنس راست‌چین'.encode('utf-8'))
+    bad = []
+    for directory, _, files in os.walk(root):
+        for name in files:
+            path = os.path.join(directory, name)
+            rel = os.path.relpath(path, root)
+            if name.lower().startswith('rtl_license_') or name in ('gapineh-license.php', 'class-license-status.php'):
+                bad.append(rel)
+                continue
+            with open(path, 'rb') as file:
+                data = file.read().lower()
+            if any(pattern.lower() in data for pattern in patterns) or re.search(rb'\bgapineh_pro\b', data):
+                bad.append(rel)
+    if bad:
+        fail('ارجاع یا فایل لایسنس قبلی باقی مانده: %s' % ', '.join(bad[:10]))
     else:
-        h = hashlib.sha1(open(lib, 'rb').read()).hexdigest()
-        if h != '5210705eb2491e92815cd01b5877475e4a69fcba':
-            fail('sha1 کتابخانهٔ لایسنس نمی‌خواند: %s' % h)
-        else:
-            ok('کتابخانهٔ ionCube راست‌چین سالم است (sha1 ✓، %d بایت)' % os.path.getsize(lib))
-
-    extra = [os.path.basename(p) for p in sorted(glob.glob(os.path.join(root, 'RTL_License_*.php')))
-             if os.path.basename(p) != 'RTL_License_b0e384722fc261db.php']
-    if extra:
-        fail('فایل لایسنس اضافی در بسته: %s' % ', '.join(extra))
-    else:
-        ok('بدون فایل لایسنس اضافی')
-
-    src = read(check)
-    demo = 'GAPINEH_DEMO_LICENSE' in src
-    encoded = ( not demo ) and 'Start RTL License' not in src
-
-    if demo:
-        warn('بستهٔ نمایشی است (GAPINEH_DEMO_LICENSE): همهٔ بخش‌ها بدون فعال‌سازی دامنه باز است — برای فروش منتشر نشود')
-
-    # ۰) اگر فایل لایسنس همان کتابخانهٔ ionCube باشد، زنجیرهٔ لایسنس هیچ‌وقت
-    #    GAPINEH_PRO را تعریف نمی‌کند و بخش‌های گیت‌شده هرگز باز نمی‌شوند.
-    if os.path.exists(lib):
-        if hashlib.sha1(open(check, 'rb').read()).hexdigest() == \
-           hashlib.sha1(open(lib, 'rb').read()).hexdigest():
-            fail('gapineh-license.php با کتابخانهٔ ionCube یکی است — نسخهٔ رمزنگاری‌شدهٔ خودش را بگذار')
-
-    # ۲) نگهبان ionCube باید قبل از include باشد (در بستهٔ نمایشی فایلی برای
-    #    رمزگشایی نیست، پس این نگهبان لازم نمی‌شود)
-    guarded = re.search(r"extension_loaded\(\s*'ionCube Loader'\s*\)|function_exists\(\s*'ioncube_loader_version'", src)
-    if not guarded and demo:
-        pass
-    elif not guarded:
-        fail('نگهبان ionCube Loader در gapineh-license.php نیست (بدون Loader کل سایت می‌میرد)')
-    elif guarded:
-        inc = src.find('require_once $rtlLicenseFilePath')
-        if inc > 0 and guarded.start() < inc:
-            ok('نگهبان ionCube Loader پیش از include کتابخانه')
-        elif inc > 0:
-            fail('include کتابخانه قبل از نگهبان Loader است')
-        else:
-            ok('نگهبان ionCube Loader هست')
-
-    if demo:
-        ok('فایل لایسنس نمایشی: قطعه‌کد راست‌چین لازم نیست')
-    elif encoded:
-        warn('gapineh-license.php رمزنگاری‌شده است؛ بررسی متنی قطعه‌کد انجام نشد')
-        if not src.lstrip().startswith('<?php'):
-            fail('gapineh-license.php با <?php شروع نمی‌شود')
-    else:
-        must = [
-            ("'RTL_License_b0e384722fc261db'", 'نام کلاس لایسنس'),
-            ("'5210705eb2491e92815cd01b5877475e4a69fcba'", 'هش فایل لایسنس'),
-            ('isActive', 'فراخوانی isActive'),
-            ('__DIR__', 'مسیر نسبی __DIR__'),
-            ('file_exists', 'نگهبان وجود فایل'),
-            ("define( 'GAPINEH_PRO', true )", 'تعریف ثابت GAPINEH_PRO'),
-        ]
-        missing = [label for pat, label in must if pat not in src]
-        if missing:
-            fail('قطعه‌کد لایسنس ناقص است: %s' % ', '.join(missing))
-        else:
-            ok('قطعه‌کد لایسنس کامل (کلاس، هش، isActive، GAPINEH_PRO)')
-
-    # ۳) GAPINEH_PRO فقط در همین فایل تعریف شود
-    stray = []
-    for p in find(root, ('.php',)):
-        if os.path.abspath(p) in (os.path.abspath(check), os.path.abspath(lib)):
-            continue
-        if re.search(r"define\(\s*'GAPINEH_PRO'", strip_comments(read(p))):
-            stray.append(os.path.relpath(p, root))
-    if stray:
-        fail('GAPINEH_PRO بیرون از فایل لایسنس تعریف شده: %s' % ', '.join(stray[:4]))
-    else:
-        ok('GAPINEH_PRO فقط در فایل لایسنس تعریف می‌شود')
-
-    # ۴) بارگذاری با نگهبان در فایل اصلی
-    _mf, _slug = main_php(root)
-    main = strip_comments(read(os.path.join(root, _mf)))
-    if 'gapineh-license.php' not in main:
-        fail('فایل اصلی لایسنس را بارگذاری نمی‌کند')
-    elif not re.search(r"extension_loaded\(\s*'ionCube Loader'\s*\)", main):
-        fail('فایل اصلی نگهبان ionCube ندارد؛ با فایل لایسنس رمزنگاری‌شده، سایت روی هاست بدون Loader می‌میرد')
-    else:
-        ok('بارگذاری لایسنس در فایل اصلی، با نگهبان ionCube')
-
-    # ۵) بخش‌هایی که تا فعال‌شدن لایسنس نباید دیده شوند (دستور راست‌چین)
-    if os.path.exists(os.path.join(root, 'includes', 'class-license-lock.php')):
-        warn('فایل قفل خودساخته هنوز هست (نباید باشد؛ فقط قطعه‌کد راست‌چین)')
-
-    _mf2, _slug2 = main_php(root)
-    main2 = read(os.path.join(root, _mf2))
-    if 'gapineh_is_pro()' in main2 and "add_shortcode( 'gapineh'" in main2:
-        body = main2[main2.index('gapineh_is_pro()'):]
-        if body.index('add_shortcode') > body.index('gapineh_is_pro()'):
-            ok('ویجت و شورت‌کد فقط در حالت لایسنس فعال ثبت می‌شوند')
-        else:
-            fail('شورت‌کد پیش از بررسی لایسنس ثبت می‌شود')
-    else:
-        warn('گیت ویجت/شورت‌کد در فایل اصلی دیده نشد')
-
-    st = os.path.join(root, 'includes', 'class-settings.php')
-    if os.path.exists(st):
-        stc = read(st)
-        m = re.search(r"function add_menu\(\)\s*\{[^}]{0,400}?gapineh_is_pro", stc, re.S)
-        if m:
-            ok('منوی پیشخوان فقط در حالت لایسنس فعال ساخته می‌شود')
-        else:
-            fail('گیت لایسنس در add_menu() نیست')
-        if 'بخش‌های دامنه خود را در سایت راست‌چین فعال نمایید' in read(os.path.join(root, 'includes', 'class-license-status.php')):
-            ok('پیام راهنما عیناً مطابق متن راست‌چین')
-        else:
-            fail('پیام «بخش‌های دامنه خود را در سایت راست‌چین فعال نمایید» نیست')
-
-    # ۶) لایهٔ خوانای وضعیت
-    api = os.path.join(root, 'includes', 'class-license-status.php')
-    if not os.path.exists(api):
-        fail('includes/class-license-status.php نیست')
-        return
-    a = read(api)
-    if 'function gapineh_is_pro' in a and 'apply_filters' in a:
-        ok('دروازهٔ gapineh_is_pro با فیلتر')
-    else:
-        fail('gapineh_is_pro در کلاس وضعیت لایسنس نیست')
-    for st in ('no_loader', 'hash_mismatch', 'lib_missing'):
-        if st not in a:
-            fail('وضعیت %s در class-license-status.php نیست' % st)
-    if all(st in a for st in ('no_loader', 'hash_mismatch', 'lib_missing')):
-        ok('چهار وضعیت لایسنس تعریف شده (فعال/غیرفعال/نامعتبر/بدون Loader)')
+        ok('هیچ فایل یا ارجاعی از اتصال و لایسنس قبلی پیدا نشد')
 
 
 def check_public(root, ver, slug):
@@ -595,7 +477,7 @@ def main():
     ver = check_plugin(root)
     check_launch_defaults(root)
     check_assets(root, ver)
-    check_license(root)
+    check_no_marketplace_license(root)
     check_brand(root)
     check_methods(root)
     if pub:

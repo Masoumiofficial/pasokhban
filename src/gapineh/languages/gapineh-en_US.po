@@ -1,0 +1,2574 @@
+# Gapineh translation file
+# English (US) draft. Pending native review.
+msgid ""
+msgstr ""
+"Project-Id-Version: Gapineh 3.2.0\n"
+"Report-Msgid-Bugs-To: https://etehadwp.com/gapineh\n"
+"POT-Creation-Date: 2026-10-08 12:00+0330\n"
+"PO-Revision-Date: 2026-10-08 12:00+0330\n"
+"Last-Translator: Gapineh i18n draft (machine-assisted, pending native review)\n"
+"Language-Team: en_US\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: gapineh\n"
+"X-Generator: Gapineh i18n extractor\n"
+
+#: includes/class-analytics.php:30 includes/class-analytics.php:254
+#: includes/class-bale.php:390 includes/class-bale.php:453
+#: includes/class-contacts.php:91 includes/class-contacts.php:240
+#: includes/class-inbox.php:34 includes/class-inbox.php:165
+#: includes/class-notify.php:488 includes/class-providers.php:458
+#: includes/class-rag.php:1237 includes/class-rag.php:1250
+#: includes/class-rag.php:1264 includes/class-settings.php:1955
+#: includes/class-settings.php:1993 includes/class-settings.php:2046
+#: includes/class-sms.php:373
+msgid "دسترسی ندارید."
+msgstr "You do not have permission."
+
+#: includes/class-analytics.php:48
+msgid "آمار گفتگوها"
+msgstr "Conversation Statistics"
+
+#: includes/class-analytics.php:53
+msgid "گزارش %d روز اخیر"
+msgstr "Report for the last %d days"
+
+#: includes/class-analytics.php:63
+msgid "یک سال"
+msgstr "One year"
+
+#: includes/class-analytics.php:63
+msgid "روز"
+msgstr "days"
+
+#: includes/class-analytics.php:77 includes/class-analytics.php:99
+#: includes/class-analytics.php:268
+msgid "گفتگوی جدید"
+msgstr "New conversation"
+
+#: includes/class-analytics.php:77
+msgid "از مجموع"
+msgstr "of total"
+
+#: includes/class-analytics.php:78
+msgid "پیام کاربران"
+msgstr "User messages"
+
+#: includes/class-analytics.php:78
+msgid "پاسخ"
+msgstr "Replies"
+
+#: includes/class-analytics.php:81
+msgid "رضایت کاربران"
+msgstr "User satisfaction"
+
+#: includes/class-analytics.php:87
+msgid "میانگین زمان پاسخ"
+msgstr "Average response time"
+
+#: includes/class-analytics.php:88 includes/class-analytics.php:108
+#: includes/class-analytics.php:243 includes/class-contacts.php:187
+#: includes/class-health.php:101 includes/class-inbox.php:129
+msgid "هوش مصنوعی"
+msgstr "AI"
+
+#: includes/class-analytics.php:96
+msgid "روند گفتگوها و پیام‌ها"
+msgstr "Conversation and message trend"
+
+#: includes/class-analytics.php:100
+msgid "پیام"
+msgstr "Message"
+
+#: includes/class-analytics.php:105
+msgid "سهم پاسخ‌دهنده"
+msgstr "Responder share"
+
+#: includes/class-analytics.php:109
+msgid "اپراتور انسانی"
+msgstr "Human operator"
+
+#: includes/class-analytics.php:116
+msgid "پرتکرارترین سؤال‌ها"
+msgstr "Most frequent questions"
+
+#: includes/class-analytics.php:118
+msgid "هنوز داده‌ای نیست."
+msgstr "No data yet."
+
+#: includes/class-analytics.php:132
+msgid "خلاصه"
+msgstr "Summary"
+
+#: includes/class-analytics.php:134 includes/class-inbox.php:208
+msgid "کل مکالمات"
+msgstr "Total conversations"
+
+#: includes/class-analytics.php:135 includes/class-contacts.php:129
+msgid "کل پیام‌ها"
+msgstr "Total messages"
+
+#: includes/class-analytics.php:136
+msgid "مخاطب با شمارهٔ تماس"
+msgstr "Contacts with phone number"
+
+#: includes/class-analytics.php:137
+msgid "امتیاز مثبت"
+msgstr "Positive ratings"
+
+#: includes/class-analytics.php:138
+msgid "امتیاز منفی"
+msgstr "Negative ratings"
+
+#: includes/class-analytics.php:141
+msgid "خروجی CSV روزانه"
+msgstr "Daily CSV export"
+
+#: includes/class-analytics.php:178 includes/class-analytics.php:228
+msgid "داده‌ای نیست."
+msgstr "No data."
+
+#: includes/class-analytics.php:268
+msgid "تاریخ"
+msgstr "Date"
+
+#: includes/class-analytics.php:268 includes/class-contacts.php:278
+msgid "تعداد پیام"
+msgstr "Message count"
+
+#: includes/class-api.php:418 includes/class-api.php:505
+#: includes/class-api.php:583 includes/class-copilot.php:226
+#: includes/class-health.php:720 includes/class-providers.php:125
+#: includes/class-rag.php:424 includes/class-rag.php:681
+#: includes/class-rag.php:682
+msgid "کلید API تنظیم نشده است."
+msgstr "API key is not set."
+
+#: includes/class-api.php:446 includes/class-api.php:546
+#: includes/class-rag.php:485 includes/class-stream.php:168
+msgid "خطا در ارتباط با سرور هوش مصنوعی."
+msgstr "Error communicating with the AI server."
+
+#: includes/class-api.php:460
+msgid "پاسخ سرویس JSON نبود (http %1$s): %2$s"
+msgstr "The service response was not JSON (HTTP %1$s): %2$s"
+
+#: includes/class-api.php:473 includes/class-api.php:560
+msgid "پاسخی از مدل دریافت نشد."
+msgstr "No response received from the model."
+
+#: includes/class-api.php:514
+msgid "متن ورودی خالی است."
+msgstr "Input text is empty."
+
+#: includes/class-api.php:588 includes/class-api.php:705
+#: includes/class-api.php:726 includes/class-livechat.php:276
+#: includes/class-livechat.php:951 includes/class-stream.php:71
+msgid "پیام خالی است."
+msgstr "Message is empty."
+
+#: includes/class-api.php:696
+msgid "کلید API تنظیم نشده است. با مدیر سایت تماس بگیرید."
+msgstr "The API key is not set. Please contact the site administrator."
+
+#: includes/class-api.php:700 includes/class-livechat.php:292
+#: includes/class-upload.php:173
+msgid "درخواست‌های زیادی ارسال کردید. کمی صبر کنید."
+msgstr "You sent too many requests. Please wait a moment."
+
+#: includes/class-bale.php:90
+msgid "کانال بله فعال نیست یا توکن تنظیم نشده."
+msgstr "The Bale channel is inactive or no token is set."
+
+#: includes/class-bale.php:96
+msgid "متن پیام خالی است."
+msgstr "Message text is empty."
+
+#: includes/class-bale.php:129
+msgid "پاسخ بله JSON نبود (http %1$s): %2$s"
+msgstr "Bale’s response was not JSON (HTTP %1$s): %2$s"
+
+#: includes/class-bale.php:139
+msgid "بله خطا داد (http %d)."
+msgstr "Bale returned an error (HTTP %d)."
+
+#: includes/class-bale.php:172 includes/class-bale.php:212
+#: includes/class-inbox.php:128 includes/class-inbox.php:402
+#: includes/class-livechat.php:1391 includes/class-notify.php:55
+#: includes/class-sms.php:74
+msgid "بازدیدکننده"
+msgstr "Visitor"
+
+#: includes/class-bale.php:357
+msgid "کانال بله فعال نیست."
+msgstr "The Bale channel is not active."
+
+#: includes/class-bale.php:373 includes/class-health.php:1618
+msgid "پاسخ بله JSON نبود."
+msgstr "Bale’s response was not JSON."
+
+#: includes/class-bale.php:378 includes/class-health.php:1623
+msgid "بله خطا داد."
+msgstr "Bale returned an error."
+
+#: includes/class-bale.php:400
+msgid "رمز webhook ساخته نشده. یک‌بار تنظیمات را ذخیره کن تا ساخته شود."
+msgstr ""
+"The webhook secret has not been generated. Save the settings once to "
+"generate it."
+
+#: includes/class-bale.php:407
+msgid ""
+"بله فقط پورت ۴۴۳ و ۸۸ را برای webhook می‌پذیرد، ولی آدرس سایت تو پورت %s "
+"دارد."
+msgstr ""
+"Bale only accepts ports 443 and 88 for webhooks, but your site address uses "
+"port %s."
+
+#: includes/class-bale.php:416
+msgid "webhook ثبت شد. حالا اپراتور می‌تواند از داخل بله reply بزند."
+msgstr "Webhook registered. Operators can now reply from inside Bale."
+
+#: includes/class-bale.php:426
+msgid "webhook لغو شد."
+msgstr "Webhook removed."
+
+#: includes/class-bale.php:436
+msgid "webhook ثبت نشده است."
+msgstr "Webhook is not registered."
+
+#: includes/class-bale.php:437
+msgid "webhook فعلی: "
+msgstr "Current webhook: "
+
+#: includes/class-bale.php:440
+msgid "عملیات نامعتبر."
+msgstr "Invalid operation."
+
+#: includes/class-bale.php:462
+msgid "شناسهٔ گفتگو/گروه بله تنظیم نشده."
+msgstr "Bale chat/group ID is not set."
+
+#: includes/class-bale.php:464
+msgid "🧪 این یک پیام آزمایشی از گپینه است."
+msgstr "🧪 This is a test message from Gapineh."
+
+#: includes/class-bale.php:471
+msgid "ارسال شد (شناسهٔ پیام: %d). گروه بله را چک کن."
+msgstr "Sent (message ID: %d). Check the Bale group."
+
+#: includes/class-contacts.php:66
+msgid "در حال اجرا…"
+msgstr "Running…"
+
+#: includes/class-contacts.php:67
+msgid "اجرای همهٔ بررسی‌ها"
+msgstr "Run all checks"
+
+#: includes/class-contacts.php:68
+msgid "اجرای این بخش"
+msgstr "Run this section"
+
+#: includes/class-contacts.php:69 includes/class-settings.php:1815
+msgid "هنوز اجرا نشده"
+msgstr "Not run yet"
+
+#: includes/class-contacts.php:70
+msgid "گزارش کپی شد"
+msgstr "Report copied"
+
+#: includes/class-contacts.php:71
+msgid "کپی نشد؛ خودتان انتخاب و کپی کنید."
+msgstr "Could not copy; please select and copy it manually."
+
+#: includes/class-contacts.php:72
+msgid "ارتباط با سرور قطع شد."
+msgstr "The connection to the server was lost."
+
+#: includes/class-contacts.php:73
+msgid "بررسی کامل شد"
+msgstr "Checks complete"
+
+#: includes/class-contacts.php:74
+msgid "سالم"
+msgstr "OK"
+
+#: includes/class-contacts.php:75
+msgid "خطا"
+msgstr "Error"
+
+#: includes/class-contacts.php:76
+msgid "هشدار"
+msgstr "Warning"
+
+#: includes/class-contacts.php:77
+msgid "اطلاع"
+msgstr "Info"
+
+#: includes/class-contacts.php:78
+msgid "رد شد"
+msgstr "Rejected"
+
+#: includes/class-contacts.php:79
+msgid "جمع: %1$d بررسی — %2$d سالم، %3$d خطا، %4$d هشدار"
+msgstr "Total: %1$d checks — %2$d OK, %3$d errors, %4$d warnings"
+
+#: includes/class-contacts.php:118 includes/class-settings.php:236
+#: includes/class-settings.php:237
+msgid "مخاطبین"
+msgstr "Contacts"
+
+#: includes/class-contacts.php:119
+msgid ""
+"همهٔ کسانی که در سایت با دستیار گفت‌وگو کرده‌اند، به‌همراه مشخصات و وضعیت "
+"گفتگو."
+msgstr ""
+"Everyone who chatted with the assistant on the site, with their details and "
+"conversation status."
+
+#: includes/class-contacts.php:122
+msgid "خروجی CSV"
+msgstr "CSV export"
+
+#: includes/class-contacts.php:127
+msgid "کل مخاطبین"
+msgstr "Total contacts"
+
+#: includes/class-contacts.php:128
+msgid "با شمارهٔ تماس"
+msgstr "With phone number"
+
+#: includes/class-contacts.php:130
+msgid "گفتگوی باز"
+msgstr "Open conversation"
+
+#: includes/class-contacts.php:135
+msgid "جستجو در نام، نام خانوادگی، شماره، ایمیل…"
+msgstr "Search by name, surname, phone, email…"
+
+#: includes/class-contacts.php:136
+msgid "فقط آن‌ها که مشخصات داده‌اند"
+msgstr "Only those who provided details"
+
+#: includes/class-contacts.php:137
+msgid "جستجو"
+msgstr "Search"
+
+#: includes/class-contacts.php:145 includes/class-contacts.php:273
+msgid "نام"
+msgstr "First name"
+
+#: includes/class-contacts.php:146 includes/class-contacts.php:274
+msgid "نام خانوادگی"
+msgstr "Last name"
+
+#: includes/class-contacts.php:147 includes/class-contacts.php:275
+msgid "شمارهٔ تماس"
+msgstr "Phone number"
+
+#: includes/class-contacts.php:148 includes/class-contacts.php:276
+msgid "ایمیل"
+msgstr "Email"
+
+#: includes/class-contacts.php:149
+msgid "پیام‌ها"
+msgstr "Messages"
+
+#: includes/class-contacts.php:150 includes/class-contacts.php:281
+#: includes/class-inbox.php:142
+msgid "وضعیت"
+msgstr "Status"
+
+#: includes/class-contacts.php:151 includes/class-contacts.php:287
+msgid "آخرین فعالیت"
+msgstr "Last activity"
+
+#: includes/class-contacts.php:152 includes/class-contacts.php:285
+msgid "IP"
+msgstr "IP"
+
+#: includes/class-contacts.php:160
+msgid "مخاطبی پیدا نشد."
+msgstr "No contacts found."
+
+#: includes/class-contacts.php:179
+msgid "از کاربر"
+msgstr "From user"
+
+#: includes/class-contacts.php:183 includes/class-inbox.php:221
+#: includes/class-inbox.php:410
+msgid "بسته"
+msgstr "Closed"
+
+#: includes/class-contacts.php:185 includes/class-inbox.php:264
+#: includes/class-inbox.php:407
+msgid "اپراتور"
+msgstr "Operator"
+
+#: includes/class-contacts.php:193
+msgid "گفتگو"
+msgstr "Conversation"
+
+#: includes/class-contacts.php:277
+msgid "زبان"
+msgstr "Language"
+
+#: includes/class-contacts.php:279
+msgid "پیام از کاربر"
+msgstr "Message from user"
+
+#: includes/class-contacts.php:280
+msgid "حالت پاسخ‌گویی"
+msgstr "Response mode"
+
+#: includes/class-contacts.php:282
+msgid "آخرین پیام"
+msgstr "Last message"
+
+#: includes/class-contacts.php:283
+msgid "صفحهٔ ورود"
+msgstr "Entry page"
+
+#: includes/class-contacts.php:284
+msgid "آخرین صفحه"
+msgstr "Last page"
+
+#: includes/class-contacts.php:286
+msgid "تاریخ شروع"
+msgstr "Start date"
+
+#: includes/class-copilot.php:81 includes/class-copilot.php:174
+msgid "دستیار اپراتور غیرفعال است."
+msgstr "The operator assistant is disabled."
+
+#: includes/class-copilot.php:101
+msgid "پیامی برای پاسخ دادن در این مکالمه نیست."
+msgstr "There is no message to reply to in this conversation."
+
+#: includes/class-copilot.php:114
+msgid "کمی صبر کن (هر %d ثانیه یک پیش‌نویس)."
+msgstr "Please wait (one draft every %d seconds)."
+
+#: includes/class-copilot.php:147
+msgid "مدل پاسخی تولید نکرد. دوباره تلاش کن."
+msgstr "The model did not generate a reply. Please try again."
+
+#: includes/class-copilot.php:190
+msgid "پیامی برای خلاصه‌کردن نیست."
+msgstr "There is no message to summarize."
+
+#: includes/class-copilot.php:237 includes/class-livechat.php:924
+#: includes/class-livechat.php:946 includes/class-livechat.php:1000
+#: includes/class-livechat.php:1025 includes/class-livechat.php:1098
+#: includes/class-team.php:349
+msgid "مکالمه پیدا نشد."
+msgstr "Conversation not found."
+
+#: includes/class-db.php:208
+msgid ""
+"جدول‌ها ساخته نشدند و MySQL هم خطایی گزارش نکرد. احتمالاً کاربر دیتابیس حق "
+"CREATE TABLE ندارد."
+msgstr ""
+"The tables were not created and MySQL reported no error. The database user "
+"probably does not have CREATE TABLE permission."
+
+#: includes/class-db.php:1144
+msgid "%s پیش"
+msgstr "%s ago"
+
+#: includes/class-health.php:99
+msgid "محیط وردپرس"
+msgstr "WordPress environment"
+
+#: includes/class-health.php:100
+msgid "پایگاه‌داده"
+msgstr "Database"
+
+#: includes/class-health.php:102
+msgid "چت و آپلود"
+msgstr "Chat and upload"
+
+#: includes/class-health.php:103
+msgid "اعلان‌ها"
+msgstr "Notifications"
+
+#: includes/class-health.php:104
+msgid "ووکامرس"
+msgstr "WooCommerce"
+
+#: includes/class-health.php:105
+msgid "کانال بله"
+msgstr "Bale channel"
+
+#: includes/class-health.php:106
+msgid "فایل‌ها و برند"
+msgstr "Files and branding"
+
+#: includes/class-health.php:134 includes/class-health.php:179
+msgid "بررسی ناشناخته است."
+msgstr "Check status unknown."
+
+#: includes/class-health.php:254
+msgid "نسخهٔ وردپرس"
+msgstr "WordPress version"
+
+#: includes/class-health.php:255
+msgid "نسخهٔ PHP"
+msgstr "PHP version"
+
+#: includes/class-health.php:256
+msgid "افزونه‌های ضروری PHP"
+msgstr "Required PHP extensions"
+
+#: includes/class-health.php:257
+msgid "اتصال به پایگاه‌داده"
+msgstr "Database connection"
+
+#: includes/class-health.php:258
+msgid "منطقهٔ زمانی"
+msgstr "Time zone"
+
+#: includes/class-health.php:259
+msgid "زمان‌بند وردپرس (Cron)"
+msgstr "WordPress scheduler (Cron)"
+
+#: includes/class-health.php:262
+msgid "جدول‌های پلاگین"
+msgstr "Plugin tables"
+
+#: includes/class-health.php:263
+msgid "آزمون نوشتن/خواندن/حذف"
+msgstr "Write/read/delete test"
+
+#: includes/class-health.php:264
+msgid "نسخهٔ ساختار جداول"
+msgstr "Table structure version"
+
+#: includes/class-health.php:265
+msgid "جدول‌های نام قدیمی"
+msgstr "Old-name tables"
+
+#: includes/class-health.php:266
+msgid "حجم داده"
+msgstr "Data size"
+
+#: includes/class-health.php:269 includes/class-health.php:1444
+msgid "کلید API"
+msgstr "API key"
+
+#: includes/class-health.php:270
+msgid "مدل انتخاب‌شده"
+msgstr "Selected model"
+
+#: includes/class-health.php:271
+msgid "آدرس پایهٔ سرویس"
+msgstr "Service base URL"
+
+#: includes/class-health.php:272
+msgid "فراخوانی واقعی سرویس"
+msgstr "Live service call"
+
+#: includes/class-health.php:273
+msgid "ساخت بردار (embedding)"
+msgstr "Vector creation (embedding)"
+
+#: includes/class-health.php:274
+msgid "فهرست دانش سایت"
+msgstr "Site knowledge index"
+
+#: includes/class-health.php:275
+msgid "جست‌وجوی معنایی"
+msgstr "Semantic search"
+
+#: includes/class-health.php:278
+msgid "ویجت گفتگو"
+msgstr "Chat widget"
+
+#: includes/class-health.php:279 includes/class-inbox.php:552
+msgid "مسیرهای REST"
+msgstr "REST routes"
+
+#: includes/class-health.php:280
+msgid "ساخت نشست آزمایشی"
+msgstr "Create test session"
+
+#: includes/class-health.php:281
+msgid "پوشهٔ آپلود"
+msgstr "Upload folder"
+
+#: includes/class-health.php:282
+msgid "پسوندهای مجاز آپلود"
+msgstr "Allowed upload extensions"
+
+#: includes/class-health.php:285
+msgid "اعلان ایمیلی"
+msgstr "Email notification"
+
+#: includes/class-health.php:286
+msgid "تلگرام — اعتبار توکن"
+msgstr "Telegram — token validity"
+
+#: includes/class-health.php:287
+msgid "رلهٔ گوگل"
+msgstr "Google relay"
+
+#: includes/class-health.php:288
+msgid "سرویس پیامک"
+msgstr "SMS service"
+
+#: includes/class-health.php:291
+msgid "نصب ووکامرس"
+msgstr "WooCommerce installation"
+
+#: includes/class-health.php:292
+msgid "ایندکس محصولات"
+msgstr "Product index"
+
+#: includes/class-health.php:293
+msgid "استعلام سفارش توسط مشتری"
+msgstr "Customer order lookup"
+
+#: includes/class-health.php:296
+msgid "پیکربندی کانال بله"
+msgstr "Bale channel configuration"
+
+#: includes/class-health.php:297
+msgid "بله — اعتبار توکن"
+msgstr "Bale — token validity"
+
+#: includes/class-health.php:298
+msgid "ثبت webhook روی بله"
+msgstr "Register webhook on Bale"
+
+#: includes/class-health.php:299
+msgid "پورت webhook"
+msgstr "Webhook port"
+
+#: includes/class-health.php:302
+msgid "فایل‌های CSS و JS"
+msgstr "CSS and JS files"
+
+#: includes/class-health.php:303
+msgid "باقی‌ماندهٔ نام قدیمی"
+msgstr "Leftover old name"
+
+#: includes/class-health.php:304
+msgid "تصویر برند"
+msgstr "Brand image"
+
+#: includes/class-health.php:384
+msgid "نسخهٔ وردپرس قابل تشخیص نیست."
+msgstr "The WordPress version could not be detected."
+
+#: includes/class-health.php:389
+msgid "وردپرس %1$s نصب است؛ گپینه به %2$s یا بالاتر نیاز دارد."
+msgstr "WordPress %1$s is installed; Gapineh requires %2$s or higher."
+
+#: includes/class-health.php:391
+msgid "وردپرس را از پیشخوان → به‌روزرسانی‌ها ارتقا بدهید."
+msgstr "Upgrade WordPress from Dashboard → Updates."
+
+#: includes/class-health.php:394
+msgid "وردپرس %s"
+msgstr "WordPress %s"
+
+#: includes/class-health.php:402
+msgid "PHP %1$s فعال است؛ حداقل %2$s لازم است."
+msgstr "PHP %1$s is active; at least %2$s is required."
+
+#: includes/class-health.php:404
+msgid "از کنترل پنل هاست، نسخهٔ PHP سایت را تغییر دهید."
+msgstr "Change the site’s PHP version from your hosting control panel."
+
+#: includes/class-health.php:411
+msgid "PHP %s کار می‌کند ولی دیگر به‌روزرسانی امنیتی نمی‌گیرد."
+msgstr "PHP %s works but no longer receives security updates."
+
+#: includes/class-health.php:413
+msgid "به PHP 8.2 یا بالاتر ارتقا دهید."
+msgstr "Upgrade to PHP 8.2 or higher."
+
+#: includes/class-health.php:416
+msgid "PHP %s"
+msgstr "PHP %s"
+
+#: includes/class-health.php:421
+msgid "برش درست متن فارسی و شمارش کاراکتر"
+msgstr "Correct Persian text truncation and character counting"
+
+#: includes/class-health.php:422
+msgid "گفتگو با سرویس‌های هوش مصنوعی"
+msgstr "Chat with AI services"
+
+#: includes/class-health.php:433
+msgid "افزونهٔ PHP نصب نیست."
+msgstr "A PHP extension is not installed."
+
+#: includes/class-health.php:435
+msgid "در کنترل پنل هاست این افزونه‌ها را فعال کنید."
+msgstr "Enable these extensions in your hosting control panel."
+
+#: includes/class-health.php:442
+msgid "mbstring و json فعال‌اند."
+msgstr "mbstring and json are enabled."
+
+#: includes/class-health.php:448
+msgid "شیء $wpdb در دسترس نیست."
+msgstr "The $wpdb object is not available."
+
+#: includes/class-health.php:454
+msgid "پرس‌وجوی آزمایشی به پایگاه‌داده پاسخ نداد."
+msgstr "The test query got no response from the database."
+
+#: includes/class-health.php:456
+msgid "اطلاعات wp-config.php و دسترسی کاربر MySQL را بررسی کنید."
+msgstr "Check the wp-config.php details and the MySQL user’s permissions."
+
+#: includes/class-health.php:463
+msgid "اتصال برقرار است."
+msgstr "Connection is working."
+
+#: includes/class-health.php:470
+msgid "تابع wp_timezone() موجود نیست."
+msgstr "The wp_timezone() function is not available."
+
+#: includes/class-health.php:470
+msgid "وردپرس قدیمی است؛ آن را ارتقا دهید."
+msgstr "WordPress is outdated; please upgrade it."
+
+#: includes/class-health.php:475
+msgid "منطقهٔ زمانی نامعتبر است."
+msgstr "The time zone is invalid."
+
+#: includes/class-health.php:485
+msgid "سایت روی UTC است؛ ساعت کاری و زمان پیام‌ها سه‌ونیم ساعت جلو می‌افتد."
+msgstr ""
+"The site uses UTC, so business hours and message times will be off by 3.5 "
+"hours."
+
+#: includes/class-health.php:487
+msgid "در تنظیمات → عمومی → منطقهٔ زمانی را روی Tehran بگذارید."
+msgstr "Set Settings → General → Time zone to Tehran."
+
+#: includes/class-health.php:490
+msgid "%1$s — ساعت سرور %2$s"
+msgstr "%1$s — server time %2$s"
+
+#: includes/class-health.php:495
+msgid "زمان‌بند در دسترس نیست."
+msgstr "The scheduler is not available."
+
+#: includes/class-health.php:499
+msgid "پاک‌سازی روزانه"
+msgstr "Daily cleanup"
+
+#: includes/class-health.php:502
+msgid "همگام‌سازی دانش"
+msgstr "Knowledge sync"
+
+#: includes/class-health.php:507
+msgid "زمان‌بندی ثبت نشده است."
+msgstr "Schedules are not registered."
+
+#: includes/class-health.php:509
+msgid ""
+"پلاگین را یک بار غیرفعال و دوباره فعال کنید تا زمان‌بندی‌ها ساخته شوند."
+msgstr ""
+"Deactivate and reactivate the plugin once so the schedules are created."
+
+#: includes/class-health.php:512
+msgid "زمان‌بندی‌ها ثبت شده‌اند."
+msgstr "Schedules are registered."
+
+#: includes/class-health.php:521 includes/class-health.php:550
+#: includes/class-health.php:623
+msgid "کلاس پایگاه‌داده بارگذاری نشده است."
+msgstr "The database class is not loaded."
+
+#: includes/class-health.php:531
+msgid "هر پنج جدول ساخته شده‌اند."
+msgstr "All five tables have been created."
+
+#: includes/class-health.php:535
+msgid "جدول‌های پلاگین ساخته نشده‌اند."
+msgstr "Plugin tables have not been created."
+
+#: includes/class-health.php:537
+msgid "پلاگین را غیرفعال و دوباره فعال کنید تا جداول ساخته شوند."
+msgstr "Deactivate and reactivate the plugin to create the tables."
+
+#: includes/class-health.php:557
+msgid "پیام آزمایشی بررسی سلامت — این ردیف بلافاصله حذف می‌شود."
+msgstr "Health check test message — this row is deleted immediately."
+
+#: includes/class-health.php:564 includes/class-health.php:570
+msgid "نوشتن نشست آزمایشی ناموفق بود."
+msgstr "Writing the test session failed."
+
+#: includes/class-health.php:572
+msgid "آخرین خطای MySQL را در «گفتگوهای آنلاین» ببینید."
+msgstr "See the latest MySQL error under “Online conversations”."
+
+#: includes/class-health.php:582
+msgid "نشست آزمایشی نوشته شد ولی خوانده نشد."
+msgstr "The test session was written but could not be read."
+
+#: includes/class-health.php:589
+msgid "نوشتن پیام آزمایشی ناموفق بود."
+msgstr "Writing the test message failed."
+
+#: includes/class-health.php:596
+msgid "پیام آزمایشی خوانده نشد."
+msgstr "The test message could not be read."
+
+#: includes/class-health.php:601
+msgid "نوشتن، خواندن و حذف هر سه کار کردند."
+msgstr "Write, read and delete all work."
+
+#: includes/class-health.php:631
+msgid "نسخهٔ ساختار ثبت نشده است."
+msgstr "The structure version is not recorded."
+
+#: includes/class-health.php:632 includes/class-health.php:1695
+msgid "انتظار: "
+msgstr "Expected: "
+
+#: includes/class-health.php:633 includes/class-health.php:945
+msgid "پلاگین را یک بار غیرفعال و دوباره فعال کنید."
+msgstr "Deactivate and reactivate the plugin once."
+
+#: includes/class-health.php:639
+msgid "ساختار جداول %1$s است ولی کد %2$s می‌خواهد."
+msgstr "The table structure is %1$s but the code expects %2$s."
+
+#: includes/class-health.php:641
+msgid "معمولاً با یک بار غیرفعال/فعال‌کردن پلاگین درست می‌شود."
+msgstr ""
+"This is usually fixed by deactivating and reactivating the plugin once."
+
+#: includes/class-health.php:644
+msgid "ساختار %s — مطابق کد."
+msgstr "Structure %s — matches the code."
+
+#: includes/class-health.php:680
+msgid "جدول‌های نام قدیمی هنوز موجودند."
+msgstr "Old-name tables still exist."
+
+#: includes/class-health.php:682
+msgid ""
+"مهاجرت نام را دوباره اجرا کنید یا پس از اطمینان از انتقال داده، آن‌ها را حذف"
+" کنید."
+msgstr ""
+"Run the name migration again, or delete them once you have confirmed the "
+"data was transferred."
+
+#: includes/class-health.php:685
+msgid "جدول قدیمی باقی نمانده است."
+msgstr "No old table remains."
+
+#: includes/class-health.php:690 includes/class-health.php:1116
+msgid "جدول‌ها ساخته نشده‌اند."
+msgstr "The tables have not been created."
+
+#: includes/class-health.php:702
+msgid "%1$s نشست · %2$s پیام · %3$s تکهٔ دانش"
+msgstr "%1$s sessions · %2$s messages · %3$s knowledge chunks"
+
+#: includes/class-health.php:707
+msgid "%s پیام خوانده‌نشده"
+msgstr "%s unread messages"
+
+#: includes/class-health.php:722
+msgid "در تب «اتصال» کلید سرویس هوش مصنوعی را وارد کنید."
+msgstr "Enter the AI service key in the “Connection” tab."
+
+#: includes/class-health.php:728
+msgid "کلید وارد شده است."
+msgstr "Key is set."
+
+#: includes/class-health.php:755
+msgid "مدلی انتخاب نشده است."
+msgstr "No model selected."
+
+#: includes/class-health.php:757
+msgid "در تب «اتصال» یک مدل انتخاب کنید."
+msgstr "Select a model in the “Connection” tab."
+
+#: includes/class-health.php:768
+msgid "مدل %1$s در فهرست مدل‌های %2$s نیست."
+msgstr "Model %1$s is not in the model list for %2$s."
+
+#: includes/class-health.php:770
+msgid "اگر سرویس را عوض کرده‌اید، مدل را هم عوض کنید."
+msgstr "If you changed the service, change the model too."
+
+#: includes/class-health.php:773
+msgid "%1$s روی %2$s"
+msgstr "%1$s on %2$s"
+
+#: includes/class-health.php:781 includes/class-health.php:817
+msgid "کلاس سرویس‌ها بارگذاری نشده است."
+msgstr "The services class is not loaded."
+
+#: includes/class-health.php:789
+msgid "آدرس پایه خالی است."
+msgstr "The base URL is empty."
+
+#: includes/class-health.php:791
+msgid "برای سرویس دلخواه باید آدرس را خودتان وارد کنید."
+msgstr "For a custom service you must enter the address yourself."
+
+#: includes/class-health.php:797
+msgid "آدرس پایه HTTPS نیست — کلید API در مسیر روشن ارسال می‌شود."
+msgstr "The base URL is not HTTPS — the API key would be sent unencrypted."
+
+#: includes/class-health.php:803
+msgid "آدرس پایه با / تمام می‌شود."
+msgstr "The base URL ends with /."
+
+#: includes/class-health.php:805
+msgid "قالب: "
+msgstr "Template: "
+
+#: includes/class-health.php:820 includes/class-health.php:883
+msgid "کلید API تنظیم نشده — آزمون انجام نشد."
+msgstr "API key not set — test not performed."
+
+#: includes/class-health.php:835
+msgid ""
+"سرویس در زمان مقرر پاسخ نداد. اگر از ایران هستید و OpenAI یا Anthropic را "
+"انتخاب کرده‌اید، یا سرویس پروکسی ایرانی (گپ‌جی‌پی‌تی) را انتخاب کنید یا در "
+"تب «اعلان‌ها» پروکسی تنظیم کنید."
+msgstr ""
+"The service did not respond in time. If you are in Iran and selected OpenAI "
+"or Anthropic, choose the Iranian proxy service (GapGPT) or set a proxy in "
+"the “Notifications” tab."
+
+#: includes/class-health.php:837
+msgid "نام دامنه حل نشد. DNS سرور را بررسی کنید."
+msgstr "The domain name could not be resolved. Check the server’s DNS."
+
+#: includes/class-health.php:839
+msgid "اتصال رد شد. فایروال هاست یا پروکسی را بررسی کنید."
+msgstr "The connection was refused. Check the host’s firewall or proxy."
+
+#: includes/class-health.php:841
+msgid "سقف سهمیه یا نرخ درخواست پر شده است."
+msgstr "The quota or the request rate limit has been reached."
+
+#: includes/class-health.php:843
+msgid ""
+"مسیر یا مدل پیدا نشد — آدرس پایه (باید به /v1 ختم شود) و نام مدل را بررسی "
+"کنید."
+msgstr ""
+"Path or model not found — check the base URL (it should end with /v1) and "
+"the model name."
+
+#: includes/class-health.php:849
+msgid ""
+"کلید API رد شد. آن را دوباره از پنل سرویس کپی کنید و مطمئنید سرویس انتخابی "
+"با صاحب کلید یکی است."
+msgstr ""
+"API key rejected. Copy it again from the service panel and make sure the "
+"selected service is the one that issued the key."
+
+#: includes/class-health.php:851
+msgid ""
+"درگاه به‌جای JSON صفحهٔ HTML فرستاد؛ معمولاً یعنی فیلتر یا پروکسی سر راه "
+"است."
+msgstr ""
+"The gateway returned an HTML page instead of JSON; this usually means a "
+"filter or proxy is in the way."
+
+#: includes/class-health.php:853
+msgid "کلید، مدل و آدرس پایه را در تب «اتصال» بررسی کنید."
+msgstr "Check the key, model and base URL in the “Connection” tab."
+
+#: includes/class-health.php:856 includes/class-health.php:907
+msgid "%d میلی‌ثانیه"
+msgstr "%d ms"
+
+#: includes/class-health.php:860
+msgid "سرویس پاسخ داد — %d میلی‌ثانیه"
+msgstr "Service responded — %d ms"
+
+#: includes/class-health.php:862
+msgid "سرویس پاسخ داد ولی کند بود — %d میلی‌ثانیه"
+msgstr "Service responded but was slow — %d ms"
+
+#: includes/class-health.php:877 includes/class-health.php:935
+msgid "کلاس RAG بارگذاری نشده است."
+msgstr "The RAG class is not loaded."
+
+#: includes/class-health.php:880 includes/class-health.php:929
+#: includes/class-health.php:983
+msgid "جست‌وجوی برداری خاموش است."
+msgstr "Vector search is off."
+
+#: includes/class-health.php:880
+msgid "در تب «دستیار و دانش» فعالش کنید."
+msgstr "Enable it in the “Assistant & Knowledge” tab."
+
+#: includes/class-health.php:895
+msgid ""
+"سرویس پارامتر dimensions را قبول نمی‌کند. در تنظیمات، ابعاد را روی صفر "
+"بگذارید."
+msgstr ""
+"The service does not accept the dimensions parameter. In the settings, set "
+"the dimensions to zero."
+
+#: includes/class-health.php:897
+msgid ""
+"این درگاه احتمالاً سرویس embedding ندارد. از گپ‌جی‌پی‌تی یا OpenAI استفاده "
+"کنید."
+msgstr ""
+"This gateway probably does not offer an embedding service. Use GapGPT or "
+"OpenAI."
+
+#: includes/class-health.php:902
+msgid "بردار خالی برگشت."
+msgstr "An empty vector was returned."
+
+#: includes/class-health.php:912
+msgid "بردار %1$s بعدی ساخت، ولی تنظیمات %2$s می‌خواهد."
+msgstr "The next vector has %1$s dimensions, but the settings require %2$s."
+
+#: includes/class-health.php:914
+msgid ""
+"اگر فهرست را با ابعاد دیگری ساخته‌اید، دوباره فهرست‌سازی کنید وگرنه جست‌وجو "
+"کار نمی‌کند."
+msgstr ""
+"If you built the index with different dimensions, rebuild it, otherwise "
+"search will not work."
+
+#: includes/class-health.php:919
+msgid "%1$s — بردار %2$s بعدی"
+msgstr "%1$s — next vector %2$s"
+
+#: includes/class-health.php:931
+msgid "بدون آن، گپینه فقط از متن ثابت «دانش دستی» استفاده می‌کند."
+msgstr "Without it, Gapineh only uses the static “Manual knowledge” text."
+
+#: includes/class-health.php:943
+msgid "جدول تکه‌های دانش ساخته نشده است."
+msgstr "The knowledge chunks table has not been created."
+
+#: includes/class-health.php:953
+msgid "فهرست دانش خالی است."
+msgstr "The knowledge index is empty."
+
+#: includes/class-health.php:955
+msgid "در تب «دستیار و دانش» روی «ساخت فهرست» بزنید."
+msgstr "Click “Build index” in the “Assistant & Knowledge” tab."
+
+#: includes/class-health.php:963
+msgid "%1$s تکه از %2$s"
+msgstr "%1$s chunks of %2$s"
+
+#: includes/class-health.php:969
+msgid "فهرست ساخته شده ولی محتوای تازه در انتظار همگام‌سازی است."
+msgstr "The index is built but new content is waiting to be synced."
+
+#: includes/class-health.php:971
+msgid "فهرست دانش آماده است."
+msgstr "The knowledge index is ready."
+
+#: includes/class-health.php:987
+msgid "فهرست خالی است — چیزی برای جست‌وجو نیست."
+msgstr "The index is empty — nothing to search."
+
+#: includes/class-health.php:991
+msgid "هزینهٔ ارسال چقدر است؟"
+msgstr "How much is shipping?"
+
+#: includes/class-health.php:1005
+msgid "جست‌وجو نتیجه‌ای بالاتر از آستانه برنگرداند."
+msgstr "The search returned no results above the threshold."
+
+#: includes/class-health.php:1008
+msgid "آستانهٔ شباهت %1$s · حداکثر %2$s تکه · %3$d میلی‌ثانیه"
+msgstr "Similarity threshold %1$s · max %2$s chunks · %3$d ms"
+
+#: includes/class-health.php:1013
+msgid "آستانهٔ شباهت را کمی پایین بیاورید یا محتوای بیشتری فهرست کنید."
+msgstr "Lower the similarity threshold slightly or index more content."
+
+#: includes/class-health.php:1023
+msgid "%1$s تکه یافت شد — بیشترین شباهت %2$s در %3$d میلی‌ثانیه"
+msgstr "%1$s chunks found — highest similarity %2$s in %3$d ms"
+
+#: includes/class-health.php:1040
+msgid "ویجت شناور"
+msgstr "Floating widget"
+
+#: includes/class-health.php:1043 includes/class-livechat.php:1233
+msgid "گفتگوی آنلاین"
+msgstr "Live chat"
+
+#: includes/class-health.php:1048
+msgid "خاموش است: "
+msgstr "Off: "
+
+#: includes/class-health.php:1050
+msgid "در تب «عمومی» و «چت آنلاین» روشنشان کنید."
+msgstr "Turn them on in the “General” and “Live chat” tabs."
+
+#: includes/class-health.php:1058
+msgid "سبک: مغز کیهانی"
+msgstr "Style: Cosmic brain"
+
+#: includes/class-health.php:1059
+msgid "سبک: چت شیشه‌ای"
+msgstr "Style: Glass chat"
+
+#: includes/class-health.php:1061
+msgid "ویجت و گفتگوی آنلاین فعال‌اند."
+msgstr "The widget and live chat are active."
+
+#: includes/class-health.php:1086
+msgid "فهرست مسیرهای REST در این زمینه خالی است."
+msgstr "The REST routes list is empty for this area."
+
+#: includes/class-health.php:1088
+msgid "اگر چت کار می‌کند این را نادیده بگیرید."
+msgstr "If chat works, you can ignore this."
+
+#: includes/class-health.php:1102
+msgid "بعضی مسیرهای REST ثبت نشده‌اند."
+msgstr "Some REST routes are not registered."
+
+#: includes/class-health.php:1104
+msgid "افزونهٔ امنیتی یا کش مسیرها را بسته است. آن را موقتاً غیرفعال کنید."
+msgstr ""
+"A security plugin or cache is blocking the routes. Temporarily disable it."
+
+#: includes/class-health.php:1109
+msgid "%d مسیر حیاتی ثبت شده است."
+msgstr "%d critical routes are registered."
+
+#: includes/class-health.php:1121
+msgid "ساخت نشست آزمایشی ناموفق بود."
+msgstr "Creating the test session failed."
+
+#: includes/class-health.php:1130
+msgid "نشست تکراری ساخته شد — کلید یکتا کار نمی‌کند."
+msgstr "A duplicate session was created — the unique key is not working."
+
+#: includes/class-health.php:1132
+msgid ""
+"ایندکس unique روی ستون session_key وجود ندارد؛ پلاگین را دوباره فعال کنید."
+msgstr ""
+"There is no unique index on the session_key column; reactivate the plugin."
+
+#: includes/class-health.php:1135
+msgid "نشست ساخته و با همان کلید بازیابی شد."
+msgstr "The session was created and recovered with the same key."
+
+#: includes/class-health.php:1141
+msgid "ارسال فایل خاموش است."
+msgstr "File sending is off."
+
+#: includes/class-health.php:1146
+msgid "پوشهٔ آپلود وردپرس در دسترس نیست."
+msgstr "The WordPress upload folder is not accessible."
+
+#: includes/class-health.php:1154
+msgid "کلاس آپلود بارگذاری نشده است."
+msgstr "The upload class is not loaded."
+
+#: includes/class-health.php:1163
+msgid "دسترسی نوشتن روی wp-content/uploads را بررسی کنید (۷۵۵)."
+msgstr "Check write access to wp-content/uploads (755)."
+
+#: includes/class-health.php:1172
+msgid "پوشهٔ آپلود قابل نوشتن نیست."
+msgstr "The upload folder is not writable."
+
+#: includes/class-health.php:1174
+msgid "دسترسی پوشه را روی ۷۵۵ و مالکش را کاربر وب‌سرور بگذارید."
+msgstr ""
+"Set the folder permissions to 755 and its owner to the web server user."
+
+#: includes/class-health.php:1188
+msgid "قفل اجرای اسکریپت فعال است."
+msgstr "The script execution lock is active."
+
+#: includes/class-health.php:1189
+msgid ""
+"فایل قفل (.htaccess) نوشته نشد — اگر وب‌سرور nginx است، اجرای PHP در این "
+"پوشه را خودتان ببندید."
+msgstr ""
+"The lock file (.htaccess) could not be written — if the server is nginx, "
+"block PHP execution in this folder yourself."
+
+#: includes/class-health.php:1194
+msgid "لایهٔ اعتبارسنجی محتوا در دسترس نیست."
+msgstr "The content validation layer is not available."
+
+#: includes/class-health.php:1196
+msgid "افزونهٔ fileinfo را در PHP فعال کنید."
+msgstr "Enable the fileinfo extension in PHP."
+
+#: includes/class-health.php:1199
+msgid "پوشهٔ آپلود آماده و قفل است."
+msgstr "The upload folder is ready and locked."
+
+#: includes/class-health.php:1210
+msgid "هیچ پسوند مجازی تنظیم نشده — هیچ فایلی پذیرفته نمی‌شود."
+msgstr "No allowed extensions are set — no files will be accepted."
+
+#: includes/class-health.php:1212
+msgid "در تب «چت آنلاین» پسوندها را وارد کنید."
+msgstr "Enter the extensions in the “Live chat” tab."
+
+#: includes/class-health.php:1222
+msgid "پسوند خطرناک در فهرست مجاز است."
+msgstr "A dangerous extension is in the allowed list."
+
+#: includes/class-health.php:1224
+msgid "این‌ها را حذف کنید؛ svg و html می‌توانند اسکریپت اجرا کنند."
+msgstr "Remove these; svg and html files can run scripts."
+
+#: includes/class-health.php:1229
+msgid "سقف %d مگابایت"
+msgstr "Limit %d MB"
+
+#: includes/class-health.php:1236
+msgid "سقف پلاگین از سقف PHP بزرگ‌تر است."
+msgstr "The plugin limit is larger than the PHP limit."
+
+#: includes/class-health.php:1237
+msgid "پلاگین %1$d مگابایت، ولی post_max_size = %2$s"
+msgstr "Plugin %1$d MB, but post_max_size = %2$s"
+
+#: includes/class-health.php:1238
+msgid "در php.ini مقدار post_max_size و upload_max_filesize را بالا ببرید."
+msgstr "Increase post_max_size and upload_max_filesize in php.ini."
+
+#: includes/class-health.php:1278
+msgid "اعلان ایمیلی خاموش است."
+msgstr "Email notification is off."
+
+#: includes/class-health.php:1284
+msgid "اعلان ایمیلی روشن است ولی گیرنده‌ای وارد نشده."
+msgstr "Email notification is on but no recipient has been entered."
+
+#: includes/class-health.php:1286
+msgid "در تب «اعلان‌ها» نشانی ایمیل را وارد کنید."
+msgstr "Enter the email address in the “Notifications” tab."
+
+#: includes/class-health.php:1290
+msgid "نشانی ایمیل نامعتبر است."
+msgstr "The email address is invalid."
+
+#: includes/class-health.php:1292
+msgid "ایمیل واقعی ارسال نشد تا صندوق شما پر نشود."
+msgstr "No real email was sent, so your inbox does not fill up."
+
+#: includes/class-health.php:1304 includes/class-health.php:1381
+msgid "اعلان تلگرام خاموش است."
+msgstr "Telegram notification is off."
+
+#: includes/class-health.php:1310
+msgid "توکن ربات وارد نشده است."
+msgstr "The bot token has not been entered."
+
+#: includes/class-health.php:1310
+msgid "از @BotFather توکن بگیرید."
+msgstr "Get a token from @BotFather."
+
+#: includes/class-health.php:1315
+msgid "شناسهٔ گفتگو وارد نشده است."
+msgstr "The chat ID has not been entered."
+
+#: includes/class-health.php:1317
+msgid ""
+"ربات را در گروه عضو کنید و شناسهٔ گروه (با - شروع می‌شود) را وارد کنید."
+msgstr "Add the bot to the group and enter the group ID (it starts with -)."
+
+#: includes/class-health.php:1326
+msgid "رلهٔ گوگل فعال است؛ تلگرام مستقیم آزمون نشد."
+msgstr "The Google relay is active; direct Telegram was not tested."
+
+#: includes/class-health.php:1328
+msgid "نتیجهٔ رله را در بررسی «رلهٔ گوگل» ببینید."
+msgstr "See the relay result under the “Google relay” check."
+
+#: includes/class-health.php:1342
+msgid ""
+"تلگرام از این سرور در دسترس نیست (فیلترینگ). رلهٔ گوگل را در تب «اعلان‌ها» "
+"تنظیم کنید."
+msgstr ""
+"Telegram is not reachable from this server (filtering). Set up the Google "
+"relay in the “Notifications” tab."
+
+#: includes/class-health.php:1351
+msgid "پاسخ تلگرام JSON نبود."
+msgstr "The Telegram response was not JSON."
+
+#: includes/class-health.php:1351
+msgid "HTTP %d"
+msgstr "HTTP %d"
+
+#: includes/class-health.php:1356
+msgid "تلگرام خطا داد."
+msgstr "Telegram returned an error."
+
+#: includes/class-health.php:1358
+msgid "توکن را دوباره از @BotFather کپی کنید."
+msgstr "Please copy the token again from @BotFather."
+
+#: includes/class-health.php:1364 includes/class-health.php:1631
+msgid "ربات %1$s پاسخ داد — %2$d میلی‌ثانیه"
+msgstr "Bot %1$s replied — %2$d ms"
+
+#: includes/class-health.php:1365
+msgid ""
+"عضویت ربات در گروه آزمون نشد؛ برای اطمینان یک پیام آزمایشی از تب «اعلان‌ها» "
+"بفرستید."
+msgstr ""
+"The bot’s membership in the test group could not be confirmed; to be sure, "
+"send a test message from the “Notifications” tab."
+
+#: includes/class-health.php:1383
+msgid "رله تنظیم نشده — اتصال مستقیم به تلگرام استفاده می‌شود."
+msgstr "The relay is not set up — a direct connection to Telegram is used."
+
+#: includes/class-health.php:1389
+msgid "آدرس رله، آدرس اسکریپت گوگل نیست."
+msgstr "The relay address is not the Google Apps Script address."
+
+#: includes/class-health.php:1391
+msgid "آدرس باید با https://script.google.com/macros/s/ شروع شود."
+msgstr "The address must start with https://script.google.com/macros/s/."
+
+#: includes/class-health.php:1400
+msgid ""
+"آدرس رله را از اسکریپت گوگل دوباره کپی کنید و مطمئن شوید Deploy روی Anyone "
+"است."
+msgstr ""
+"Copy the relay address again from the Google script and make sure the "
+"deployment is set to Anyone."
+
+#: includes/class-health.php:1409
+msgid "رله خطای سرور %d داد."
+msgstr "The relay returned a server error %d."
+
+#: includes/class-health.php:1411
+msgid "در اسکریپت گوگل، Execution log را ببینید."
+msgstr "Check the Execution log in the Google script."
+
+#: includes/class-health.php:1417
+msgid "رله دسترسی نداد (HTTP %d)."
+msgstr "The relay did not grant access (HTTP %d)."
+
+#: includes/class-health.php:1419
+msgid ""
+"در اسکریپت گوگل Deploy → Manage deployments → دسترسی را روی Anyone بگذارید."
+msgstr ""
+"In the Google script, go to Deploy → Manage deployments and set access to "
+"Anyone."
+
+#: includes/class-health.php:1424
+msgid "رله در دسترس است (HTTP %1$d) — %2$d میلی‌ثانیه"
+msgstr "The relay is reachable (HTTP %1$d) — %2$d ms"
+
+#: includes/class-health.php:1425
+msgid "ارسال واقعی آزمون نشد تا پیامی به گروه نرود."
+msgstr "A real send was not tested so no message is sent to the group."
+
+#: includes/class-health.php:1439
+msgid "پیامک خاموش است."
+msgstr "SMS is off."
+
+#: includes/class-health.php:1447
+msgid "شمارهٔ فرستنده"
+msgstr "Sender number"
+
+#: includes/class-health.php:1451
+msgid "سرویس نامعتبر"
+msgstr "Invalid service"
+
+#: includes/class-health.php:1457
+msgid "پیکربندی پیامک کامل نیست."
+msgstr "The SMS configuration is incomplete."
+
+#: includes/class-health.php:1459
+msgid "در تب «اعلان‌ها» این موارد را پر کنید."
+msgstr "Fill in these fields in the “Notifications” tab."
+
+#: includes/class-health.php:1465
+msgid "هیچ گیرنده‌ای فعال نیست"
+msgstr "No recipient is active"
+
+#: includes/class-health.php:1470
+msgid "اعلان پیامکی به مدیر روشن است ولی شماره‌ای وارد نشده."
+msgstr "SMS notification to the admin is on, but no number has been entered."
+
+#: includes/class-health.php:1472
+msgid "شمارهٔ موبایل مدیر را در تب «اعلان‌ها» وارد کنید."
+msgstr "Enter the admin’s mobile number in the “Notifications” tab."
+
+#: includes/class-health.php:1478
+msgid "سرویس %s پیکربندی شده است."
+msgstr "The %s service is configured."
+
+#: includes/class-health.php:1479
+msgid "پیامک واقعی ارسال نشد تا هزینه‌ای نتراشد."
+msgstr "No real SMS was sent, so no cost is incurred."
+
+#: includes/class-health.php:1489
+msgid "کلاس ووکامرس بارگذاری نشده است."
+msgstr "The WooCommerce class is not loaded."
+
+#: includes/class-health.php:1492
+msgid "ووکامرس فعال نیست — بخش فروشگاه خاموش است."
+msgstr "WooCommerce is not active — the shop section is off."
+
+#: includes/class-health.php:1494
+msgid "ووکامرس فعال است."
+msgstr "WooCommerce is active."
+
+#: includes/class-health.php:1500 includes/class-health.php:1545
+#: includes/class-woo.php:391
+msgid "ووکامرس فعال نیست."
+msgstr "WooCommerce is not active."
+
+#: includes/class-health.php:1503
+msgid "ایندکس محصولات خاموش است."
+msgstr "Product indexing is off."
+
+#: includes/class-health.php:1503
+msgid "در تب «دستیار و دانش» روشنش کنید."
+msgstr "Turn it on in the “Assistant & Knowledge” tab."
+
+#: includes/class-health.php:1515
+msgid "محصول منتشرشده‌ای پیدا نشد."
+msgstr "No published product was found."
+
+#: includes/class-health.php:1517
+msgid "اگر فروشگاه دارید، وضعیت محصولات را بررسی کنید."
+msgstr "If you have a shop, check the product status."
+
+#: includes/class-health.php:1529
+msgid "%1$d محصول منتشرشده · %2$d تکه در فهرست دانش"
+msgstr "%1$d published products · %2$d chunks in the knowledge index"
+
+#: includes/class-health.php:1534
+msgid "محصولات در فهرست دانش نیستند."
+msgstr "Products are not in the knowledge index."
+
+#: includes/class-health.php:1536
+msgid ""
+"در تب «دستیار و دانش» فهرست را دوباره بسازید تا قیمت و موجودی هم ایندکس شود."
+msgstr ""
+"In the “Assistant & Knowledge” tab, rebuild the index so that prices and "
+"stock are indexed too."
+
+#: includes/class-health.php:1539
+msgid "محصولات ایندکس شده‌اند."
+msgstr "Products are indexed."
+
+#: includes/class-health.php:1548
+msgid "استعلام سفارش خاموش است."
+msgstr "Order lookup is off."
+
+#: includes/class-health.php:1553
+msgid "تابع پاسخ به «سفارشم کجاست؟» موجود نیست."
+msgstr "The function that answers “Where is my order?” is not available."
+
+#: includes/class-health.php:1555
+msgid "فایل افزونه ناقص است؛ نسخهٔ کامل را دوباره نصب کنید."
+msgstr "The plugin file is incomplete; reinstall the full version."
+
+#: includes/class-health.php:1560
+msgid "مشتری می‌تواند با شمارهٔ تماس یا ایمیل، آخرین سفارشش را بپرسد."
+msgstr ""
+"A customer can ask for their latest order using their phone number or email."
+
+#: includes/class-health.php:1561
+msgid "بدون نیاز به دانستن شمارهٔ سفارش."
+msgstr "No order number is needed."
+
+#: includes/class-health.php:1572 includes/class-health.php:1645
+msgid "کانال بله خاموش است."
+msgstr "The Bale channel is off."
+
+#: includes/class-health.php:1576
+msgid "توکن ربات"
+msgstr "Bot token"
+
+#: includes/class-health.php:1579
+msgid "شناسهٔ گروه"
+msgstr "Group ID"
+
+#: includes/class-health.php:1584
+msgid "پیکربندی بله کامل نیست."
+msgstr "The Bale configuration is incomplete."
+
+#: includes/class-health.php:1588
+msgid "دوطرفه (پاسخ از داخل بله)"
+msgstr "Two-way (reply from inside Bale)"
+
+#: includes/class-health.php:1588
+msgid "یک‌طرفه (فقط اعلان)"
+msgstr "One-way (notifications only)"
+
+#: includes/class-health.php:1589
+msgid "پیکربندی کامل است."
+msgstr "The configuration is complete."
+
+#: includes/class-health.php:1601
+msgid "کانال بله خاموش است یا توکن ندارد."
+msgstr "The Bale channel is off or has no token."
+
+#: includes/class-health.php:1604
+msgid "کلاس بله بارگذاری نشده است."
+msgstr "The Bale class is not loaded."
+
+#: includes/class-health.php:1613
+msgid "اتصال سرور به bale.ai را بررسی کنید."
+msgstr "Check the server’s connection to bale.ai."
+
+#: includes/class-health.php:1625
+msgid "توکن را از @botfather در بله دوباره بگیرید."
+msgstr "Get the token again from @botfather in Bale."
+
+#: includes/class-health.php:1648
+msgid "حالت یک‌طرفه است؛ webhook لازم نیست."
+msgstr "One-way mode is set; no webhook is needed."
+
+#: includes/class-health.php:1653
+msgid "کلید webhook تنظیم نشده — نشانی webhook ساخته نمی‌شود."
+msgstr "The webhook secret is not set — the webhook address cannot be built."
+
+#: includes/class-health.php:1655
+msgid "در تب «اعلان‌ها» یک کلید تصادفی بگذارید و بعد webhook را ثبت کنید."
+msgstr ""
+"In the “Notifications” tab, set a random key and then register the webhook."
+
+#: includes/class-health.php:1661
+msgid "نشانی webhook ساخته نشد."
+msgstr "The webhook address could not be built."
+
+#: includes/class-health.php:1675
+msgid "بله وضعیت webhook را برنگرداند."
+msgstr "Bale did not return the webhook status."
+
+#: includes/class-health.php:1686
+msgid "webhook روی بله ثبت نشده است."
+msgstr "The webhook is not registered on Bale."
+
+#: includes/class-health.php:1687
+msgid "نشانی مورد انتظار: "
+msgstr "Expected address: "
+
+#: includes/class-health.php:1688
+msgid "در تب «اعلان‌ها» روی «ثبت webhook» بزنید."
+msgstr "In the “Notifications” tab, click “Register webhook”."
+
+#: includes/class-health.php:1694
+msgid "webhook ثبت شده ولی نشانی‌اش با نشانی فعلی سایت فرق دارد."
+msgstr ""
+"The webhook is registered but its address differs from the site’s current "
+"address."
+
+#: includes/class-health.php:1695
+msgid "ثبت‌شده: "
+msgstr "Registered: "
+
+#: includes/class-health.php:1696
+msgid "اگر دامنه را عوض کرده‌اید، webhook را دوباره ثبت کنید."
+msgstr "If you changed the domain, register the webhook again."
+
+#: includes/class-health.php:1702
+msgid "webhook ثبت است ولی بله در تحویل آخرین پیام خطا داده است."
+msgstr ""
+"The webhook is registered but Bale reported an error on the last delivery."
+
+#: includes/class-health.php:1704
+msgid "یعنی سایت شما به درخواست بله پاسخ درست نداده — لاگ خطا را ببینید."
+msgstr ""
+"This means your site did not answer Bale’s request correctly — check the "
+"error log."
+
+#: includes/class-health.php:1707
+msgid "webhook ثبت و سالم است."
+msgstr "The webhook is registered and healthy."
+
+#: includes/class-health.php:1719
+msgid "کانال بله یا حالت دوطرفه خاموش است."
+msgstr "The Bale channel or two-way mode is off."
+
+#: includes/class-health.php:1729
+msgid "سایت HTTPS نیست."
+msgstr "The site is not on HTTPS."
+
+#: includes/class-health.php:1731
+msgid "بله فقط webhook روی HTTPS قبول می‌کند. گواهی SSL نصب کنید."
+msgstr "Bale accepts webhooks only over HTTPS. Install an SSL certificate."
+
+#: includes/class-health.php:1737
+msgid "سایت روی پورت %1$d است؛ بله فقط %2$s را قبول می‌کند."
+msgstr "The site is on port %1$d; Bale only accepts %2$s."
+
+#: includes/class-health.php:1739
+msgid "سایت را روی پورت استاندارد ۴۴۳ ببرید (بدون :پورت در آدرس)."
+msgstr ""
+"Move the site to the standard port 443 (without :port in the address)."
+
+#: includes/class-health.php:1742
+msgid "پورت %d — مورد قبول بله."
+msgstr "Port %d — accepted by Bale."
+
+#: includes/class-health.php:1771
+msgid "فایل افزونه موجود نیست."
+msgstr "The plugin file does not exist."
+
+#: includes/class-health.php:1773
+msgid "نصب ناقص است؛ افزونه را دوباره نصب کنید."
+msgstr "The installation is incomplete; reinstall the plugin."
+
+#: includes/class-health.php:1777
+msgid "فایل خالی است."
+msgstr "The file is empty."
+
+#: includes/class-health.php:1781
+msgid "هر %d فایل اصلی موجود است."
+msgstr "All %d main files are present."
+
+#: includes/class-health.php:1782
+msgid "نسخهٔ فایل‌ها: "
+msgstr "Files version: "
+
+#: includes/class-health.php:1815
+msgid "متغیر GAPINEH در gapineh.php تزریق نمی‌شود"
+msgstr "The GAPINEH variable is not injected in gapineh.php"
+
+#: includes/class-health.php:1827
+msgid "کلاس ecl-* در %s"
+msgstr "ecl-* class in %s"
+
+#: includes/class-health.php:1835
+msgid "ویجت مغز کیهانی نام تازه را نمی‌خواند"
+msgstr "The cosmic brain widget does not read the new name"
+
+#: includes/class-health.php:1842
+msgid "نام‌گذاری پلاگین یکدست نیست."
+msgstr "The plugin naming is not consistent."
+
+#: includes/class-health.php:1844
+msgid "نصب نصفه‌نیمه است؛ افزونه را دوباره نصب کنید."
+msgstr "The installation is half-done; reinstall the plugin."
+
+#: includes/class-health.php:1847
+msgid "نام‌گذاری یکدست است و کلاس قدیمی نمانده."
+msgstr "The naming is consistent and no old class remains."
+
+#: includes/class-health.php:1863
+msgid "تصویر برند موجود نیست."
+msgstr "The brand image is not available."
+
+#: includes/class-health.php:1866
+msgid "پابرگ برند نمایش داده می‌شود."
+msgstr "The brand footer is shown."
+
+#: includes/class-health.php:1867
+msgid "پابرگ برند پنهان است."
+msgstr "The brand footer is hidden."
+
+#: includes/class-health.php:1869
+msgid "تصویرهای برند موجودند."
+msgstr "The brand images are available."
+
+#: includes/class-hours.php:200
+msgid "امروز ساعت %2$s"
+msgstr "Today at %2$s"
+
+#: includes/class-hours.php:210
+msgid "فردا"
+msgstr "Tomorrow"
+
+#: includes/class-hours.php:213
+msgid "%1$s ساعت %2$s"
+msgstr "%1$s at %2$s"
+
+#: includes/class-hours.php:242
+msgid ""
+"الان بیرون از ساعت کاری هستیم. پیامت ثبت شد و در اولین فرصت پاسخ می‌دهیم."
+msgstr ""
+"We are currently outside business hours. Your message has been received and "
+"we will reply as soon as possible."
+
+#: includes/class-hours.php:249
+msgid "پاسخ‌گویی انسانی از %s."
+msgstr "Human support from %s."
+
+#: includes/class-inbox.php:56
+msgid "جدول‌ها وجود ندارند."
+msgstr "The tables do not exist."
+
+#: includes/class-inbox.php:65
+msgid "نوشتن در جدول نشست‌ها ممکن نشد."
+msgstr "Could not write to the sessions table."
+
+#: includes/class-inbox.php:78
+msgid "نوشتن/خواندن پیام ممکن نشد."
+msgstr "Could not write or read messages."
+
+#: includes/class-inbox.php:81
+msgid "نوشتن، خواندن و حذف هر سه موفق بود."
+msgstr "Writing, reading and deleting all succeeded."
+
+#: includes/class-inbox.php:120 includes/class-inbox.php:323
+msgid "پاسخ بده…"
+msgstr "Reply…"
+
+#: includes/class-inbox.php:121
+msgid "در حال ارسال…"
+msgstr "Sending…"
+
+#: includes/class-inbox.php:122 includes/class-inbox.php:324
+msgid "ارسال"
+msgstr "Send"
+
+#: includes/class-inbox.php:123
+msgid "هنوز مکالمه‌ای ثبت نشده است."
+msgstr "No conversations have been recorded yet."
+
+#: includes/class-inbox.php:124
+msgid "بارگذاری مکالمات ناموفق بود."
+msgstr "Loading conversations failed."
+
+#: includes/class-inbox.php:125
+msgid "ارسال پاسخ ناموفق بود."
+msgstr "Sending the reply failed."
+
+#: includes/class-inbox.php:126
+msgid "بازکردن مکالمه ناموفق بود."
+msgstr "Opening the conversation failed."
+
+#: includes/class-inbox.php:127
+msgid "شما"
+msgstr "You"
+
+#: includes/class-inbox.php:130
+msgid "سیستم"
+msgstr "System"
+
+#: includes/class-inbox.php:131
+msgid "منابع:"
+msgstr "Sources:"
+
+#: includes/class-inbox.php:132
+msgid "این مکالمه و همهٔ پیام‌هایش حذف شود؟"
+msgstr "Delete this conversation and all its messages?"
+
+#: includes/class-inbox.php:133
+msgid "بستن گفتگو"
+msgstr "Close conversation"
+
+#: includes/class-inbox.php:134
+msgid "بازکردن گفتگو"
+msgstr "Reopen conversation"
+
+#: includes/class-inbox.php:135
+msgid "✨ پیشنهاد پاسخ"
+msgstr "✨ Suggest reply"
+
+#: includes/class-inbox.php:136
+msgid "در حال نوشتن پیش‌نویس…"
+msgstr "Writing a draft…"
+
+#: includes/class-inbox.php:137
+msgid "در حال خلاصه‌کردن…"
+msgstr "Summarizing…"
+
+#: includes/class-inbox.php:138
+msgid "📋 خلاصهٔ مکالمه"
+msgstr "📋 Conversation summary"
+
+#: includes/class-inbox.php:139
+msgid "ساخت پیش‌نویس ناموفق بود."
+msgstr "Creating the draft failed."
+
+#: includes/class-inbox.php:140
+msgid "پیش‌نویس در کادر ورودی قرار گرفت — ویرایشش کن و ارسال کن."
+msgstr "The draft was placed in the input box — edit it and send."
+
+#: includes/class-inbox.php:141
+msgid "سفارش"
+msgstr "Order"
+
+#: includes/class-inbox.php:143
+msgid "تاریخ ثبت"
+msgstr "Registration date"
+
+#: includes/class-inbox.php:144
+msgid "مبلغ کل"
+msgstr "Total amount"
+
+#: includes/class-inbox.php:145
+msgid "روش ارسال"
+msgstr "Shipping method"
+
+#: includes/class-inbox.php:146
+msgid "شهر مقصد"
+msgstr "Destination city"
+
+#: includes/class-inbox.php:147
+msgid "اقلام"
+msgstr "Items"
+
+#: includes/class-inbox.php:148
+msgid "واگذار شد به"
+msgstr "Assigned to"
+
+#: includes/class-inbox.php:149
+msgid "واگذاری لغو شد"
+msgstr "The assignment was cancelled"
+
+#: includes/class-inbox.php:150
+msgid "آنلاین:"
+msgstr "Online:"
+
+#: includes/class-inbox.php:151
+msgid "واگذاری ناموفق بود."
+msgstr "Assignment failed."
+
+#: includes/class-inbox.php:186 includes/class-settings.php:227
+#: includes/class-settings.php:228
+msgid "گفتگوهای آنلاین"
+msgstr "Online conversations"
+
+#: includes/class-inbox.php:187
+msgid ""
+"پاسخ‌ها پیش‌فرض با هوش مصنوعی است؛ با نوشتن پاسخ دستی، مکالمه به حالت "
+"اپراتور می‌رود."
+msgstr ""
+"Default replies are generated by AI; when you write a manual reply, the "
+"conversation switches to operator mode."
+
+#: includes/class-inbox.php:190
+msgid "اینباکس فعال"
+msgstr "Inbox active"
+
+#: includes/class-inbox.php:196
+msgid "خوانده‌نشده"
+msgstr "Unread"
+
+#: includes/class-inbox.php:200 includes/class-inbox.php:220
+msgid "باز"
+msgstr "Open"
+
+#: includes/class-inbox.php:204
+msgid "دست اپراتور"
+msgstr "Operator-handled"
+
+#: includes/class-inbox.php:217
+msgid "جستجو…"
+msgstr "Search…"
+
+#: includes/class-inbox.php:219
+msgid "همه"
+msgstr "All"
+
+#: includes/class-inbox.php:224
+msgid "مکالمات من"
+msgstr "My conversations"
+
+#: includes/class-inbox.php:225 includes/class-inbox.php:266
+msgid "واگذارنشده"
+msgstr "Unassigned"
+
+#: includes/class-inbox.php:226
+msgid "همهٔ مکالمات"
+msgstr "All conversations"
+
+#: includes/class-inbox.php:228
+msgid "تازه‌سازی"
+msgstr "Refresh"
+
+#: includes/class-inbox.php:242
+msgid "نمایش %1$s از %2$s مکالمه"
+msgstr "Showing %1$s of %2$s conversations"
+
+#: includes/class-inbox.php:253
+msgid "یک مکالمه را از لیست انتخاب کن."
+msgstr "Select a conversation from the list."
+
+#: includes/class-inbox.php:276
+msgid "پاسخ دستی (اپراتور)"
+msgstr "Manual reply (operator)"
+
+#: includes/class-inbox.php:279
+msgid "حذف"
+msgstr "Delete"
+
+#: includes/class-inbox.php:299
+msgid "پیشنهاد پاسخ"
+msgstr "Suggest reply"
+
+#: includes/class-inbox.php:301
+msgid "خلاصهٔ مکالمه"
+msgstr "Conversation summary"
+
+#: includes/class-inbox.php:304
+msgid "لحن"
+msgstr "Tone"
+
+#: includes/class-inbox.php:306
+msgid "دوستانه"
+msgstr "Friendly"
+
+#: includes/class-inbox.php:307
+msgid "رسمی"
+msgstr "Formal"
+
+#: includes/class-inbox.php:308
+msgid "خیلی کوتاه"
+msgstr "Very short"
+
+#: includes/class-inbox.php:313
+msgid "شمارهٔ سفارش"
+msgstr "Order number"
+
+#: includes/class-inbox.php:314
+msgid "استعلام سفارش"
+msgstr "Order lookup"
+
+#: includes/class-inbox.php:317
+msgid "پیش‌نویس خودکار ارسال نمی‌شود — ویرایشش کن و بعد بفرست."
+msgstr "The automatic draft is not sent — edit it and then send it."
+
+#: includes/class-inbox.php:397
+msgid "مکالمه‌ای در این وضعیت نیست."
+msgstr "There is no conversation in this status."
+
+#: includes/class-inbox.php:415
+msgid "شمارهٔ تماس دارد"
+msgstr "Has a phone number"
+
+#: includes/class-inbox.php:522
+msgid "⚠ مشکل در دیتابیس — گفتگوها ذخیره نمی‌شوند"
+msgstr "⚠ Database problem — conversations are not being saved"
+
+#: includes/class-inbox.php:522
+msgid "وضعیت دیتابیس"
+msgstr "Database status"
+
+#: includes/class-inbox.php:527
+msgid "%1$s مکالمه (%2$s باز / %3$s بسته) • %4$s پیام"
+msgstr "%1$s conversations (%2$s open / %3$s closed) • %4$s messages"
+
+#: includes/class-inbox.php:538
+msgid "خطای ساخت جدول:"
+msgstr "Table creation error:"
+
+#: includes/class-inbox.php:542
+msgid "جدول‌ها با موفقیت ساخته/تعمیر شدند."
+msgstr "The tables were created/repaired successfully."
+
+#: includes/class-inbox.php:548
+msgid "جدول نشست‌ها"
+msgstr "Sessions table"
+
+#: includes/class-inbox.php:549
+msgid "جدول پیام‌ها"
+msgstr "Messages table"
+
+#: includes/class-inbox.php:550
+msgid "نسخهٔ ساختار"
+msgstr "Structure version"
+
+#: includes/class-inbox.php:551
+msgid "آزمون نوشتن/خواندن"
+msgstr "Write/read test"
+
+#: includes/class-inbox.php:554
+msgid "آخرین خطای MySQL"
+msgstr "Last MySQL error"
+
+#: includes/class-inbox.php:561
+msgid "🔧 ساخت/تعمیر جدول‌ها"
+msgstr "🔧 Create/repair tables"
+
+#: includes/class-inbox.php:566
+msgid ""
+"جدول ساخته نشده. دکمهٔ بالا را بزن؛ اگر باز هم خطا داد، کاربر دیتابیس در wp-"
+"config.php حق CREATE TABLE ندارد و باید از هاست بخواهی اضافه کند."
+msgstr ""
+"The table has not been created. Press the button above; if it still fails, "
+"the database user in wp-config.php lacks CREATE TABLE permission and you "
+"must ask your host to add it."
+
+#: includes/class-inbox.php:570
+msgid ""
+"جدول سالم است ولی هنوز مکالمه‌ای ثبت نشده. در سایت روی حباب چت بزن، یک پیام "
+"بفرست، سپس این صفحه را تازه کن. اگر پیام فرستادی و اینجا چیزی نیست، بخش "
+"«آزمون نوشتن/خواندن» بالا را نگاه کن."
+msgstr ""
+"The table is healthy but no conversation has been recorded yet. Click the "
+"chat bubble on the site, send a message, then refresh this page. If you sent"
+" a message and nothing appears here, check the “Write/read test” section "
+"above."
+
+#: includes/class-jalali.php:343
+msgid "همین حالا"
+msgstr "Right now"
+
+#: includes/class-jalali.php:346
+msgid "%s دقیقه پیش"
+msgstr "%s minutes ago"
+
+#: includes/class-jalali.php:349
+msgid "%s ساعت پیش"
+msgstr "%s hours ago"
+
+#: includes/class-jalali.php:352
+msgid "%s روز پیش"
+msgstr "%s days ago"
+
+#: includes/class-livechat.php:219
+msgid "ثبت مکالمه ممکن نشد."
+msgstr "Could not record the conversation."
+
+#: includes/class-livechat.php:285 includes/class-upload.php:165
+#: includes/class-woo.php:289
+msgid "نشست پیدا نشد. صفحه را تازه کنید."
+msgstr "Session not found. Refresh the page."
+
+#: includes/class-livechat.php:311 includes/class-stream.php:102
+msgid "ذخیرهٔ پیام ممکن نشد."
+msgstr "Could not save the message."
+
+#: includes/class-livechat.php:383 includes/class-livechat.php:494
+#: includes/class-stream.php:79
+msgid "نشست پیدا نشد. صفحه را تازه کن."
+msgstr "Session not found. Refresh the page."
+
+#: includes/class-livechat.php:387 includes/class-livechat.php:498
+#: includes/class-stream.php:83
+msgid "درخواست‌های زیادی ارسال کردی. کمی صبر کن."
+msgstr "You have sent too many requests. Please wait a moment."
+
+#: includes/class-livechat.php:397
+msgid "پیام بی‌پاسخی در انتظار نیست."
+msgstr "There is no unanswered message waiting."
+
+#: includes/class-livechat.php:447 includes/class-livechat.php:848
+msgid "ذخیرهٔ پاسخ ممکن نشد."
+msgstr "Could not save the reply."
+
+#: includes/class-livechat.php:482
+msgid "پشتیبانی انسانی فعال نیست."
+msgstr "Human support is not active."
+
+#: includes/class-livechat.php:602
+msgid "امتیازدهی فعال نیست."
+msgstr "Rating is not active."
+
+#: includes/class-livechat.php:612 includes/class-livechat.php:672
+msgid "نشست پیدا نشد."
+msgstr "Session not found."
+
+#: includes/class-livechat.php:617
+msgid "امتیاز نامعتبر است."
+msgstr "Invalid rating."
+
+#: includes/class-livechat.php:622
+msgid "شناسهٔ پیام نامعتبر است."
+msgstr "Invalid message ID."
+
+#: includes/class-livechat.php:637
+msgid "این پیام به این مکالمه تعلق ندارد."
+msgstr "This message does not belong to this conversation."
+
+#: includes/class-livechat.php:685
+msgid "لطفاً نام، نام خانوادگی و شمارهٔ تماس را کامل وارد کن."
+msgstr ""
+"Please fill in your first name, last name and phone number completely."
+
+#: includes/class-livechat.php:774
+msgid "دستیار هوشمند هنوز پیکربندی نشده است."
+msgstr "The smart assistant is not configured yet."
+
+#: includes/class-livechat.php:799
+msgid "پیامی برای پاسخ دادن نیست."
+msgstr "There is no message to reply to."
+
+#: includes/class-livechat.php:917 includes/class-team.php:357
+msgid "این مکالمه به اپراتور دیگری واگذار شده است."
+msgstr "This conversation has been assigned to another operator."
+
+#: includes/class-livechat.php:965
+msgid "ارسال پیام ممکن نشد."
+msgstr "Could not send the message."
+
+#: includes/class-livechat.php:1006
+msgid "پاسخ‌گویی به دستیار هوشمند سپرده شد."
+msgstr "Response has been handed to the smart assistant."
+
+#: includes/class-livechat.php:1007
+msgid "یک اپراتور انسانی پاسخ‌گوی شماست."
+msgstr "A human operator is responding to you."
+
+#: includes/class-livechat.php:1031
+msgid "گفتگو بسته شد."
+msgstr "The conversation has been closed."
+
+#: includes/class-livechat.php:1109
+msgid "حذف مکالمه فقط برای مدیر ممکن است."
+msgstr "Only the administrator can delete a conversation."
+
+#: includes/class-livechat.php:1168 includes/class-stream.php:66
+msgid "گفتگوی آنلاین فعال نیست."
+msgstr "Live chat is not active."
+
+#: includes/class-livechat.php:1218
+msgid "پشتیبانی"
+msgstr "Support"
+
+#: includes/class-livechat.php:1236
+msgid "پیامت را بنویس…"
+msgstr "Write your message…"
+
+#: includes/class-notify.php:70
+msgid "پیام تازه از %s"
+msgstr "New message from %s"
+
+#: includes/class-notify.php:117
+msgid "باز کردن گفتگو:"
+msgstr "Open conversation:"
+
+#: includes/class-notify.php:120
+msgid "صفحه:"
+msgstr "Page:"
+
+#: includes/class-notify.php:151
+msgid "باز کردن اینباکس"
+msgstr "Open inbox"
+
+#: includes/class-notify.php:311
+msgid ""
+"رله صفحهٔ HTML برگرداند (http %d). اگر پیام آزمایشی به تلگرامت رسید، یعنی "
+"ارسال موفق بوده و فقط خواندن پاسخ مشکل دارد؛ پلاگین را به‌روز کن. اگر نرسید،"
+" بررسی کن آدرس به /exec ختم شود و در Deploy دسترسی روی Anyone باشد."
+msgstr ""
+"The relay returned an HTML page (HTTP %d). If the test message reached your "
+"Telegram, sending succeeded and only reading the reply is failing; update "
+"the plugin. If it did not arrive, check that the address ends with /exec and"
+" that access in Deploy is set to Anyone."
+
+#: includes/class-notify.php:497
+msgid "تست"
+msgstr "Test"
+
+#: includes/class-notify.php:503 includes/class-sms.php:386
+msgid "این یک پیام آزمایشی از گپینه است."
+msgstr "This is a test message from Gapineh."
+
+#: includes/class-notify.php:506
+msgid "[گپینه] پیام آزمایشی"
+msgstr "[Gapineh] Test message"
+
+#: includes/class-notify.php:517
+msgid "پیام آزمایشی گپینه"
+msgstr "Gapineh test message"
+
+#: includes/class-providers.php:43
+msgid "گپ‌جی‌پی‌تی (پروکسی ایرانی)"
+msgstr "GapGPT (Iranian proxy)"
+
+#: includes/class-providers.php:47
+msgid "بدون نیاز به پروکسی — از ایران مستقیم کار می‌کند."
+msgstr "No proxy needed — works directly from Iran."
+
+#: includes/class-providers.php:54 includes/class-providers.php:68
+msgid "از ایران مستقیم در دسترس نیست؛ پروکسی لازم دارد."
+msgstr "Not directly reachable from Iran; a proxy is required."
+
+#: includes/class-providers.php:61
+msgid ""
+"کلید رایگان از aistudio.google.com. از ایران ممکن است پروکسی لازم داشته "
+"باشد."
+msgstr ""
+"A free key from aistudio.google.com. From Iran, a proxy may be required."
+
+#: includes/class-providers.php:71
+msgid "سازگار با OpenAI (دلخواه)"
+msgstr "OpenAI-compatible (custom)"
+
+#: includes/class-providers.php:75
+msgid "هر سرویسی که قالب /chat/completions داشته باشد."
+msgstr "Any service that has the /chat/completions format."
+
+#: includes/class-providers.php:128
+msgid "مدل انتخاب نشده است."
+msgstr "No model is selected."
+
+#: includes/class-providers.php:204 includes/class-providers.php:266
+msgid "پیامی برای ارسال نیست."
+msgstr "There is no message to send."
+
+#: includes/class-providers.php:473
+msgid "%1$s: %2$s"
+msgstr "%1$s: %2$s"
+
+#: includes/class-providers.php:483
+msgid "%1$s با مدل %2$s پاسخ داد."
+msgstr "%1$s replied with the model %2$s."
+
+#: includes/class-providers.php:530
+msgid "خطای HTTP %1$s: %2$s"
+msgstr "HTTP error %1$s: %2$s"
+
+#: includes/class-providers.php:539
+msgid "پاسخ سرویس JSON نبود."
+msgstr "The service response was not JSON."
+
+#: includes/class-providers.php:544 includes/class-stream.php:279
+msgid "پاسخ خالی بود."
+msgstr "The response was empty."
+
+#: includes/class-rag.php:495
+msgid ""
+"سرور به‌جای JSON صفحهٔ HTML فرستاد. معمولاً یعنی آدرس API یا کلید اشتباه "
+"است، یا درگاه از embedding پشتیبانی نمی‌کند."
+msgstr ""
+"The server returned an HTML page instead of JSON. This usually means the API"
+" address or the key is wrong, or the gateway does not support embedding."
+
+#: includes/class-rag.php:502
+msgid "سرور embedding خطا داد."
+msgstr "The embedding server returned an error."
+
+#: includes/class-rag.php:513
+msgid "پاسخ embedding خالی یا نامعتبر بود."
+msgstr "The embedding response was empty or invalid."
+
+#: includes/class-rag.php:528
+msgid "یکی از بردارهای برگشتی خالی بود."
+msgstr "One of the returned vectors was empty."
+
+#: includes/class-rag.php:538
+msgid "تعداد بردارها با تعداد متن‌ها نمی‌خواند (%1$s در برابر %2$s)."
+msgstr ""
+"The number of vectors does not match the number of texts (%1$s vs %2$s)."
+
+#: includes/class-rag.php:672
+msgid ""
+"جدول ایندکس ساخته نشده است. پلاگین را یک‌بار غیرفعال و دوباره فعال کن؛ اگر "
+"نشد، کاربر دیتابیس حق CREATE TABLE ندارد."
+msgstr ""
+"The index table has not been created. Deactivate and reactivate the plugin "
+"once; if that does not work, the database user lacks CREATE TABLE "
+"permission."
+
+#: includes/class-rag.php:804
+msgid "به سقف %d تکه رسیدیم؛ بقیهٔ منابع ایندکس نشدند."
+msgstr ""
+"The limit of %d chunks has been reached; the remaining sources were not "
+"indexed."
+
+#: includes/class-rag.php:873
+msgid ""
+"ایندکس %1$d تکه دارد (بالای %2$d). جست‌وجو هنوز کار می‌کند ولی روی هر پیام "
+"کمی کندتر می‌شود؛ ابعاد بردار را کم کن."
+msgstr ""
+"The index has %1$d chunks (above %2$d). Search still works but is slower on "
+"each message; reduce the vector dimensions."
+
+#: includes/class-rag.php:1204
+msgid ""
+"منابع پردازش‌شده: %1$d · تکهٔ تازه: %2$d · بدون تغییر: %3$d · زمان: %4$s "
+"ثانیه"
+msgstr ""
+"Sources processed: %1$d · new chunks: %2$d · unchanged: %3$d · time: %4$s "
+"seconds"
+
+#: includes/class-rag.php:1213
+msgid "%d منبع حذف‌شده از ایندکس پاک شد."
+msgstr "%d deleted sources were removed from the index."
+
+#: includes/class-rag.php:1220
+msgid ""
+"هنوز %d منبع مانده (محدودیت زمان اجرا). دوباره همین دکمه را بزن تا ادامه "
+"پیدا کند."
+msgstr ""
+"%d sources remain (execution time limit). Press this button again to "
+"continue."
+
+#: includes/class-rag.php:1257
+msgid "ایندکس پاک شد. برای ساخت دوباره، دکمهٔ «ساخت ایندکس» را بزن."
+msgstr "The index has been cleared. To rebuild it, press “Build index”."
+
+#: includes/class-rag.php:1279
+msgid "اتصال برقرار است. بردار %1$d بعدی در %2$s میلی‌ثانیه برگشت."
+msgstr "The connection works. Vector %1$d returned in %2$s ms."
+
+#: includes/class-settings.php:207
+msgid "گپینه — دستیار هوشمند"
+msgstr "Gapineh — AI Assistant"
+
+#: includes/class-settings.php:208
+msgid "گپینه"
+msgstr "Gapineh"
+
+#: includes/class-settings.php:218
+msgid "تنظیمات گپینه"
+msgstr "Gapineh settings"
+
+#: includes/class-settings.php:219
+msgid "تنظیمات"
+msgstr "Settings"
+
+#: includes/class-settings.php:245 includes/class-settings.php:246
+msgid "آمار"
+msgstr "Statistics"
+
+#: includes/class-settings.php:254
+msgid "راهنمای سریع گپینه"
+msgstr "Gapineh quick guide"
+
+#: includes/class-settings.php:255
+msgid "راهنمای سریع"
+msgstr "Quick guide"
+
+#: includes/class-settings.php:656
+msgid "ابزارها"
+msgstr "Tools"
+
+#: includes/class-settings.php:755
+msgid "اتصال هوش مصنوعی"
+msgstr "AI connection"
+
+#: includes/class-settings.php:765
+msgid "آزمایش اتصال"
+msgstr "Connection test"
+
+#: includes/class-settings.php:1606 includes/class-team.php:70
+msgid "اپراتور گپینه"
+msgstr "Gapineh operator"
+
+#: includes/class-settings.php:1614
+msgid "هنوز اپراتوری ثبت نشده."
+msgstr "No operators have been registered yet."
+
+#: includes/class-settings.php:1832
+msgid "پس از اجرای بررسی‌ها، گزارش اینجا ساخته می‌شود."
+msgstr "After the checks run, the report will appear here."
+
+#: includes/class-settings.php:1841 includes/class-settings.php:1870
+msgid "ذخیرهٔ تنظیمات"
+msgstr "Save settings"
+
+#: includes/class-settings.php:1867
+msgid "همه‌چیز ذخیره شده"
+msgstr "Everything is saved"
+
+#: includes/class-settings.php:1868
+msgid "تغییرات ذخیره‌نشده داری"
+msgstr "You have unsaved changes"
+
+#: includes/class-settings.php:2000
+msgid "فایلی انتخاب نشد."
+msgstr "No file was selected."
+
+#: includes/class-settings.php:2006
+msgid "فایل JSON معتبر نیست."
+msgstr "The JSON file is not valid."
+
+#: includes/class-settings.php:2008
+msgid "این فایل تنظیمات گپینه نیست."
+msgstr "This file is not a Gapineh settings file."
+
+#: includes/class-settings.php:2027
+msgid "%d تنظیم با موفقیت وارد شد."
+msgstr "%d settings were imported successfully."
+
+#: includes/class-settings.php:2054
+msgid ""
+"همهٔ تنظیمات به حالت اولیه برگشت. مکالمات و ایندکس دانش دست‌نخورده ماندند."
+msgstr ""
+"All settings have been reset to their defaults. Conversations and the "
+"knowledge index were left untouched."
+
+#: includes/class-settings.php:2205
+msgid "کلید API تنظیم نشده — دستیار پاسخ نمی‌دهد."
+msgstr "The API key is not set — the assistant will not reply."
+
+#: includes/class-settings.php:2207
+msgid "جدول‌های دیتابیس ساخته نشده‌اند — گفتگوها ذخیره نمی‌شوند."
+msgstr ""
+"The database tables have not been created — conversations are not being "
+"saved."
+
+#: includes/class-sms.php:283
+msgid "سرویس پیامک نامعتبر است."
+msgstr "The SMS service is invalid."
+
+#: includes/class-sms.php:305
+msgid "پیامک ارسال نشد (http %1$s): %2$s"
+msgstr "SMS was not sent (HTTP %1$s): %2$s"
+
+#: includes/class-sms.php:383
+msgid "شمارهٔ موبایل مدیر تنظیم نشده یا نامعتبر است (باید با ۰۹ شروع شود)."
+msgstr ""
+"The admin’s mobile number is not set or is invalid (it must start with 09)."
+
+#: includes/class-sms.php:388
+msgid "ارسال شد. گوشی‌ات را چک کن."
+msgstr "Sent. Check your phone."
+
+#: includes/class-stream.php:191 includes/class-stream.php:204
+msgid "پاسخ دریافت نشد."
+msgstr "No response received."
+
+#: includes/class-team.php:375
+msgid "این کاربر اپراتور گپینه نیست."
+msgstr "This user is not a Gapineh operator."
+
+#: includes/class-team.php:389
+msgid "مکالمه به %s واگذار شد."
+msgstr "The conversation was assigned to %s."
+
+#: includes/class-team.php:390
+msgid "واگذاری مکالمه لغو شد."
+msgstr "The assignment of the conversation was cancelled."
+
+#: includes/class-upload.php:112
+msgid ""
+"ساخت پوشهٔ آپلود ممکن نشد. دسترسی نوشتن روی wp-content/uploads را بررسی "
+"کنید."
+msgstr ""
+"The upload folder could not be created. Check write access to wp-"
+"content/uploads."
+
+#: includes/class-upload.php:156
+msgid "ارسال فایل غیرفعال است."
+msgstr "File sending is disabled."
+
+#: includes/class-upload.php:181
+msgid "فایلی دریافت نشد."
+msgstr "No file was received."
+
+#: includes/class-upload.php:194 includes/class-upload.php:235
+msgid "فایل بزرگ‌تر از حد مجاز است (حداکثر %d مگابایت)."
+msgstr "The file is larger than the allowed limit (maximum %d MB)."
+
+#: includes/class-upload.php:204
+msgid "آپلود ناموفق بود. دوباره تلاش کنید."
+msgstr "Upload failed. Please try again."
+
+#: includes/class-upload.php:224
+msgid "فایل معتبر نیست."
+msgstr "The file is not valid."
+
+#: includes/class-upload.php:266
+msgid "ذخیرهٔ فایل ممکن نشد."
+msgstr "The file could not be saved."
+
+#: includes/class-upload.php:319
+msgid "این نوع فایل مجاز نیست. پسوندهای مجاز: %s"
+msgstr "This file type is not allowed. Allowed extensions: %s"
+
+#: includes/class-upload.php:334
+msgid "این نوع فایل مجاز نیست."
+msgstr "This file type is not allowed."
+
+#: includes/class-upload.php:350
+msgid "پسوند فایل با نوع واقعی‌اش نمی‌خواند."
+msgstr "The file extension does not match its real type."
+
+#: includes/class-upload.php:358
+msgid "نام فایل مشکوک است (پسوند تودرتو)."
+msgstr "The file name looks suspicious (nested extension)."
+
+#: includes/class-upload.php:372
+msgid "نوع فایل قابل تشخیص نبود، پس پذیرفته نشد."
+msgstr "The file type could not be detected, so it was not accepted."
+
+#: includes/class-upload.php:382
+msgid ""
+"محتوای فایل با پسوندش نمی‌خواند. اگر فایل سالم است، دوباره ذخیره‌اش کنید."
+msgstr ""
+"The file content does not match its extension. If the file is fine, save it "
+"again."
+
+#: includes/class-upload.php:393
+msgid "فایل تصویر معتبر نیست."
+msgstr "The image file is not valid."
+
+#: includes/class-woo.php:280
+msgid "استعلام سفارش غیرفعال است."
+msgstr "Order lookup is disabled."
+
+#: includes/class-woo.php:316
+msgid ""
+"تلاش‌های ناموفق زیاد بود. یک ساعت دیگر دوباره امتحان کن یا با پشتیبانی تماس "
+"بگیر."
+msgstr "Too many failed attempts. Try again in an hour or contact support."
+
+#: includes/class-woo.php:327
+msgid "شمارهٔ سفارش درست نیست."
+msgstr "The order number is incorrect."
+
+#: includes/class-woo.php:335
+msgid ""
+"برای دیدن وضعیت سفارش، ایمیل یا شمارهٔ تماسی که موقع خرید وارد کردی لازم "
+"است."
+msgstr ""
+"To view the order status, you need the email or phone number you entered at "
+"checkout."
+
+#: includes/class-woo.php:353
+msgid ""
+"سفارشی با این شماره و مشخصات پیدا نشد. شمارهٔ سفارش و ایمیل یا شمارهٔ تماسی "
+"را بزن که موقع خرید وارد کرده بودی."
+msgstr ""
+"No order with this number and these details was found. Enter the order "
+"number and the email or phone number you used at checkout."
+
+#: includes/class-woo.php:373
+msgid "مشتری وضعیت سفارش #%1$s را دید — وضعیت: %2$s"
+msgstr "The customer viewed the status of order #%1$s — status: %2$s"
+
+#: includes/class-woo.php:402
+msgid "سفارش پیدا نشد."
+msgstr "Order not found."
+
+#: includes/class-woo.php:658
+msgid "در انتظار پرداخت"
+msgstr "Awaiting payment"
+
+#: includes/class-woo.php:659
+msgid "در حال پردازش"
+msgstr "Processing"
+
+#: includes/class-woo.php:660
+msgid "در انتظار بررسی"
+msgstr "Awaiting review"
+
+#: includes/class-woo.php:661
+msgid "تکمیل شده"
+msgstr "Completed"
+
+#: includes/class-woo.php:662
+msgid "لغو شده"
+msgstr "Cancelled"
+
+#: includes/class-woo.php:663
+msgid "مسترد شده"
+msgstr "Refunded"
+
+#: includes/class-woo.php:664
+msgid "ناموفق"
+msgstr "Failed"
+
+#: gapineh.php:253
+msgid "گپینه — مغز هوشمند"
+msgstr "Gapineh — Smart Brain"

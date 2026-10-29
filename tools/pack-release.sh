@@ -1,105 +1,34 @@
 #!/usr/bin/env bash
-# ساخت بستۀ نصب گپینه — با امکان جایگزینی فایل رمزنگاری‌شدۀ لایسنس.
-#
-#   bash tools/pack-release.sh <درخت افزونه> <نسخه> [--encoded-license <فایل>]
-#                               [--license-lib <فایل>] [--out <مسیر.zip>]
-#
-# نمونه (روز انتشار روی رایانهٔ خودت):
-#   1) فایل gapineh-license.php را در پنل راست‌چین رمزنگاری کن و خروجی را ذخیره کن
-#   2) bash tools/pack-release.sh /path/to/gapineh 1.0.0 \
-#          --encoded-license ~/Downloads/gapineh-license.php \
-#          --out ./gapineh.1.0.0.zip
-#
-# اگر --encoded-license داده نشود، همان نسخهٔ خوانا بسته‌بندی می‌شود
-# (کار می‌کند، ولی کد بررسی لایسنس قابل خواندن می‌ماند).
+# Build the independent installable ZIP; no marketplace license is included.
+# Usage: NODE_PATH=<php-parser's node_modules> bash tools/pack-release.sh <plugin-tree> <version> [--out <zip>]
 set -euo pipefail
-
-if [ $# -lt 2 ]; then
-  sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//'
-  exit 1
+if [[ $# != 2 && $# != 4 ]]; then
+  echo 'Usage: pack-release.sh <plugin-tree> <version> [--out <zip>]' >&2
+  exit 2
 fi
-
-TREE="$1"; VER="$2"; shift 2
-ENCODED=""; OUT=""; LIB=""; DEMO=""
-while [ $# -gt 0 ]; do
-  case "$1" in
-    --encoded-license) ENCODED="$2"; shift 2 ;;
-    --license-lib)     LIB="$2"; shift 2 ;;
-    --demo-license)    DEMO=1; shift ;;
-    --out)             OUT="$2"; shift 2 ;;
-    *) echo "گزینهٔ ناشناخته: $1" >&2; exit 1 ;;
-  esac
-done
-
-[ -d "$TREE" ] || { echo "درخت افزونه نیست: $TREE" >&2; exit 1; }
-[ -f "$TREE/gapineh.php" ] || { echo "gapineh.php در ریشهٔ درخت نیست" >&2; exit 1; }
-OUT="${OUT:-$(pwd)/gapineh.${VER}.zip}"
-# مسیر نسبی را پیش از cd به مطلق تبدیل می‌کنیم تا بسته داخل پوشهٔ موقت گم نشود.
-case "$OUT" in /*) ;; *) OUT="$(pwd)/$OUT" ;; esac
-
-STAGE="$(mktemp -d)"
-trap 'rm -rf "$STAGE"' EXIT
-cp -a "$TREE" "$STAGE/gapineh"
-rm -rf "$STAGE/gapineh/.git" "$STAGE/gapineh/node_modules"
-
-if [ -n "$DEMO" ]; then
-  # بستهٔ نمایشی/آزمایشی: همان افزونه با فایل لایسنسِ نمایشی که GAPINEH_PRO را
-  # همیشه روشن می‌کند تا همهٔ بخش‌ها بدون فعال‌سازی دامنه دیده شوند.
-  cp -f "$(dirname "$0")/license-demo.php" "$STAGE/gapineh/gapineh-license.php"
-  echo "◈ بستهٔ نمایشی با لایسنس: GAPINEH_PRO همیشه روشن — برای فروش منتشر نشود"
-elif [ -n "$ENCODED" ]; then
-  [ -f "$ENCODED" ] || { echo "فایل رمزنگاری‌شده پیدا نشد: $ENCODED" >&2; exit 1; }
-  head -c 5 "$ENCODED" | grep -q '<?php' || { echo "خروجی رمزنگار با <?php شروع نمی‌شود" >&2; exit 1; }
-  if cmp -s "$ENCODED" "$STAGE/gapineh/gapineh-license.php"; then
-    echo "!! فایل رمزنگاری‌شده با نسخهٔ خوانا یکسان است — احتمالاً رمزنگاری انجام نشده" >&2
-  fi
-  LIB_GUESS="${LIB:-$(cd "$(dirname "$0")/.." && pwd)/RTL_License_b0e384722fc261db.php}"
-  if [ -f "$LIB_GUESS" ] && [ "$(sha1sum "$ENCODED" | cut -d' ' -f1)" = "$(sha1sum "$LIB_GUESS" | cut -d' ' -f1)" ]; then
-    echo "!! فایل رمزنگاری‌شده همان کتابخانهٔ ionCube است، نه لایسنس رمزنگاری‌شده — بسته متوقف شد" >&2
-    exit 1
-  fi
-  cp -f "$ENCODED" "$STAGE/gapineh/gapineh-license.php"
-  echo "◈ فایل لایسنس با نسخهٔ رمزنگاری‌شده جایگزین شد: $(wc -c < "$ENCODED") بایت"
-else
-  echo "◈ حالت خوانا (بدون رمزنگاری) — برای انتشار تجاری از --encoded-license استفاده کن"
+tree=$1; version=$2; shift 2
+[[ -d "$tree" && -f "$tree/gapineh.php" ]] || { echo 'Plugin tree not found' >&2; exit 2; }
+[[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo 'Invalid version' >&2; exit 2; }
+out="$(pwd)/gapineh.${version}.zip"
+if [[ $# == 2 ]]; then
+  [[ $1 == --out ]] || { echo "Unknown option: $1" >&2; exit 2; }
+  out=$2
 fi
-
-# کتابخانهٔ لایسنس راست‌چین (ionCube) باید در ریشهٔ افزونه باشد.
-LIB="${LIB:-$(cd "$(dirname "$0")/.." && pwd)/RTL_License_b0e384722fc261db.php}"
-LIB_NAME="RTL_License_b0e384722fc261db.php"
-LIB_SHA="5210705eb2491e92815cd01b5877475e4a69fcba"
-if [ -f "$LIB" ]; then
-  cp -f "$LIB" "$STAGE/gapineh/$LIB_NAME"
+case "$out" in /*) ;; *) out="$(pwd)/$out" ;; esac
+[[ "$out" == *.zip ]] || { echo 'Output must end in .zip' >&2; exit 2; }
+[[ -d $(dirname "$out") ]] || { echo 'Output directory does not exist' >&2; exit 2; }
+script_dir=$(cd "$(dirname "$0")" && pwd)
+stage=$(mktemp -d)
+trap 'rm -rf "$stage"' EXIT
+cp -a "$tree" "$stage/gapineh"
+rm -rf "$stage/gapineh/.git" "$stage/gapineh/node_modules"
+# Verify the requested filename version actually matches the plugin header.
+if ! grep -Eq "^[[:space:]]*\\*[[:space:]]*Version:[[:space:]]*${version//./\\.}[[:space:]]*$" "$stage/gapineh/gapineh.php"; then
+  echo 'Version does not match plugin header' >&2; exit 1
 fi
-if [ ! -f "$STAGE/gapineh/$LIB_NAME" ]; then
-  echo "!! کتابخانهٔ لایسنس نیست: $LIB_NAME (با --license-lib مسیرش را بده)" >&2
-  exit 1
-fi
-GOT_SHA="$(sha1sum "$STAGE/gapineh/$LIB_NAME" | cut -d' ' -f1)"
-if [ "$GOT_SHA" != "$LIB_SHA" ]; then
-  echo "!! sha1 کتابخانهٔ لایسنس نمی‌خواند: $GOT_SHA ≠ $LIB_SHA" >&2
-  echo "   فایل درست را از پنل راست‌چین دوباره دانلود کن." >&2
-  exit 1
-fi
-echo "◈ کتابخانهٔ لایسنس: $LIB_NAME ($(wc -c < "$STAGE/gapineh/$LIB_NAME") بایت، sha1 ✓)"
-
-# هر RTL_License_*.php دیگری (فایل لایسنس دست‌کاری‌شده) نبايد در بسته باشد.
-EXTRA="$(cd "$STAGE/gapineh" && ls RTL_License_*.php 2>/dev/null | grep -v "^$LIB_NAME$" || true)"
-if [ -n "$EXTRA" ]; then
-  echo "!! فایل لایسنس اضافی در بسته: $EXTRA" >&2
-  exit 1
-fi
-
-rm -f "$OUT"
-( cd "$STAGE" && zip -qrX "$OUT" gapineh -x "*.DS_Store" -x "*/.*" )
-unzip -t "$OUT" >/dev/null || { echo "بستۀ ساخته‌شده سالم نیست" >&2; exit 1; }
-
-echo "── دروازه‌های انتشار ──"
-NODE_PATH="${NODE_PATH:-}" python3 "$(dirname "$0")/verify-release.py" "$STAGE/gapineh" | tail -3 || true
-
-echo "── بسته ──"
-printf '  %s\n  %s فایل، %s بایت\n  sha256: %s\n' \
-  "$OUT" \
-  "$(unzip -Z1 "$OUT" | grep -vc '/$')" \
-  "$(wc -c < "$OUT")" \
-  "$(sha256sum "$OUT" | cut -d' ' -f1)"
+python3 "$script_dir/verify-release.py" "$stage/gapineh"
+( cd "$stage" && zip -qrX "$stage/package.zip" gapineh -x '*.DS_Store' -x '*/.*' )
+unzip -tq "$stage/package.zip"
+cp "$stage/package.zip" "$out"
+printf '\nPackage: %s\n' "$out"
+sha256sum "$out"

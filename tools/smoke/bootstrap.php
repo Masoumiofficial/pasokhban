@@ -2,11 +2,10 @@
 /**
  * دودآزمای افزونه در PHP واقعی (wasm).
  *
- * بارگذاری افزونه، قلاب‌های پیشخوان، رندر صفحهٔ تنظیمات/راهنما و (در حالت
- * شبیه‌سازی‌شدهٔ لایسنس) ویجت و شورت‌کد را اجرا می‌کند تا خطای واقعی PHP 8.x
+ * بارگذاری افزونه، قلاب‌های پیشخوان، رندر صفحهٔ تنظیمات/راهنما و ویجت و شورت‌کد را اجرا می‌کند تا خطای واقعی PHP 8.x
  * پیدا شود — همان چیزی که روی هاست به «خطای مرگ‌بار» تبدیل می‌شود.
  *
- * اجرا: NODE_PATH=… node tools/smoke-php.mjs <درخت افزونه>   (SIM_PRO=1 برای حالت کامل)
+ * اجرا: NODE_PATH=… node tools/smoke-php.mjs <درخت افزونه>
  */
 error_reporting( E_ALL );
 ini_set( 'display_errors', '0' );
@@ -25,7 +24,6 @@ set_error_handler(
 
 echo "run.php شروع شد\n";
 function plugin_basename( $f = '' ) { return 'gapineh/gapineh.php'; }
-if ( file_exists( '/sim-pro' ) ) { define( 'GAPINEH_PRO', true ); }
 define( 'ABSPATH', '/var/www/html/' );
 define( 'WPINC', 'wp-includes' );
 define( 'WP_DEBUG', true );
@@ -373,6 +371,27 @@ try {
 	echo 'FATAL(instance): ' . get_class( $e ) . ': ' . $e->getMessage() . ' @' . basename( $e->getFile() ) . ':' . $e->getLine() . "\n";
 }
 
+try {
+    if ( ! isset( $GLOBALS['__activate'] ) || ! is_callable( $GLOBALS['__activate'] ) ) {
+        throw new RuntimeException( 'activation hook is not registered' );
+    }
+    call_user_func( $GLOBALS['__activate'] );
+    echo "activation ok\n";
+} catch ( Throwable $e ) {
+    echo 'FATAL(activation): ' . $e->getMessage() . ' @' . basename( $e->getFile() ) . ':' . $e->getLine() . "\n";
+}
+
+try {
+    $public = Gapineh_LiveChat::instance()->public_settings( 'fa' );
+    $legacy = Gapineh_Stream::instance()->handle_stream( null );
+    if ( ! empty( $public['streaming'] ) || ! is_wp_error( $legacy ) || 503 !== $legacy->get_error_data()['status'] ) {
+        throw new RuntimeException( 'stream fallback was not disabled safely' );
+    }
+    echo "single-request fallback ok\n";
+} catch ( Throwable $e ) {
+    echo 'FATAL(stream fallback): ' . $e->getMessage() . "\n";
+}
+
 foreach ( array( 'plugins_loaded', 'init', 'admin_init', 'admin_menu', 'admin_notices', 'admin_enqueue_scripts', 'wp_loaded' ) as $hook ) {
 	try {
 		do_action( $hook, 'toplevel_page_gapineh-inbox' );
@@ -396,29 +415,26 @@ foreach ( array( 'render_page', 'render_guide' ) as $m ) {
 	}
 }
 
-// وضعیت لایسنس
-try {
-	if ( class_exists( 'Gapineh_License' ) ) {
-		echo 'license state: ' . Gapineh_License::status() . ' | pro: ' . var_export( gapineh_is_pro(), true ) . "\n";
-	}
-} catch ( Throwable $e ) {
-	echo 'FATAL(license): ' . $e->getMessage() . ' @' . basename( $e->getFile() ) . ':' . $e->getLine() . "\n";
+// ویجت و شورت‌کد باید بدون تعریف هیچ ثابت لایسنس ثبت و اجرا شوند.
+if ( ! shortcode_exists( 'gapineh' ) || ! in_array( array( Gapineh::instance(), 'render_widget' ), $GLOBALS['__hooks']['wp_footer'][10] ?? array(), true ) ) {
+    echo "FATAL(registration): ویجت یا شورت‌کد ثبت نشده است\n";
 }
-
-// ویجت و شورت‌کد (فقط در حالت کامل)
-if ( gapineh_is_pro() ) {
-	foreach ( array( 'render_widget', 'render_shortcode' ) as $m ) {
-		try {
-			ob_start();
-			$args = 'render_shortcode' === $m ? array() : null;
-			Gapineh::instance()->$m( $args );
-			$html = ob_get_clean();
-			echo "render $m ok (" . strlen( $html ) . " بایت)\n";
-		} catch ( Throwable $e ) {
-			ob_end_clean();
-			echo "FATAL($m): " . $e->getMessage() . ' @' . basename( $e->getFile() ) . ':' . $e->getLine() . "\n";
-		}
-	}
+foreach ( array( 'render_widget', 'render_shortcode' ) as $m ) {
+    try {
+        ob_start();
+        $args = 'render_shortcode' === $m ? array() : null;
+        $result = Gapineh::instance()->$m( $args );
+        $html = ob_get_clean();
+        if ( 'render_shortcode' === $m ) { $html .= (string) $result; }
+        if ( false === strpos( $html, 'id="gapineh-live"' ) ) { throw new RuntimeException( 'widget markup missing' ); }
+        echo "render $m ok (" . strlen( $html ) . " بایت)\n";
+    } catch ( Throwable $e ) {
+        if ( ob_get_level() ) { ob_end_clean(); }
+        echo "FATAL($m): " . $e->getMessage() . ' @' . basename( $e->getFile() ) . ':' . $e->getLine() . "\n";
+    }
+}
+if ( ( $GLOBALS['__menus'] ?? 0 ) !== 1 || ( $GLOBALS['__menus_sub'] ?? 0 ) !== 4 ) {
+    echo "FATAL(menu): تعداد منوهای گپینه نادرست است\n";
 }
 
 echo 'منوهای ثبت‌شده: ' . (int) ( $GLOBALS['__menus'] ?? 0 ) . ' | زیرمنو: ' . (int) ( $GLOBALS['__menus_sub'] ?? 0 ) . "\n";
