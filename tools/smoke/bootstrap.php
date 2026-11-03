@@ -179,7 +179,7 @@ function check_ajax_referer( ...$a ) { return true; }
 function wp_safe_redirect( $u, $s = 302 ) { return true; }
 function wp_redirect( $u, $s = 302 ) { return true; }
 function wp_die( $m = '', $t = '', $a = array() ) { throw new RuntimeException( 'wp_die: ' . ( is_string( $m ) ? $m : 'obj' ) ); }
-function add_menu_page( ...$a ) { $GLOBALS['__menus'] = ( $GLOBALS['__menus'] ?? 0 ) + 1; return 'toplevel_page_gapineh-inbox'; }
+function add_menu_page( ...$a ) { $GLOBALS['__menus'] = ( $GLOBALS['__menus'] ?? 0 ) + 1; $GLOBALS['__menu_icon'] = $a[5] ?? null; return 'toplevel_page_gapineh-inbox'; }
 function add_submenu_page( ...$a ) { $GLOBALS['__menus_sub'] = ( $GLOBALS['__menus_sub'] ?? 0 ) + 1; return 'gapineh_page_x'; }
 function remove_menu_page( $s ) { return true; }
 function register_setting( ...$a ) { return true; }
@@ -435,6 +435,10 @@ foreach ( array( 'render_widget', 'render_shortcode' ) as $m ) {
 }
 if ( ( $GLOBALS['__menus'] ?? 0 ) !== 1 || ( $GLOBALS['__menus_sub'] ?? 0 ) !== 4 ) {
     echo "FATAL(menu): تعداد منوهای گپینه نادرست است\n";
+}
+
+if ( ( $GLOBALS['__menu_icon'] ?? null ) !== Gapineh_Settings::MENU_ICON ) {
+    echo "FATAL(menu): آیکن اختصاصی به منوی اصلی ارسال نشده است\n";
 }
 
 echo 'منوهای ثبت‌شده: ' . (int) ( $GLOBALS['__menus'] ?? 0 ) . ' | زیرمنو: ' . (int) ( $GLOBALS['__menus_sub'] ?? 0 ) . "\n";

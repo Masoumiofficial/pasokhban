@@ -199,12 +199,12 @@ final class Gapineh_Settings {
 	public static $hooks = array();
 
 	/**
-	 * آیکن منوی پیشخوان: نشان برند به‌صورت SVG درون‌خطی.
+	 * آیکن منوی پیشخوان: حباب گفتگو به‌صورت SVG تک‌رنگ و درون‌خطی.
 	 *
-	 * وردپرس برای آیکن غیر-dashicon یک تگ <img> می‌سازد؛ با base64 هیچ
-	 * درخواست شبکه‌ای اضافه نمی‌شود و آیکن با تغییر رنگ قالب هم نمی‌شکند.
+	 * وردپرس SVG درون‌خطی را بر اساس رنگ منو باز‌رنگ‌آمیزی می‌کند.
+	 * نقاط آیکن با برش‌های هندسی ساخته شده‌اند تا در همهٔ رنگ‌ها پیدا بمانند.
 	 */
-	const MENU_ICON = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9Itqv2b7bjNmG2YfYjCDar9mB2Krar9mI24wg2KLZhtmE2KfbjNmGIj48dGl0bGU+2q/ZvtuM2YbZh9iMINqv2YHYqtqv2YjbjCDYotmG2YTYp9uM2YY8L3RpdGxlPjxyZWN0IHg9IjIiIHk9IjIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcng9IjE2IiBmaWxsPSIjMjg1ZDUwIi8+PHBhdGggZD0iTTE1IDE5YTcgNyAwIDAgMSA3LTdoMjBhNyA3IDAgMCAxIDcgN3YxN2E3IDcgMCAwIDEtNyA3SDMxbC05IDh2LThhNyA3IDAgMCAxLTctN3oiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIyMy41IiBjeT0iMjgiIHI9IjIuNyIgZmlsbD0iIzI4NWQ1MCIvPjxjaXJjbGUgY3g9IjMyIiBjeT0iMjgiIHI9IjIuNyIgZmlsbD0iIzI4NWQ1MCIvPjxjaXJjbGUgY3g9IjQwLjUiIGN5PSIyOCIgcj0iMi43IiBmaWxsPSIjMjg1ZDUwIi8+PC9zdmc+Cg==';
+	const MENU_ICON = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIj48cGF0aCBmaWxsPSIjYTdhYWFkIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00LjI1IDIuNWgxMS41QTIuNzUgMi43NSAwIDAgMSAxOC41IDUuMjV2Ni4yYTIuNzUgMi43NSAwIDAgMS0yLjc1IDIuNzVIMTBsLTMuNyAzLjA1YS42NS42NSAwIDAgMS0xLjA2LS41VjE0LjJoLS45OUEyLjc1IDIuNzUgMCAwIDEgMS41IDExLjQ1di02LjJBMi43NSAyLjc1IDAgMCAxIDQuMjUgMi41Wk01IDguMzVhMS4xNSAxLjE1IDAgMSAwIDIuMyAwIDEuMTUgMS4xNSAwIDAgMC0yLjMgMFptMy44NSAwYTEuMTUgMS4xNSAwIDEgMCAyLjMgMCAxLjE1IDEuMTUgMCAwIDAtMi4zIDBabTMuODUgMGExLjE1IDEuMTUgMCAxIDAgMi4zIDAgMS4xNSAxLjE1IDAgMCAwLTIuMyAwWiIvPjwvc3ZnPgo=';
 
 
 	/**

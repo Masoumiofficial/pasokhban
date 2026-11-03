@@ -18,6 +18,7 @@ import os
 import re
 import subprocess
 import sys
+import xml.etree.ElementTree as ET
 
 ROOT = None
 FAIL = []
@@ -365,14 +366,25 @@ def check_brand(root):
             icon = base64.b64decode(m.group(1)).decode('utf-8')
         except Exception:
             icon = ''
-        if '<svg' not in icon:
-            fail('آیکن منو SVG معتبر نیست')
+        try:
+            xml = ET.fromstring(icon)
+            valid = (xml.tag == '{http://www.w3.org/2000/svg}svg' and
+                     xml.attrib.get('viewBox') == '0 0 20 20' and
+                     len(xml) == 1 and xml[0].tag == '{http://www.w3.org/2000/svg}path' and
+                     set(xml.attrib) == {'viewBox', 'width', 'height'} and
+                     set(xml[0].attrib) == {'fill', 'fill-rule', 'd'})
+        except ET.ParseError:
+            valid = False
+        if not valid:
+            fail('آیکن منو SVG مستقل و معتبر نیست')
         elif 'width="20"' not in icon or 'height="20"' not in icon:
             fail('آیکن منو ابعاد ۲۰ پیکسل ندارد (وردپرس آن را بزرگ نشان می‌دهد)')
-        elif icon != src.replace('width="64" height="64"', 'width="20" height="20"'):
-            fail('آیکن منو با نشان برند یکسان نیست')
+        elif icon != read(os.path.join(os.path.dirname(__file__), 'menu-icon.svg')):
+            fail('آیکن منو با SVG مرجع یکسان نیست')
+        elif 'fill-rule="evenodd"' not in icon or icon.count('fill=') != 1:
+            fail('آیکن منو باید تک‌رنگ و دارای حفره‌های شفاف باشد')
         else:
-            ok('آیکن منو = نشان برند (۲۰×۲۰، درون‌خطی)')
+            ok('آیکن گفتگوی منو تک‌رنگ و ۲۰×۲۰؛ سازگار با باز‌رنگ‌آمیزی وردپرس')
 
     if 'brand-mark.svg' not in st:
         warn('هدر تنظیمات از فایل نشان برند استفاده نمی‌کند')
