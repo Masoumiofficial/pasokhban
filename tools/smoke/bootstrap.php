@@ -218,7 +218,7 @@ function human_time_diff( $a, $b = null ) { return '۵ دقیقه'; }
 function size_format( $b, $d = 0 ) { return round( $b / 1024 ) . ' KB'; }
 function wp_mail( ...$a ) { return true; }
 function wp_remote_get( $u, $a = array() ) { return array( 'response' => array( 'code' => 200 ), 'body' => '{}' ); }
-function wp_remote_post( $u, $a = array() ) { return array( 'response' => array( 'code' => 200 ), 'body' => '{}' ); }
+function wp_remote_post( $u, $a = array() ) { $GLOBALS['__last_remote'] = array( $u, $a ); return array( 'response' => array( 'code' => 200 ), 'body' => '{}' ); }
 function wp_remote_request( $u, $a = array() ) { return array( 'response' => array( 'code' => 200 ), 'body' => '{}' ); }
 function wp_remote_retrieve_body( $r ) { return is_array( $r ) ? ( $r['body'] ?? '' ) : ''; }
 function wp_remote_retrieve_response_code( $r ) { return is_array( $r ) ? ( $r['response']['code'] ?? 0 ) : 0; }
@@ -379,6 +379,55 @@ try {
     echo "activation ok\n";
 } catch ( Throwable $e ) {
     echo 'FATAL(activation): ' . $e->getMessage() . ' @' . basename( $e->getFile() ) . ':' . $e->getLine() . "\n";
+}
+
+// Exercise fresh defaults and old saved settings without modifying stored credentials.
+try {
+    $settings = Gapineh_Settings::instance();
+    if ( 'https://api.gapgpt.ir/v1' !== $settings->defaults()['base_url'] ||
+         'https://api.gapgpt.ir/v1' !== Gapineh_Providers::presets()['gapgpt']['base_url'] ) {
+        throw new RuntimeException( 'new GapGPT defaults missing' );
+    }
+    $property = new ReflectionProperty( 'Gapineh_Settings', 'options' );
+    $property->setAccessible( true );
+    $saved = $property->getValue( $settings );
+    $stored = $GLOBALS['__opts'];
+    $cases = array(
+        'https://api.gapgpt.app/v1' => 'https://api.gapgpt.ir/v1',
+        'http://API.GAPGPT.APP:8080/v1/' => 'http://api.gapgpt.ir:8080/v1/',
+        'https://api.gapgpt.app.evil.test/v1' => 'https://api.gapgpt.app.evil.test/v1',
+        'https://api.gapgpt.app:123@evil.test/v1' => 'https://api.gapgpt.app:123@evil.test/v1',
+        'https://example.test/api.gapgpt.app/v1' => 'https://example.test/api.gapgpt.app/v1',
+        'https://api.openai.com/v1' => 'https://api.openai.com/v1',
+    );
+    foreach ( $cases as $old => $expected ) {
+        $property->setValue( $settings, array( 'base_url' => $old, 'api_key' => 'test-key', 'model' => 'test-model' ) );
+        $opts = $settings->get_options();
+        if ( $opts['base_url'] !== $expected || 'test-key' !== $opts['api_key'] || 'test-model' !== $opts['model'] ) {
+            throw new RuntimeException( 'stored settings conversion failed: ' . $old );
+        }
+        if ( $GLOBALS['__opts'] !== $stored ) {
+            throw new RuntimeException( 'options were unexpectedly written' );
+        }
+    }
+    $property->setValue( $settings, array( 'base_url' => 'https://api.gapgpt.app/v1', 'api_key' => 'test-key', 'model' => 'test-model' ) );
+    $opts = $settings->get_options();
+    $request = Gapineh_Providers::request( array(), $opts );
+    if ( $request['url'] !== 'https://api.gapgpt.ir/v1/chat/completions' || $request['headers']['Authorization'] !== 'Bearer test-key' ) {
+        throw new RuntimeException( 'chat request changed credentials or did not use new host' );
+    }
+    // Exercise the actual embedding request with the normalized settings.
+    $embed = new ReflectionMethod( 'Gapineh_RAG', 'embed_request' );
+    $embed->setAccessible( true );
+    $embed->invoke( Gapineh_RAG::instance(), array(), $opts );
+    $remote = $GLOBALS['__last_remote'];
+    if ( $remote[0] !== 'https://api.gapgpt.ir/v1/embeddings' || $remote[1]['headers']['Authorization'] !== 'Bearer test-key' ) {
+        throw new RuntimeException( 'embedding request changed credentials or host' );
+    }
+    $property->setValue( $settings, $saved );
+    echo "GapGPT host migration ok\n";
+} catch ( Throwable $e ) {
+    echo 'FATAL(GapGPT migration): ' . $e->getMessage() . "\n";
 }
 
 try {

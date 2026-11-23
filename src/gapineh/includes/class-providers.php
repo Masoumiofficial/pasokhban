@@ -93,7 +93,7 @@ final class Gapineh_Providers {
 			'gapgpt'    => array(
 				'label'    => __( 'گپ‌جی‌پی‌تی (پروکسی ایرانی)', 'gapineh' ),
 				'api'      => 'openai',
-				'base_url' => 'https://api.gapgpt.app/v1',
+				'base_url' => 'https://api.gapgpt.ir/v1',
 				'models'   => array( 'gpt-4o', 'gpt-4o-mini', 'gpt-4.1', 'claude-3-5-sonnet' ),
 				'note'     => __( 'بدون نیاز به پروکسی — از ایران مستقیم کار می‌کند.', 'gapineh' ),
 			),

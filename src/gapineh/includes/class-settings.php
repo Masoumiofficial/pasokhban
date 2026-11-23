@@ -48,7 +48,7 @@ final class Gapineh_Settings {
 		return array(
 			'ai_provider'      => 'gapgpt',     // gapgpt | openai | gemini | anthropic | custom
 			'api_key'          => '',
-			'base_url'         => 'https://api.gapgpt.app/v1',
+			'base_url'         => 'https://api.gapgpt.ir/v1',
 			'model'            => 'gpt-4o',
 			'system_prompt'    => 'تو گپینه، دستیار هوشمند سایت هستی. به زبان فارسی، دوستانه و حرفه‌ای پاسخ بده. پاسخ‌ها را کوتاه، دقیق و منظم بنویس. اگر اطلاعاتی درباره سؤال کاربر نداشتی، صادقانه بگو.',
 			'knowledge'        => 1,   // پاسخ بر اساس محتوای سایت
@@ -181,7 +181,17 @@ final class Gapineh_Settings {
 	 * برمی‌گرداند گزینه‌ها با مقادیر پیش‌فرض.
 	 */
 	public function get_options() {
-		return wp_parse_args( $this->options, $this->defaults() );
+		$opts = wp_parse_args( $this->options, $this->defaults() );
+		// تنظیمات ذخیره‌شدهٔ قبلی را بدون دست‌زدن به کلید یا سایر مقادیر
+		// هنگام استفاده به دامنهٔ جدید هدایت کن؛ آدرس‌های سفارشی دست‌نخورده می‌مانند.
+		if ( is_string( $opts['base_url'] ) && 'api.gapgpt.app' === strtolower( (string) parse_url( $opts['base_url'], PHP_URL_HOST ) ) ) {
+			$opts['base_url'] = preg_replace(
+				'~^(https?://)api\.gapgpt\.app(?=[:/?#]|$)~i',
+				'${1}api.gapgpt.ir',
+				$opts['base_url']
+			);
+		}
+		return $opts;
 	}
 
 	/**
